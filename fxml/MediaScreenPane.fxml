@@ -5,13 +5,13 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 
-<StackPane fx:id="mediaStackPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MediaScreenController">
+<StackPane fx:id="_mediaStackPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MediaScreenController">
    <children>
-      <BorderPane fx:id="controlsPane" prefHeight="200.0" prefWidth="200.0">
+      <BorderPane fx:id="_controlsPane" prefHeight="200.0" prefWidth="200.0">
          <bottom>
-            <HBox fx:id="bottomControls" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <HBox fx:id="_bottomControls" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                <children>
-                  <Button fx:id="button" mnemonicParsing="false" onAction="#buttonHandle" text="Button" />
+                  <Button fx:id="_button" mnemonicParsing="false" onAction="#buttonHandle" text="Button" />
                </children></HBox>
          </bottom>
       </BorderPane>

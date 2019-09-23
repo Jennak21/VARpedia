@@ -8,9 +8,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import application.Main;
+import application.MediaProcess;
 import application.Creation;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -22,17 +24,17 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
-public class MainMenuController {
+public class MainMenuController extends SceneChanger {
 	@FXML
-	private GridPane mainMenuGridPane;
+	private GridPane _mainMenuGridPane;
 	@FXML
-	private TableView creationTable;
+	private TableView _creationTable;
 	@FXML
-	private Button playButton;
+	private Button _playButton;
 	@FXML
-	private Button deleteButton;
+	private Button _deleteButton;
 	@FXML
-	private Button createButton;
+	private Button _createButton;
 	
 	
 	@FXML
@@ -42,7 +44,7 @@ public class MainMenuController {
 		
 		try {
 			//Count number of creations
-			String countFiles = "ls -1 " + Main.FILEPATH + "/*" + Creation.getExtention() + " | wc -l";
+			String countFiles = "ls -1 " + Main._FILEPATH + "/*" + Creation.getExtention() + " | wc -l";
 			ProcessBuilder builder = new ProcessBuilder("bash", "-c", countFiles);
 			Process process = builder.start();
 			
@@ -55,7 +57,7 @@ public class MainMenuController {
 			//Do stuff stuff based on how many files were found
 			if (numFiles != 0) {
 				//Get names of creations
-				String getCreations = "basename -s " + Creation.getExtention() + " " + Main.FILEPATH + "/*";
+				String getCreations = "basename -s " + Creation.getExtention() + " " + Main._FILEPATH + "/*";
 				builder = new ProcessBuilder("bash", "-c", getCreations);
 				
 				process = builder.start();
@@ -78,7 +80,7 @@ public class MainMenuController {
 				//For all stored creation names, get the lengths of the creation, and make a new creation object
 				for (String s : nameList) {
 					
-					String getCreationLength = "ffprobe -i " + Main.FILEPATH + "/" + s + Creation.getExtention() + " -show_entries format=duration -v quiet -of csv=\"p=0\"";
+					String getCreationLength = "ffprobe -i " + Main._FILEPATH + "/" + s + Creation.getExtention() + " -show_entries format=duration -v quiet -of csv=\"p=0\"";
 					
 					builder = new ProcessBuilder("bash", "-c", getCreationLength);
 					process = builder.start();
@@ -98,11 +100,11 @@ public class MainMenuController {
 			
 			
 			if (creationList.size() < 1) {
-				playButton.setDisable(true);
-				deleteButton.setDisable(true);
+				_playButton.setDisable(true);
+				_deleteButton.setDisable(true);
 			} else {
-				playButton.setDisable(false);
-				deleteButton.setDisable(false);
+				_playButton.setDisable(false);
+				_deleteButton.setDisable(false);
 			}
 			
 			
@@ -111,18 +113,18 @@ public class MainMenuController {
 			
 			
 			data = FXCollections.observableList(creationList);
-			creationTable.setItems(data);
+			_creationTable.setItems(data);
 	        
 	        TableColumn<Creation, String> nameCol = new TableColumn<>("Name");
 	        nameCol.setCellValueFactory(new PropertyValueFactory<Creation, String>("name"));
 	        TableColumn<Creation, Double> lengthCol = new TableColumn<>("Length");
 	        lengthCol.setCellValueFactory(new PropertyValueFactory<Creation, Double>("length"));
 	        
-	        creationTable.getColumns().setAll(nameCol, lengthCol);
-	        creationTable.setPrefWidth(450);
-	        creationTable.setPrefHeight(300);
-	        creationTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-	        creationTable.getSelectionModel().selectFirst();
+	        _creationTable.getColumns().setAll(nameCol, lengthCol);
+	        _creationTable.setPrefWidth(450);
+	        _creationTable.setPrefHeight(300);
+	        _creationTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+	        _creationTable.getSelectionModel().selectFirst();
 			
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -132,12 +134,14 @@ public class MainMenuController {
 	}
 	
 	@FXML
-	private void PlayHandle() throws IOException {
-		Stage stage = (Stage) mainMenuGridPane.getScene().getWindow();
-		Parent layout = FXMLLoader.load(getClass().getResource("/fxml/MediaScreenPane.fxml"));
-		Scene scene = new Scene(layout);
-		stage.setScene(scene);
-		stage.show();
+	private void PlayHandle(ActionEvent event) throws IOException {
+		MediaProcess process = MediaProcess.getInstance();
+		
+		Creation selected = (Creation) _creationTable.getSelectionModel().getSelectedItem();
+		process.setCreation(selected);
+		
+		String fxmlPath = "/fxml/MediaScreenPane.fxml";
+		changeScene(event, fxmlPath);
 	}
 	
 	@FXML
@@ -154,13 +158,13 @@ public class MainMenuController {
 	private void cleanUp() {
 		try {
 			List<String> filesToRemove = new ArrayList<String>();
-			filesToRemove.add(Main.FILEPATH + "/newCreation");
+			filesToRemove.add(Main._FILEPATH + "/newCreation");
 			
 			ProcessBuilder builder;
 			Process process;
 			
 			
-			String removeCommand = "rm -r " + Main.FILEPATH + "/newCreation";
+			String removeCommand = "rm -r " + Main._FILEPATH + "/newCreation";
 			builder = new ProcessBuilder("bash", "-c", removeCommand);
 		
 			process = builder.start();	

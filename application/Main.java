@@ -11,7 +11,7 @@ import javafx.scene.layout.BorderPane;
 
 
 public class Main extends Application {
-	public static String FILEPATH;
+	public static String _FILEPATH;
 	
 	@Override
 	public void start(Stage primaryStage) throws IOException {
@@ -31,10 +31,10 @@ public class Main extends Application {
 	private void setup() {		
 		//Set files folder directory path based on current working path
 		String dir = System.getProperty("user.dir");
-		FILEPATH = dir + "/files";
+		_FILEPATH = dir + "/files";
 		
 		//Create files folder if one doesn't exist
-		String cmd = "mkdir -p " + FILEPATH;
+		String cmd = "mkdir -p " + _FILEPATH;
 		ProcessBuilder builder = new ProcessBuilder("bash", "-c", cmd);
 		
 		try {

@@ -4,6 +4,8 @@ import java.io.IOException;
 
 import application.Creation;
 import application.Main;
+import application.MediaProcess;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -17,42 +19,43 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.stage.Stage;
 
-public class MediaScreenController {
+public class MediaScreenController extends SceneChanger {
 	@FXML
-	private StackPane mediaStackPane;
+	private StackPane _mediaStackPane;
 	@FXML
-	private BorderPane controlsPane;
+	private BorderPane _controlsPane;
 	@FXML
-	private HBox bottomControls;
+	private HBox _bottomControls;
 	@FXML
-	private Button button;
+	private Button _button;
 
 	private MediaView view;
 	private MediaPlayer player;
 	
 	@FXML
 	private void initialize() {
-		String fullFilePath = Main.FILEPATH + "/jesus.mp4";
+		MediaProcess process = MediaProcess.getInstance();
+		Creation creation = process.getCreation();
+		String creationName = creation.getName();
+		
+		String fullFilePath = Main._FILEPATH + "/" + creationName + Creation.getExtention();
 		
 		Media media = new Media("file://" + fullFilePath);
 		player = new MediaPlayer(media);
 		view = new MediaView(player);
 		
 		
-		mediaStackPane.getChildren().clear();
-		mediaStackPane.getChildren().addAll(view, controlsPane);
+		_mediaStackPane.getChildren().clear();
+		_mediaStackPane.getChildren().addAll(view, _controlsPane);
 		
 		player.play();
 	}
 	
 	@FXML
-	private void buttonHandle() throws IOException {
+	private void buttonHandle(ActionEvent event) throws IOException {
 		player.stop();
+		MediaProcess.destroyProcess();
 		
-		Stage stage = (Stage) mediaStackPane.getScene().getWindow();
-		Parent layout = FXMLLoader.load(getClass().getResource("/fxml/MainMenuPane.fxml"));
-		Scene scene = new Scene(layout);
-		stage.setScene(scene);
-		stage.show();
+		changeScene(event, "/fxml/MainMenuPane.fxml");
 	}
 }

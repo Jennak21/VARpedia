@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<GridPane fx:id="filenamePane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.FilenameController">
+<GridPane fx:id="_filenamePane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.FilenameController">
   <columnConstraints>
     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -23,25 +23,25 @@
     <RowConstraints maxHeight="-Infinity" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <Label fx:id="titleLabel" alignment="CENTER" text="File Name" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+      <Label fx:id="_titleLabel" alignment="CENTER" text="File Name" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
          <font>
             <Font size="40.0" />
          </font>
       </Label>
-      <TextField fx:id="fileNameEntry" GridPane.columnSpan="2" GridPane.rowIndex="1" />
-      <Label fx:id="overwriteLabel" alignment="CENTER" contentDisplay="CENTER" text="Creation already exists, would you like to overwrite?" visible="false" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+      <TextField fx:id="_fileNameEntry" GridPane.columnSpan="2" GridPane.rowIndex="1" />
+      <Label fx:id="_overwriteLabel" alignment="CENTER" contentDisplay="CENTER" text="Creation already exists, would you like to overwrite?" visible="false" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="2">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <HBox fx:id="overwriteButtons" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="50.0" visible="false" GridPane.columnSpan="2" GridPane.rowIndex="3">
+      <HBox fx:id="_overwriteButtons" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="50.0" visible="false" GridPane.columnSpan="2" GridPane.rowIndex="3">
          <children>
-            <Button fx:id="yesOverwriteButton" mnemonicParsing="false" onAction="#YesOverwriteHandle" text="Yes" />
-            <Button fx:id="noOverwriteButton" mnemonicParsing="false" onAction="#NoOverwriteHandle" text="No" />
+            <Button fx:id="_yesOverwriteButton" mnemonicParsing="false" onAction="#YesOverwriteHandle" text="Yes" />
+            <Button fx:id="_noOverwriteButton" mnemonicParsing="false" onAction="#NoOverwriteHandle" text="No" />
          </children>
       </HBox>
-      <Button fx:id="nextButton" alignment="CENTER_RIGHT" contentDisplay="CENTER" mnemonicParsing="false" onAction="#NextHandle" text="Next" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="4" />
-      <Button fx:id="backButton" contentDisplay="CENTER" mnemonicParsing="false" onAction="#BackHandle" text="Back" GridPane.rowIndex="4" />
+      <Button fx:id="_nextButton" alignment="CENTER_RIGHT" contentDisplay="CENTER" mnemonicParsing="false" onAction="#NextHandle" text="Next" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="4" />
+      <Button fx:id="_backButton" contentDisplay="CENTER" mnemonicParsing="false" onAction="#BackHandle" text="Back" GridPane.rowIndex="4" />
    </children>
    <padding>
       <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
