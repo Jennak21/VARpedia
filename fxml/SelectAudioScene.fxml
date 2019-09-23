@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Text?>
+
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="342.0" prefWidth="606.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="SelectAudioController">
+   <columnConstraints>
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="356.5" minWidth="10.0" prefWidth="356.5" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="294.0" minWidth="10.0" prefWidth="243.5" />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints maxHeight="340.0" minHeight="10.0" prefHeight="339.5" vgrow="SOMETIMES" />
+   </rowConstraints>
+   <children>
+      <Button fx:id="_backButton" mnemonicParsing="false" onAction="#onBackHandler" text="Back" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="BOTTOM">
+         <GridPane.margin>
+            <Insets bottom="10.0" left="40.0" />
+         </GridPane.margin>
+      </Button>
+      <Button fx:id="_backButton" mnemonicParsing="false" onAction="#onNextHandler" text="Next" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.valignment="BOTTOM">
+         <GridPane.margin>
+            <Insets bottom="10.0" right="40.0" />
+         </GridPane.margin>
+      </Button>
+      <TableView fx:id="_audioTable" prefHeight="375.0" prefWidth="346.0">
+        <columns>
+          <TableColumn fx:id="_audioText" prefWidth="276.0" text="Audio" />
+          <TableColumn fx:id="_select" prefWidth="79.0" text="Select" />
+        </columns>
+         <GridPane.margin>
+            <Insets bottom="10.0" left="10.0" top="10.0" />
+         </GridPane.margin>
+      </TableView>
+      <ChoiceBox fx:id="_imgChoiceBox" prefHeight="25.0" prefWidth="68.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+         <GridPane.margin>
+            <Insets top="100.0" />
+         </GridPane.margin>
+      </ChoiceBox>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Select the number of images you would like to include" textAlignment="CENTER" wrappingWidth="168.671875" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+         <GridPane.margin>
+            <Insets top="60.0" />
+         </GridPane.margin>
+      </Text>
+   </children>
+</GridPane>
