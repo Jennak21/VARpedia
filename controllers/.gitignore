@@ -3,3 +3,7 @@
 /MainMenuController.class
 /MediaScreenController.class
 /SceneChanger.class
+/CreationProcesses$BackgroundVidWorker.class
+/CreationProcesses.class
+/ExistingFileException.class
+/UserInputExceptions.class
