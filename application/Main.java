@@ -29,7 +29,7 @@ public class Main extends Application {
 		launch(args);
 	}
 	
-	private void setup() {		
+	private void setup() {			
 		//Set files folder directory path based on current working path
 		String dir = System.getProperty("user.dir");
 		_FILEPATH = dir + "/files";
@@ -42,8 +42,7 @@ public class Main extends Application {
 			Process process = builder.start();
 	
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			new ErrorAlert("Something went wrong");
 		}
 		
 	}

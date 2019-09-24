@@ -18,14 +18,12 @@ public class BashCommandClass {
 
 		commands.add(2, command);
 
-			ProcessBuilder processBuilder = new ProcessBuilder(commands);
-			Process process = processBuilder.start();
-			process.waitFor();
-			//get exit status
-			int status = process.exitValue();
-			return status;
-
-
+		ProcessBuilder processBuilder = new ProcessBuilder(commands);
+		Process process = processBuilder.start();
+		process.waitFor();
+		//get exit status
+		int status = process.exitValue();
+		return status;
 	}
 
 	public static String getOutputFromCommand(String command) throws IOException, InterruptedException{
@@ -40,22 +38,22 @@ public class BashCommandClass {
 
 		StringBuffer output = new StringBuffer();
 
-			ProcessBuilder processBuilder = new ProcessBuilder(commands);
-			Process process = processBuilder.start();
-			int status = process.waitFor();
+		ProcessBuilder processBuilder = new ProcessBuilder(commands);
+		Process process = processBuilder.start();
+		int status = process.waitFor();
 
-			if (status != 0) {
-				return " ";
-			}
+		if (status != 0) {
+			return " ";
+		}
 
-			//read output and append to string
-			BufferedReader stdOut = new BufferedReader(
-					new InputStreamReader(process.getInputStream()));
+		//read output and append to string
+		BufferedReader stdOut = new BufferedReader(
+				new InputStreamReader(process.getInputStream()));
 
-			String line = "";			
-			while ((line = stdOut.readLine())!= null) {
-				output.append(line + "\n");
-			}
+		String line = "";			
+		while ((line = stdOut.readLine())!= null) {
+			output.append(line + "\n");
+		}
 
 		return output.toString();
 
