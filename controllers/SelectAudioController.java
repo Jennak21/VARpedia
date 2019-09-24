@@ -48,29 +48,10 @@ public class SelectAudioController extends SceneChanger implements Initializable
 	@Override
 	public void initialize (URL url, ResourceBundle resourceBundle){
 		
-		//TableColumn audioNameCol = new TableColumn("Audio Name");
-		
 		_nextButton.setDisable(true);
 		_creationProcesses = CreationProcesses.getInstance();
 		loadData();
-	
-	
-		
-		
-		
-		
-//		for(int i = 0; i < 10; i ++) {
-//			CheckBox cb = new CheckBox("hello");
-//			_list.add(new TableSetterGetter("hello", cb));
-//			
-//		}
-//		
-//		
-//		_audioTable.setItems(_list);
-//		_audioName.setCellValueFactory(new PropertyValueFactory<TableSetterGetter, String>("_audioName"));
-//		_select.setCellValueFactory(new PropertyValueFactory<TableSetterGetter, CheckBox>("_checkBox"));
-//		
-//		
+			
 	}	
 	
 	public void loadData() {
@@ -90,18 +71,13 @@ public class SelectAudioController extends SceneChanger implements Initializable
 			            	_nextButton.setDisable(false);
 			            } else {
 			            	for (TableSetterGetter audio : _list) {
-//			            		int count= 0;
 			            		if (audio.getCheckBox().isSelected()) {
 			            			_nextButton.setDisable(false);
-//			            			count ++ ;
 			            			
 			            			break;		
 			            		}
-//			            		if (count>0)  {
-//			            			_nextButton.setDisable(false);
-//			            		} else {
 			            			_nextButton.setDisable(true); 
-//			            		}
+
 			            	}
 			            	
 			            }
@@ -110,13 +86,7 @@ public class SelectAudioController extends SceneChanger implements Initializable
 			};
 			
 			checkBox.setOnAction(checkedHandler);
-//			ChangeListener changeListener= new ChangeListener<Boolean>() {
-//			    @Override
-//			    public void changed(ObservableValue<? extends Boolean> ov,
-//			        Boolean old_val, Boolean new_val) {
-//			        if (new_val)
-//			            colorlessCB.setSelected(false);
-//			    }};
+
 
 					
 			_list.add(new TableSetterGetter(audioName, checkBox));
