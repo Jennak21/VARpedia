@@ -10,10 +10,10 @@ import javafx.stage.Stage;
 import javafx.scene.Node;
 
 public abstract class SceneChanger {
-	public void changeScene(ActionEvent event, String fxmlPath) throws IOException {
+	public void changeScene(Node node, String fxmlPath) throws IOException {
 		Parent sceneParent = FXMLLoader.load(getClass().getResource(fxmlPath));
 		Scene scene = new Scene(sceneParent);
-		Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+		Stage window = (Stage) node.getScene().getWindow();
 		window.setScene(scene);
 	}
 }

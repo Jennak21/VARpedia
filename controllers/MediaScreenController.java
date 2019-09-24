@@ -4,10 +4,10 @@ import java.io.IOException;
 
 import application.Creation;
 import application.Main;
-import application.MediaProcess;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -56,6 +56,6 @@ public class MediaScreenController extends SceneChanger {
 		player.stop();
 		MediaProcess.destroyProcess();
 		
-		changeScene(event, "/fxml/MainMenuPane.fxml");
+		changeScene((Node)event.getSource(), "/fxml/MainMenuPane.fxml");
 	}
 }

@@ -1,4 +1,6 @@
-package application;
+package controllers;
+
+import application.Creation;
 
 public class MediaProcess {
 	private static MediaProcess MEDIA_INSTANCE = null;

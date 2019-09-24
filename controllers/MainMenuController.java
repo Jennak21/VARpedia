@@ -8,13 +8,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import application.Main;
-import application.MediaProcess;
 import application.Creation;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -38,7 +38,7 @@ public class MainMenuController extends SceneChanger {
 	
 	
 	@FXML
-	public void initialize() {
+	private void initialize() {
 		//Storage list
 		List<Creation> creationList = new ArrayList<Creation>();
 		
@@ -140,8 +140,7 @@ public class MainMenuController extends SceneChanger {
 		Creation selected = (Creation) _creationTable.getSelectionModel().getSelectedItem();
 		process.setCreation(selected);
 		
-		String fxmlPath = "/fxml/MediaScreenPane.fxml";
-		changeScene(event, fxmlPath);
+		changeScene((Node)event.getSource(), "/fxml/MediaScreenPane.fxml");
 	}
 	
 	@FXML
@@ -150,8 +149,8 @@ public class MainMenuController extends SceneChanger {
 	}
 	
 	@FXML
-	private void CreateHandle() {
-		
+	private void CreateHandle(ActionEvent event) throws IOException {
+		changeScene((Node)event.getSource(), "/fxml/SearchScene.fxml");
 	}
 	
 	
