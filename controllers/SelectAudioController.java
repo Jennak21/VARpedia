@@ -40,7 +40,7 @@ public class SelectAudioController extends SceneChanger implements Initializable
 	
 	ObservableList<TableSetterGetter> _list = FXCollections.observableArrayList();
 	
-	private CreationProcesses _creationProcesses;
+	private CreationProcess _creationProcesses;
 	
 	
 	
@@ -49,7 +49,7 @@ public class SelectAudioController extends SceneChanger implements Initializable
 	public void initialize (URL url, ResourceBundle resourceBundle){
 		
 		_nextButton.setDisable(true);
-		_creationProcesses = CreationProcesses.getInstance();
+		_creationProcesses = CreationProcess.getInstance();
 		loadData();
 			
 	}	

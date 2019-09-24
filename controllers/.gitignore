@@ -12,3 +12,10 @@
 /SelectAudioController$1.class
 /Flickr.class
 /ImageDownloader.class
+/CreateAudioController.class
+/CreationProcess$BackgroundVidWorker.class
+/CreationProcess.class
+/MediaProcess.class
+/SearchController$1.class
+/SearchController$2.class
+/SearchController.class
