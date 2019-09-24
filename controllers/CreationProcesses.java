@@ -1,7 +1,10 @@
 package controllers;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -96,6 +99,37 @@ public class CreationProcesses {
 			return false;
 		}
 		return true;
+	}
+	
+	public ArrayList<String> getAudioNames () {
+		//create a text file that stores file names
+		String createNameTextCommand = "ls -1a ./creations/*.wav | sed -r \"s/.+\\/(.+)\\..+/\\1/\" > AudioList.txt";
+		runBashProcess(createNameTextCommand);
+		
+		//read from the text file
+		ArrayList<String> lines = null;
+		try {
+			 lines = new ArrayList<>(Files.readAllLines(Paths.get("AudioList.txt")));
+		}
+		catch (IOException e) {
+			JOptionPane.showMessageDialog(null, "Processing error");
+			System.exit(0);
+		}	
+		return lines;		
+	}
+	
+	public void createCombinedAudio (ArrayList<String> selectedAudio) {
+		String combineAudioCommand = "sox ";
+		for (String audioName  : selectedAudio) {
+			combineAudioCommand = combineAudioCommand + "./creations/" + audioName + ".wav ";
+			
+		}
+		
+		combineAudioCommand = combineAudioCommand + "completeAudio.wav";
+		
+		System.out.println(combineAudioCommand);
+		runBashProcess(combineAudioCommand);
+		
 	}
 
 

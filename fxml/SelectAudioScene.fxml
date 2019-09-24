@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Text?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="342.0" prefWidth="606.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="SelectAudioController">
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="342.0" prefWidth="606.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.SelectAudioController">
    <columnConstraints>
       <ColumnConstraints hgrow="SOMETIMES" maxWidth="356.5" minWidth="10.0" prefWidth="356.5" />
       <ColumnConstraints hgrow="SOMETIMES" maxWidth="294.0" minWidth="10.0" prefWidth="243.5" />
@@ -24,14 +24,14 @@
             <Insets bottom="10.0" left="40.0" />
          </GridPane.margin>
       </Button>
-      <Button fx:id="_backButton" mnemonicParsing="false" onAction="#onNextHandler" text="Next" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.valignment="BOTTOM">
+      <Button fx:id="_nextButton" mnemonicParsing="false" onAction="#onNextHandler" text="Next" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.valignment="BOTTOM">
          <GridPane.margin>
             <Insets bottom="10.0" right="40.0" />
          </GridPane.margin>
       </Button>
-      <TableView fx:id="_audioTable" prefHeight="375.0" prefWidth="346.0">
+      <TableView fx:id="_audioTable" onMouseClicked="#displayButtons" prefHeight="375.0" prefWidth="346.0">
         <columns>
-          <TableColumn fx:id="_audioText" prefWidth="276.0" text="Audio" />
+          <TableColumn fx:id="_audioName" prefWidth="276.0" text="Audio" />
           <TableColumn fx:id="_select" prefWidth="79.0" text="Select" />
         </columns>
          <GridPane.margin>
@@ -43,7 +43,7 @@
             <Insets top="100.0" />
          </GridPane.margin>
       </ChoiceBox>
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Select the number of images you would like to include" textAlignment="CENTER" wrappingWidth="168.671875" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Select the number of images you would like to include" textAlignment="CENTER" wrappingWidth="184.671875" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
          <GridPane.margin>
             <Insets top="60.0" />
          </GridPane.margin>
