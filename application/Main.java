@@ -19,7 +19,7 @@ public class Main extends Application {
 		setup(); 
 		
 //		Parent layout = FXMLLoader.load(getClass().getResource("/fxml/MainMenuPane.fxml"));
-		Parent layout = FXMLLoader.load(getClass().getResource("/fxml/SelectAudioSceneNew.fxml"));		
+		Parent layout = FXMLLoader.load(getClass().getResource("/fxml/SelectAudioScene.fxml"));		
 		Scene scene = new Scene(layout);
 		primaryStage.setScene(scene);
 		primaryStage.setTitle("WikiSpeak");

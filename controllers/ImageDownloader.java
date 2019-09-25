@@ -15,6 +15,7 @@ public class ImageDownloader {
 //	private static final String _key = "48645574439994ec16e162c2056113b0";
 //	private static final String _secret = "bb4fa2492af05e83";
 	
+	private static String _filePath = "files" + System.getProperty("file.separator") + "newCreations";
 	
 	
 	public static String getAPIKey(String key) throws Exception {
@@ -64,7 +65,7 @@ public class ImageDownloader {
 	        	try {
 	        		BufferedImage image = photos.getImage(photo,Size.LARGE);
 		        	String filename = query.trim().replace(' ', '-')+"-"+System.currentTimeMillis()+"-"+photo.getId()+".jpg";
-		        	File outputfile = new File("creations",filename);
+		        	File outputfile = new File(_filePath, filename);
 		        	ImageIO.write(image, "jpg", outputfile);
 		        	System.out.println("Downloaded "+filename);
 	        	} catch (FlickrException fe) {

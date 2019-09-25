@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import application.BashCommandClass;
+import application.Main;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -36,6 +37,7 @@ public class FileNameController extends SceneChanger implements Initializable{
 	private CreationProcess _creationProcess;
 	
 	private String _fileName;
+	private String _filePath = Main._FILEPATH;
 
 
 	@Override
@@ -51,6 +53,7 @@ public class FileNameController extends SceneChanger implements Initializable{
 	private void onYesButtonHandler(ActionEvent event) {
 		deleteExistingFile(_fileName);
 		_creationProcess.setFileName(_fileName);
+		changeToCreateVideoScene (event);
 	}
 	
 	@FXML
@@ -66,6 +69,12 @@ public class FileNameController extends SceneChanger implements Initializable{
 	
 	@FXML
 	private void onBackButtonHandler(ActionEvent event) {
+		try {
+			changeScene((Node)event.getSource(), "/fxml/SelectAudioScene.fxml") ;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 	
@@ -88,13 +97,14 @@ public class FileNameController extends SceneChanger implements Initializable{
 			_nextButton.setVisible(false);
 		} else {		
 			_creationProcess.setFileName(_fileName);
+			changeToCreateVideoScene (event);
 		}
 
 
 	}
 	
 	public void deleteExistingFile (String fileName) {
-		String command = "rm ./creations/\"" + fileName + "\".mp4";
+		String command = "rm " + _filePath + "/\"" + fileName + "\".mp4";
 		try {
 			BashCommandClass.runBashProcess(command);
 		} catch (IOException | InterruptedException e) {
@@ -107,7 +117,7 @@ public class FileNameController extends SceneChanger implements Initializable{
 	public boolean fileExists(String fileName) {
 
 		//run command to check if file name exists
-		String command = "test -f creations/\"" + fileName + "\".mp4";
+		String command = "test -f " + _filePath + "/\"" + fileName + "\".mp4";
 		int num;
 		try {
 			num = BashCommandClass.runBashProcess(command);
@@ -124,6 +134,15 @@ public class FileNameController extends SceneChanger implements Initializable{
 			return false;
 		}
 
+	}
+	
+	public void changeToCreateVideoScene (ActionEvent event) {
+		try {
+			changeScene((Node)event.getSource(), "/fxml/CreatingVideoScene.fxml") ;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }
