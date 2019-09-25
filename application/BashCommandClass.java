@@ -52,7 +52,7 @@ public class BashCommandClass {
 
 		String line = "";			
 		while ((line = stdOut.readLine())!= null) {
-			output.append(line + "\n");
+			output.append(line + " ");
 		}
 
 		return output.toString();

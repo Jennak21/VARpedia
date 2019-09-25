@@ -12,8 +12,8 @@ import com.flickr4java.flickr.photos.*;
 
 public class ImageDownloader {
 	
-	private static final String _key = "48645574439994ec16e162c2056113b0";
-	private static final String _secret = "bb4fa2492af05e83";
+//	private static final String _key = "48645574439994ec16e162c2056113b0";
+//	private static final String _secret = "bb4fa2492af05e83";
 	
 	
 	
@@ -21,7 +21,7 @@ public class ImageDownloader {
 		// TODO fix the following based on where you will have your config file stored
 
 		String config = System.getProperty("user.dir") 
-				+ System.getProperty("file.separator")+ "flickr-api-keys.txt"; 
+				+ System.getProperty("file.separator")+ "resources" + System.getProperty("file.separator") + "flickr-api-keys.txt"; 
 		
 //		String config = System.getProperty("user.home")
 //				+ System.getProperty("file.separator")+ "bin" 
@@ -42,13 +42,13 @@ public class ImageDownloader {
 
 	public static void getImages (String searchTerm, int numImages) {
 		try {
-			String apiKey = getAPIKey(_key);
-			String sharedSecret = getAPIKey(_secret);
+			String apiKey = getAPIKey("apiKey");
+			String sharedSecret = getAPIKey("sharedSecret");
 
 			Flickr flickr = new Flickr(apiKey, sharedSecret, new REST());
 			
 			String query = searchTerm;
-			int resultsPerPage = 5;
+			int resultsPerPage = numImages;
 			int page = 0;
 			
 	        PhotosInterface photos = flickr.getPhotosInterface();
@@ -64,7 +64,7 @@ public class ImageDownloader {
 	        	try {
 	        		BufferedImage image = photos.getImage(photo,Size.LARGE);
 		        	String filename = query.trim().replace(' ', '-')+"-"+System.currentTimeMillis()+"-"+photo.getId()+".jpg";
-		        	File outputfile = new File("downloads",filename);
+		        	File outputfile = new File("creations",filename);
 		        	ImageIO.write(image, "jpg", outputfile);
 		        	System.out.println("Downloaded "+filename);
 	        	} catch (FlickrException fe) {

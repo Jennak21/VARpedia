@@ -22,6 +22,8 @@ public class CreationProcess {
 	private String _fullUserText;
 	private String _selectedText;
 	public String _fileName;
+	public int _numImages;
+	public ArrayList<String> _audioFileList;
 
 	public static CreationProcess getInstance() {
 		if (CREATION_INSTANCE == null) {
@@ -29,6 +31,23 @@ public class CreationProcess {
 		} 
 		return CREATION_INSTANCE; 
 	}
+	
+	public void setAudioFiles(ArrayList<String> audioFileList) {
+		_audioFileList = audioFileList;
+	}
+	
+	public ArrayList<String> getAudioFiles() {
+		return _audioFileList;
+	}
+	
+	public void setNumImages(int numImages) {
+		_numImages = numImages;
+	}
+	
+	public int getNumImages() {
+		return _numImages;
+	}
+
 	
 	public void setSearchTerm(String term) {
 		_searchTerm = term;
@@ -46,13 +65,18 @@ public class CreationProcess {
 		return _fullSearchText;
 	}
 	
-	public void setFileName(String  name) throws ExistingFileException {	
+	public void setFileName(String  name){	
 		_fileName = name;	
-
-		if (fileExists(name)) {
-			throw new ExistingFileException("");
-		}
 	}
+
+	
+//	public void setFileName(String  name) throws ExistingFileException {	
+//		_fileName = name;	
+//
+//		if (fileExists(name)) {
+//			throw new ExistingFileException("");
+//		}
+//	}
 
 	public String getFileName() {
 		return _fileName;
