@@ -77,6 +77,18 @@ public class CreateAudioController extends SceneChanger {
 		
 		_voiceDropDown.getSelectionModel().selectFirst();
 		
+		try {
+			String checkAudio = "ls " + Main._FILEPATH + "/newCreation/*" + Creation.AUDIO_EXTENTION;
+			int exitVal = BashCommandClass.runBashProcess(checkAudio);
+			
+			if (exitVal != 0) {
+				_nextButton.setDisable(true);
+			}
+		} catch (IOException | InterruptedException e) {
+			
+		}
+		
+		
 		ResetScene();
 	}
 	
@@ -182,6 +194,7 @@ public class CreateAudioController extends SceneChanger {
 		
 		audioTask.setOnSucceeded(finish -> {
 			if (audioTask.getValue()) {
+				_nextButton.setDisable(false);
 				new InformationAlert("Successfully created audio");
 			} else {
 				new ErrorAlert("Couldn't create audio");
@@ -217,10 +230,12 @@ public class CreateAudioController extends SceneChanger {
 	@FXML
 	private void BackHandle() {
 		try {
+			String removeFolder = "rm -r " + Main._FILEPATH + "/newCreation";
+			BashCommandClass.runBashProcess(removeFolder);
+			
 			changeScene(_gridPane, "/fxml/SearchScene.fxml");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (IOException | InterruptedException e) {
+			new ErrorAlert("Something went wrong");
 		}
 	}
 	

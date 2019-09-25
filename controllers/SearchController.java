@@ -80,7 +80,7 @@ public class SearchController extends SceneChanger {
 				try {
 					changeScene(_gridPane, "/fxml/CreateAudioScene.fxml");
 				} catch (IOException e) {
-					e.printStackTrace();
+					new ErrorAlert("Something went wrong");
 				}
 				
 			} else {
