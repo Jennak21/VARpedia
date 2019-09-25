@@ -3,8 +3,12 @@ package controllers;
 import java.io.IOException;
 
 import application.BashCommandClass;
+import application.Creation;
 import application.ErrorAlert;
+import application.InformationAlert;
+import application.Main;
 import application.WarningAlert;
+import background.AudioBackgroundTask;
 import background.PreviewBackgroundTask;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -15,11 +19,16 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 
 public class CreateAudioController extends SceneChanger {
 	@FXML
 	private GridPane _gridPane;
+	@FXML
+	private GridPane _settingsGrid;
+	@FXML
+	private GridPane _filenameGrid;
 	@FXML
 	private TextArea _textArea;
 	@FXML
@@ -35,31 +44,50 @@ public class CreateAudioController extends SceneChanger {
 	@FXML
 	private Button _saveButton;
 	@FXML
-	private Label _titleLabel;
+	private TextField _filenameField;
+	@FXML
+	private Button _cancelButton;
+	@FXML
+	private Button _makeAudioButton;
+	@FXML
+	private GridPane _nameEntryGrid;
+	@FXML
+	private GridPane _overwriteGrid;
+	@FXML
+	private Button _yesButton;
+	@FXML
+	private Button _noButton;
+	@FXML
+	private Label _overwriteLabel;
 	
-	CreationProcess process;
-	PreviewBackgroundTask preview;
+	private CreationProcess _process;
+	private PreviewBackgroundTask _preview;
+	private String _selectedText;
+	private String _selectedVoice;
+	private String _filename;
 	
 	@FXML
 	public void initialize() {
-		process = CreationProcess.getInstance();
-		_textArea.setText(process.getSearchText());
+		_process = CreationProcess.getInstance();
+		_textArea.setText(_process.getSearchText());
 		
 
 		ObservableList<String> voiceChoices = FXCollections.observableArrayList("voice_rab_diphone"); 
 		_voiceDropDown.setItems(voiceChoices);
 		
 		_voiceDropDown.getSelectionModel().selectFirst();
+		
+		ResetScene();
 	}
 	
 	@FXML
-	private void ResetHandler() {
-		_textArea.setText(process.getSearchText());
+	private void ResetHandle() {
+		_textArea.setText(_process.getSearchText());
 	}
 	
 	@FXML
-	private void PreviewHandler() {
-		if (preview == null || preview.isDone()) {
+	private void PreviewHandle() {
+		if (_preview == null || _preview.isDone()) {
 			String selectedText = _textArea.getSelectedText();
 			
 			if (selectedText.isEmpty()) {
@@ -67,16 +95,16 @@ public class CreateAudioController extends SceneChanger {
 				return;
 			}
 			
-			preview = new PreviewBackgroundTask(selectedText);
-			Thread previewThread = new Thread(preview);
+			_preview = new PreviewBackgroundTask(selectedText);
+			Thread previewThread = new Thread(_preview);
 			previewThread.start();
 		
-			preview.setOnRunning(running -> {
+			_preview.setOnRunning(running -> {
 				_backButton.setDisable(true);
 				_nextButton.setDisable(true);
 			});
 			
-			preview.setOnSucceeded(finish -> {
+			_preview.setOnSucceeded(finish -> {
 				_backButton.setDisable(false);
 				_nextButton.setDisable(false);
 			});
@@ -86,13 +114,108 @@ public class CreateAudioController extends SceneChanger {
 	}
 	
 	@FXML
-	private void SaveHandler() {
-		String voice = (String)_voiceDropDown.getSelectionModel().getSelectedItem();
-		System.out.println(voice);
+	private void SaveHandle() {
+		_selectedText = _textArea.getSelectedText();
+		
+		if (_selectedText.isEmpty()) {
+			new WarningAlert("Please select text to preview");
+			return;
+		}
+		
+		_selectedVoice = (String)_voiceDropDown.getSelectionModel().getSelectedItem();
+		
+		FilenameGrid();
+	}
+	
+	private void FilenameGrid() {
+		_settingsGrid.setVisible(false);
+		_filenameGrid.setVisible(true);
+		_nameEntryGrid.setVisible(true);
+		_overwriteGrid.setVisible(false);
 	}
 	
 	@FXML
-	private void BackHandler() {
+	private void MakeAudioHandle() {
+		_filename = _filenameField.getText();
+		if (_filename.isEmpty()) {
+			new WarningAlert("Please enter a filename");
+			return;
+		}
+		
+		try {
+			String fileExist = "ls " + Main._FILEPATH + "/newCreation/" + _filename + Creation.AUDIO_EXTENTION;
+			int exitVal = BashCommandClass.runBashProcess(fileExist);
+			
+
+			if (exitVal != 0) {
+				YesHandle();
+			} else {
+				_overwriteLabel.setText("'" + _filename + "' already exists, would you like to overwrite?");
+				
+				_nameEntryGrid.setVisible(false);
+				_overwriteGrid.setVisible(true);
+			}
+		} catch (IOException | InterruptedException e) {
+			new ErrorAlert("Something went wrong");
+			ResetScene();
+		}
+	}
+	
+	@FXML
+	private void YesHandle() {
+		AudioBackgroundTask audioTask = new AudioBackgroundTask(_selectedText, _selectedVoice, _filename);
+		Thread audioThread = new Thread(audioTask);
+		audioThread.start();
+		
+		audioTask.setOnRunning(running -> {
+			_cancelButton.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent event) {
+					audioTask.cancel();
+				}
+			});
+		});
+		
+		audioTask.setOnCancelled(cancel -> {
+			ResetScene();
+		});
+		
+		audioTask.setOnSucceeded(finish -> {
+			if (audioTask.getValue()) {
+				new InformationAlert("Successfully created audio");
+			} else {
+				new ErrorAlert("Couldn't create audio");
+			}
+			
+			ResetScene();
+		});
+	}
+	
+	@FXML
+	private void NoHandle() {
+		FilenameGrid();
+	}
+	
+	@FXML
+	private void CancelHandle() {
+		ResetScene();
+	}
+	
+	private void ResetScene() {
+		_filenameField.clear();
+		_settingsGrid.setVisible(true);
+		_filenameGrid.setVisible(false);
+		
+		_cancelButton.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				CancelHandle();
+			}
+		});
+	}
+	
+	@FXML
+	private void BackHandle() {
 		try {
 			changeScene(_gridPane, "/fxml/SearchScene.fxml");
 		} catch (IOException e) {
@@ -102,7 +225,7 @@ public class CreateAudioController extends SceneChanger {
 	}
 	
 	@FXML
-	private void NextHandler() {
+	private void NextHandle() {
 		try {
 			changeScene(_gridPane, "/fxml/SelectAudioScene");
 		} catch (IOException e) {

@@ -5,6 +5,7 @@
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
@@ -22,12 +23,12 @@
     <RowConstraints maxHeight="195.0" minHeight="10.0" prefHeight="60.5" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <Button fx:id="_resetButton" mnemonicParsing="false" onAction="#ResetHandler" text="Reset" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+      <Button fx:id="_resetButton" mnemonicParsing="false" onAction="#ResetHandle" text="Reset" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
          <GridPane.margin>
             <Insets bottom="10.0" left="10.0" />
          </GridPane.margin>
       </Button>
-      <GridPane GridPane.columnIndex="1">
+      <GridPane fx:id="_settingsGrid" visible="false" GridPane.columnIndex="1">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
         </columnConstraints>
@@ -37,7 +38,7 @@
           <RowConstraints maxHeight="222.0" minHeight="20.0" prefHeight="100.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label fx:id="_titleLabel" text="Settings" GridPane.halignment="CENTER">
+            <Label text="Settings" GridPane.halignment="CENTER">
                <font>
                   <Font size="30.0" />
                </font>
@@ -50,19 +51,90 @@
             </VBox>
             <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="20.0" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="CENTER">
                <children>
-                  <Button fx:id="_previewButton" alignment="CENTER" maxWidth="180.0" minWidth="180.0" mnemonicParsing="false" onAction="#PreviewHandler" prefWidth="180.0" text="Preview Selected Text" />
-                  <Button fx:id="_saveButton" alignment="CENTER" contentDisplay="CENTER" maxWidth="180.0" minWidth="180.0" mnemonicParsing="false" onAction="#SaveHandler" prefWidth="180.0" text="Save Audio" />
+                  <Button fx:id="_previewButton" alignment="CENTER" maxWidth="180.0" minWidth="180.0" mnemonicParsing="false" onAction="#PreviewHandle" prefWidth="180.0" text="Preview Selected Text" />
+                  <Button fx:id="_saveButton" alignment="CENTER" contentDisplay="CENTER" maxWidth="180.0" minWidth="180.0" mnemonicParsing="false" onAction="#SaveHandle" prefWidth="180.0" text="Save Audio" />
                </children>
             </VBox>
          </children>
       </GridPane>
       <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="15.0" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
          <children>
-            <Button fx:id="_backButton" mnemonicParsing="false" onAction="#BackHandler" text="Back" />
-            <Button fx:id="_nextButton" mnemonicParsing="false" onAction="#NextHandler" text="Next" />
+            <Button fx:id="_backButton" mnemonicParsing="false" onAction="#BackHandle" text="Back" />
+            <Button fx:id="_nextButton" mnemonicParsing="false" onAction="#NextHandle" text="Next" />
          </children>
       </HBox>
       <TextArea fx:id="_textArea" prefHeight="200.0" prefWidth="200.0" wrapText="true" />
+      <GridPane fx:id="_filenameGrid" GridPane.columnIndex="1">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="150.0" prefWidth="150.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints maxHeight="100.0" minHeight="50.0" prefHeight="100.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label alignment="CENTER" contentDisplay="CENTER" text="File Name:" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+               <font>
+                  <Font size="30.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets top="6.0" />
+               </GridPane.margin>
+            </Label>
+            <GridPane fx:id="_nameEntryGrid" visible="false" GridPane.rowIndex="1">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <TextField fx:id="_filenameField" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                     <GridPane.margin>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </GridPane.margin>
+                  </TextField>
+                  <Button fx:id="_cancelButton" mnemonicParsing="false" onAction="#CancelHandle" text="Cancel" GridPane.rowIndex="1" GridPane.valignment="TOP">
+                     <GridPane.margin>
+                        <Insets left="10.0" />
+                     </GridPane.margin>
+                  </Button>
+                  <Button fx:id="_makeAudioButton" mnemonicParsing="false" onAction="#MakeAudioHandle" text="Save" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="TOP">
+                     <GridPane.margin>
+                        <Insets right="10.0" />
+                     </GridPane.margin>
+                  </Button>
+               </children>
+            </GridPane>
+            <GridPane fx:id="_overwriteGrid" GridPane.rowIndex="1">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Button fx:id="_noButton" mnemonicParsing="false" onAction="#NoHandle" text="No" GridPane.rowIndex="1" GridPane.valignment="TOP">
+                     <GridPane.margin>
+                        <Insets left="10.0" />
+                     </GridPane.margin>
+                  </Button>
+                  <Label fx:id="_overwriteLabel" alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" prefHeight="100.0" prefWidth="187.0" text="File exists, overwrite?" textAlignment="CENTER" wrapText="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                     <GridPane.margin>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <Button fx:id="_yesButton" mnemonicParsing="false" onAction="#YesHandle" text="Yes" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="TOP">
+                     <GridPane.margin>
+                        <Insets right="10.0" />
+                     </GridPane.margin>
+                  </Button>
+               </children>
+            </GridPane>
+         </children>
+      </GridPane>
    </children>
    <opaqueInsets>
       <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />

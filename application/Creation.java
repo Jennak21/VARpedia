@@ -4,7 +4,8 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 public class Creation {
-	private static String EXTENTION = ".mp4";
+	public static String EXTENTION = ".mp4";
+	public static String AUDIO_EXTENTION = ".wav";
 	private static String DEFAULT_LENGTH = "???";
 	
 	

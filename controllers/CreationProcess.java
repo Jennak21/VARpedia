@@ -137,28 +137,6 @@ public class CreationProcess {
 
 
 
-	public void searchOnWikit(String term) throws UserInputExceptions {
-
-		String searchCommand = "wikit " +term;
-		String text = getOutputFromCommand(searchCommand);
-		
-		//check for invalid search
-		if (text.contains("not found :^(")) {
-			throw new UserInputExceptions("Invalid search term, please try another term");
-
-		}
-
-		_searchTerm = term;
-		_fullSearchText = text;
-
-	}
-
-	public void deleteExistingFile () {
-		String command = "rm ./creations/\"" + _fileName + "\".mp4";
-		runBashProcess (command);
-	}
-
-
 	private class BackgroundVidWorker extends Task<Void> {
 
 		@Override
