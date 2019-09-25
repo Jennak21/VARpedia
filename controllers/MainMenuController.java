@@ -8,7 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import application.Main;
+import application.BashCommandClass;
 import application.Creation;
+import application.ErrorAlert;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -39,57 +41,29 @@ public class MainMenuController extends SceneChanger {
 	
 	@FXML
 	private void initialize() {
+		cleanUp();
+		
 		//Storage list
 		List<Creation> creationList = new ArrayList<Creation>();
 		
 		try {
 			//Count number of creations
 			String countFiles = "ls -1 " + Main._FILEPATH + "/*" + Creation.getExtention() + " | wc -l";
-			ProcessBuilder builder = new ProcessBuilder("bash", "-c", countFiles);
-			Process process = builder.start();
+			String numFilesOutput = BashCommandClass.getOutputFromCommand(countFiles);
 			
-			process.waitFor();
-			InputStream stdout = process.getInputStream();
-			BufferedReader stdoutBuffered = new BufferedReader(new InputStreamReader(stdout));
-			String numFilesOutput = stdoutBuffered.readLine();
 			int numFiles = Integer.parseInt(numFilesOutput);
 			
 			//Do stuff stuff based on how many files were found
 			if (numFiles != 0) {
 				//Get names of creations
 				String getCreations = "basename -s " + Creation.getExtention() + " " + Main._FILEPATH + "/*";
-				builder = new ProcessBuilder("bash", "-c", getCreations);
-				
-				process = builder.start();
-				
-				try {
-					process.waitFor();
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-				
-				//Store all creation names
-				List<String> nameList = new ArrayList<String>();
-				stdout = process.getInputStream();
-				stdoutBuffered = new BufferedReader(new InputStreamReader(stdout));
-				String line = null;
-				while ((line = stdoutBuffered.readLine()) != null ) {
-					nameList.add(line);
-				}
+				List<String> nameList = BashCommandClass.getListOutput(getCreations);
 				
 				//For all stored creation names, get the lengths of the creation, and make a new creation object
 				for (String s : nameList) {
 					
 					String getCreationLength = "ffprobe -i " + Main._FILEPATH + "/" + s + Creation.getExtention() + " -show_entries format=duration -v quiet -of csv=\"p=0\"";
-					
-					builder = new ProcessBuilder("bash", "-c", getCreationLength);
-					process = builder.start();
-					
-					process.waitFor();
-										
-					stdout = process.getInputStream();
-					stdoutBuffered = new BufferedReader(new InputStreamReader(stdout));
-					String length = stdoutBuffered.readLine();
+					String length = BashCommandClass.getOutputFromCommand(getCreationLength);
 					double numberLength = Double.parseDouble(length);		
 					String roundedLength = String.format("%.2f", numberLength);
 					
@@ -97,7 +71,6 @@ public class MainMenuController extends SceneChanger {
 				}
 		
 			}		
-			
 			
 			if (creationList.size() < 1) {
 				_playButton.setDisable(true);
@@ -107,10 +80,8 @@ public class MainMenuController extends SceneChanger {
 				_deleteButton.setDisable(false);
 			}
 			
-			
 			//Set tableview data to list of creation objects
 			ObservableList<Creation> data = FXCollections.observableList(creationList);
-			
 			
 			data = FXCollections.observableList(creationList);
 			_creationTable.setItems(data);
@@ -126,21 +97,23 @@ public class MainMenuController extends SceneChanger {
 	        _creationTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 	        _creationTable.getSelectionModel().selectFirst();
 			
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
+		} catch (IOException | InterruptedException e) {
+			new ErrorAlert("Couldn't load creations");
 		}
 	}
 	
 	@FXML
-	private void PlayHandle(ActionEvent event) throws IOException {
+	private void PlayHandle(ActionEvent event) {
 		MediaProcess process = MediaProcess.getInstance();
 		
 		Creation selected = (Creation) _creationTable.getSelectionModel().getSelectedItem();
 		process.setCreation(selected);
 		
-		changeScene((Node)event.getSource(), "/fxml/MediaScreenPane.fxml");
+		try {
+			changeScene((Node)event.getSource(), "/fxml/MediaScreenPane.fxml");
+		} catch (IOException e) {
+			new ErrorAlert("Couldn't change scenes");
+		}
 	}
 	
 	@FXML
@@ -149,33 +122,21 @@ public class MainMenuController extends SceneChanger {
 	}
 	
 	@FXML
-	private void CreateHandle(ActionEvent event) throws IOException {
-		changeScene((Node)event.getSource(), "/fxml/SearchScene.fxml");
+	private void CreateHandle(ActionEvent event) {
+		try {
+			changeScene((Node)event.getSource(), "/fxml/SearchScene.fxml");
+		} catch (IOException e) {
+			new ErrorAlert("Couldn't change scenes");
+		}
 	}
 	
 	
 	private void cleanUp() {
 		try {
-			List<String> filesToRemove = new ArrayList<String>();
-			filesToRemove.add(Main._FILEPATH + "/newCreation");
-			
-			ProcessBuilder builder;
-			Process process;
-			
-			
 			String removeCommand = "rm -r " + Main._FILEPATH + "/newCreation";
-			builder = new ProcessBuilder("bash", "-c", removeCommand);
-		
-			process = builder.start();	
-			
-			process.waitFor();
-			
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			BashCommandClass.runBashProcess(removeCommand);
+		} catch (IOException | InterruptedException e) {
+			new ErrorAlert("Couldn't delete files");
 		}
 	}
 }

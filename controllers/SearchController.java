@@ -2,6 +2,8 @@ package controllers;
 
 import java.io.IOException;
 
+import application.ErrorAlert;
+import application.WarningAlert;
 import background.WikitBackgroundTask;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -42,19 +44,12 @@ public class SearchController extends SceneChanger {
 		
 		//Check for non-empty search term
 		if (searchTerm.isEmpty()) {
-			Alert alert = new Alert(AlertType.WARNING);
-			alert.setTitle("Warning");
-			alert.setHeaderText("Invalid Input");
-			alert.setContentText("You can't search for nothing!");
-
-			alert.showAndWait();
-			
+			new WarningAlert("You can't search for nothing");
 			reset();
 			
 			return; 
 		} 
 				
-		
 		//Run search on background thread
 		WikitBackgroundTask wikitBG = new WikitBackgroundTask(searchTerm);
 		Thread wikitThread = new Thread(wikitBG);
@@ -75,12 +70,7 @@ public class SearchController extends SceneChanger {
 		
 		//If user has cancelled, go back to main screen
 		wikitBG.setOnCancelled(cancel -> {
-			try {
-				quit();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			quit();
 		});
 		
 		//When search finishes
@@ -90,19 +80,13 @@ public class SearchController extends SceneChanger {
 				try {
 					changeScene(_gridPane, "/fxml/CreateAudioScene.fxml");
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					new ErrorAlert("Something went wrong");
+					reset();
 				}
 				
 			} else {
 				//Search failed, inform user and go back to search screen
-				Alert alert = new Alert(AlertType.ERROR);
-				alert.setTitle("Error");
-				alert.setHeaderText("Invalid Input");
-				alert.setContentText("Could not complete search for '" + searchTerm + "'");
-
-				alert.showAndWait();
-				
+				new ErrorAlert("Could not complete search for '" + searchTerm + "'");
 				reset();
 			}
 		});
@@ -116,18 +100,17 @@ public class SearchController extends SceneChanger {
 		_backButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				try {
-					quit();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				quit();
 			}
 	    });
 	}
 	
-	private void quit() throws IOException {
+	private void quit() {
 		CreationProcess.destroy();
-		changeScene(_gridPane, "/fxml/MainMenuPane.fxml");
+		try {
+			changeScene(_gridPane, "/fxml/MainMenuPane.fxml");
+		} catch (IOException e) {
+			new ErrorAlert("Couldn't change scene");
+		}
 	}
 }

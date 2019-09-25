@@ -42,27 +42,27 @@
                   <Font size="30.0" />
                </font>
             </Label>
-            <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" spacing="40.0" GridPane.rowIndex="2">
-               <children>
-                  <Button fx:id="_previewButton" minWidth="70.0" mnemonicParsing="false" onAction="#PreviewHandler" prefHeight="35.0" prefWidth="58.0" text="Preview" />
-                  <Button fx:id="_saveButton" alignment="CENTER" mnemonicParsing="false" onAction="#SaveHandler" prefHeight="35.0" prefWidth="58.0" text="Save" />
-               </children>
-            </HBox>
             <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="1">
                <children>
                   <Label text="Voice:" />
                   <ChoiceBox fx:id="_voiceDropDown" prefWidth="150.0" />
                </children>
             </VBox>
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="20.0" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+               <children>
+                  <Button fx:id="_previewButton" alignment="CENTER" maxWidth="180.0" minWidth="180.0" mnemonicParsing="false" onAction="#PreviewHandler" prefWidth="180.0" text="Preview Selected Text" />
+                  <Button fx:id="_saveButton" alignment="CENTER" contentDisplay="CENTER" maxWidth="180.0" minWidth="180.0" mnemonicParsing="false" onAction="#SaveHandler" prefWidth="180.0" text="Save Audio" />
+               </children>
+            </VBox>
          </children>
       </GridPane>
-      <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="15.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+      <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="15.0" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
          <children>
             <Button fx:id="_backButton" mnemonicParsing="false" onAction="#BackHandler" text="Back" />
             <Button fx:id="_nextButton" mnemonicParsing="false" onAction="#NextHandler" text="Next" />
          </children>
       </HBox>
-      <TextArea fx:id="_textArea" prefHeight="200.0" prefWidth="200.0" />
+      <TextArea fx:id="_textArea" prefHeight="200.0" prefWidth="200.0" wrapText="true" />
    </children>
    <opaqueInsets>
       <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />

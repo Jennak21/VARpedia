@@ -2,6 +2,7 @@ package application;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
@@ -52,11 +53,37 @@ public class BashCommandClass {
 
 		String line = "";			
 		while ((line = stdOut.readLine())!= null) {
-			output.append(line + "\n");
+			output.append(line);
 		}
 
 		return output.toString();
-
 	}
+	
+	public static List<String> getListOutput(String command) throws IOException, InterruptedException {
+		List<String> commands;
 
+		commands = new ArrayList<>();
+		commands.add("bash");
+		commands.add("-c");
+		commands.add(2, command);
+		
+		List<String> output = new ArrayList<String>();
+
+		ProcessBuilder processBuilder = new ProcessBuilder(commands);
+		Process process = processBuilder.start();
+		int status = process.waitFor();
+
+		if (status != 0) {
+			return null;
+		}
+		
+		InputStream stdout = process.getInputStream();
+		BufferedReader stdoutBuffered = new BufferedReader(new InputStreamReader(stdout));
+		String line = null;
+		while ((line = stdoutBuffered.readLine()) != null ) {
+			output.add(line);
+		}
+		
+		return output;
+	}
 }

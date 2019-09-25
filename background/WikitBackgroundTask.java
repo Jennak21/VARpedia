@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+import application.BashCommandClass;
+import application.ErrorAlert;
 import application.Main;
 import controllers.CreationProcess;
 import javafx.concurrent.Task;
@@ -19,40 +21,29 @@ public class WikitBackgroundTask extends Task<Boolean> {
 	}
 
 	@Override
-	protected Boolean call() throws Exception {
+	protected Boolean call() {
 		//Command to run wikipedia search
-		String searchResults = "echo \"\n\" | wikit " + _searchTerm;
-		
-		ProcessBuilder builder = new ProcessBuilder("bash", "-c", searchResults);
-		
+		String searchCommand = "echo \"\n\" | wikit " + _searchTerm;
 		try {
-			Process process =  builder.start();
-
-			process.waitFor();
-						
-			InputStream stdout = process.getInputStream();
-			InputStream stderr = process.getErrorStream();
-			BufferedReader stdoutBuffered = new BufferedReader(new InputStreamReader(stdout));
-			String searchResult = "";
-			String line = null;
-			while ((line = stdoutBuffered.readLine()) != null ) {
-				searchResult = searchResult + line;
-			}
-						
+			String searchResult = BashCommandClass.getOutputFromCommand(searchCommand);
+			
 			String notFound = "not found";
 			String ambiguous = "Ambiguous results";
 			
 			//If search wasn't successful, quit
-			if (searchResult.contains(notFound) || searchResult.contains(ambiguous)) {
+			if (searchResult.contains(notFound) || searchResult.contains(ambiguous) || searchResult.isEmpty()) {
 				return false; 
 			} else {
 				CreationProcess creationProcess = CreationProcess.getInstance();
 				creationProcess.setSearchTerm(_searchTerm);
 				creationProcess.setSearchText(searchResult);
 				
+				String newCreationFolder = "mkdir -p " + Main._FILEPATH + "/newCreation";
+				BashCommandClass.runBashProcess(newCreationFolder);
+				
 				return true;
 			}
-		} catch (IOException e) {
+		} catch (IOException | InterruptedException e) {
 			return false;
 		}
 	}
