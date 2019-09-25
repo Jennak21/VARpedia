@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import application.BashCommandClass;
+import application.Creation;
 import application.Main;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -104,7 +105,7 @@ public class FileNameController extends SceneChanger implements Initializable{
 	}
 	
 	public void deleteExistingFile (String fileName) {
-		String command = "rm " + _filePath + "/\"" + fileName + "\".mp4";
+		String command = "rm " + _filePath + "/\"" + fileName + "\"" + Creation.EXTENTION;
 		try {
 			BashCommandClass.runBashProcess(command);
 		} catch (IOException | InterruptedException e) {
@@ -117,7 +118,7 @@ public class FileNameController extends SceneChanger implements Initializable{
 	public boolean fileExists(String fileName) {
 
 		//run command to check if file name exists
-		String command = "test -f " + _filePath + "/\"" + fileName + "\".mp4";
+		String command = "test -f " + _filePath + "/\"" + fileName + "\"" + Creation.EXTENTION;
 		int num;
 		try {
 			num = BashCommandClass.runBashProcess(command);

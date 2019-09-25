@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import application.BashCommandClass;
+import application.Creation;
 import application.Main;
 import javafx.fxml.Initializable;
 
@@ -16,7 +17,7 @@ public class CreatingVideoContoller extends SceneChanger implements Initializabl
 	private String _searchTerm;
 	private int _numImages;
 	private String _fileName;
-	private String _filePath = Main._FILEPATH +"/newCreations/";
+	private String _filePath = Main._FILEPATH +"/newCreation/";
 	private String _tempAudioFilePath;
 	private String _tempVidFilePath;
 	private String _creationFilePath;
@@ -31,9 +32,9 @@ public class CreatingVideoContoller extends SceneChanger implements Initializabl
 	
 		// TODO Auto-generated method stub
 		
-		_tempAudioFilePath = _filePath + _fileName +"TempAudio.wav";
-		_tempVidFilePath = _filePath  + _fileName + "TempVideo.mp4";
-		_creationFilePath = Main._FILEPATH + "/" + _fileName + ".mp4";
+		_tempAudioFilePath = _filePath + _fileName +"TempAudio" + Creation.AUDIO_EXTENTION ;
+		_tempVidFilePath = _filePath  + _fileName + "TempVideo" + Creation.EXTENTION;
+		_creationFilePath = Main._FILEPATH + "/" + _fileName + Creation.EXTENTION;
 		
 		combineAudio();
 		createImageVideo();
@@ -47,7 +48,7 @@ public class CreatingVideoContoller extends SceneChanger implements Initializabl
 
 		String combineAudioCommand = "sox ";
 		for (String audioName  : audioSelectedList)  {
-			combineAudioCommand = combineAudioCommand + _filePath  + audioName + ".wav ";
+			combineAudioCommand = combineAudioCommand + _filePath  + audioName + Creation.AUDIO_EXTENTION + " ";
 
 		}
 		

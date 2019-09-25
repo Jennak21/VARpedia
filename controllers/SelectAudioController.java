@@ -15,6 +15,7 @@ import javax.swing.JOptionPane;
 import javax.swing.event.ChangeListener;
 
 import application.BashCommandClass;
+import application.Creation;
 import application.Main;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -78,7 +79,7 @@ public class SelectAudioController extends SceneChanger implements Initializable
 	private AudioTable _selectedAvailableAudio;
 	private AudioTable _selectedSelectedAudio;
 	
-	private String _filePath = Main._FILEPATH +"/newCreations/";
+	private String _filePath = Main._FILEPATH +"/newCreation/";
 
 
 
@@ -195,13 +196,6 @@ public class SelectAudioController extends SceneChanger implements Initializable
 		_creationProcess.setAudioFiles(audioSelectedList);
 		
 		
-		
-
-//		String searchTerm = "banana";
-//		ImageDownloader.getImages(searchTerm, numImages);
-
-//		createCombinedAudio(searchTerm);
-		
 		try {
 			changeScene((Node)event.getSource(), "/fxml/FileNameScene.fxml") ;
 		} catch (IOException e) {
@@ -268,7 +262,7 @@ public class SelectAudioController extends SceneChanger implements Initializable
 
 	public List<String> getAudioNames () {
 		//create a text file that stores file names
-		String createNameTextCommand = "ls -1a " + _filePath +"*.wav | sed -r \"s/.+\\/(.+)\\..+/\\1/\"";
+		String createNameTextCommand = "ls -1a " + _filePath +"*" + Creation.AUDIO_EXTENTION +" | sed -r \"s/.+\\/(.+)\\..+/\\1/\"";
 
 		String audioFileNames = null;
 		try {
@@ -286,33 +280,33 @@ public class SelectAudioController extends SceneChanger implements Initializable
 
 	}
 
-	public void createCombinedAudio (String searchTerm) {
-
-
-		ArrayList<String> audioSelectedList = new ArrayList<String>();
-
-		for (AudioTable audio : _selectedlist) {
-			audioSelectedList.add(audio.getAudioName());
-		}
-
-
-		String combineAudioCommand = "sox ";
-		for (String audioName  : audioSelectedList)  {
-			combineAudioCommand = combineAudioCommand + _filePath + audioName + ".wav ";
-
-		}
-
-		combineAudioCommand = combineAudioCommand + _filePath + searchTerm + "Audio.wav";
-
-		System.out.println(combineAudioCommand);
-		try {
-			BashCommandClass.runBashProcess(combineAudioCommand);
-		} catch (IOException | InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-	}
+//	public void createCombinedAudio (String searchTerm) {
+//
+//
+//		ArrayList<String> audioSelectedList = new ArrayList<String>();
+//
+//		for (AudioTable audio : _selectedlist) {
+//			audioSelectedList.add(audio.getAudioName());
+//		}
+//
+//
+//		String combineAudioCommand = "sox ";
+//		for (String audioName  : audioSelectedList)  {
+//			combineAudioCommand = combineAudioCommand + _filePath + audioName + ".wav ";
+//
+//		}
+//
+//		combineAudioCommand = combineAudioCommand + _filePath + searchTerm + "Audio.wav";
+//
+//		System.out.println(combineAudioCommand);
+//		try {
+//			BashCommandClass.runBashProcess(combineAudioCommand);
+//		} catch (IOException | InterruptedException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//
+//	}
 
 
 
