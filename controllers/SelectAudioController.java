@@ -260,54 +260,19 @@ public class SelectAudioController extends SceneChanger implements Initializable
 		}
 	}
 
-	public List<String> getAudioNames () {
+	public List<String> getAudioNames() {
 		//create a text file that stores file names
-		String createNameTextCommand = "ls -1a " + _filePath +"*" + Creation.AUDIO_EXTENTION +" | sed -r \"s/.+\\/(.+)\\..+/\\1/\"";
-
-		String audioFileNames = null;
+		String getAudioFileNameCommand = "ls -1a " + _filePath +"*" + Creation.AUDIO_EXTENTION +" | sed -r \"s/.+\\/(.+)\\..+/\\1/\"";
 		try {
-			audioFileNames = BashCommandClass.getOutputFromCommand(createNameTextCommand);
-		} catch (IOException | InterruptedException e1) {
+			return BashCommandClass.getListOutput(getAudioFileNameCommand);
+		} catch (IOException | InterruptedException e) {
 			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			e.printStackTrace();
 		}
-
-
-		String[] audioFileNameArray = audioFileNames.split(" ");
-		List<String> audioFileNameList = Arrays.asList(audioFileNameArray);
-		return audioFileNameList;
-
-
+		//return empty list
+		 List<String> list = new ArrayList<String>();
+		 return list;
 	}
-
-//	public void createCombinedAudio (String searchTerm) {
-//
-//
-//		ArrayList<String> audioSelectedList = new ArrayList<String>();
-//
-//		for (AudioTable audio : _selectedlist) {
-//			audioSelectedList.add(audio.getAudioName());
-//		}
-//
-//
-//		String combineAudioCommand = "sox ";
-//		for (String audioName  : audioSelectedList)  {
-//			combineAudioCommand = combineAudioCommand + _filePath + audioName + ".wav ";
-//
-//		}
-//
-//		combineAudioCommand = combineAudioCommand + _filePath + searchTerm + "Audio.wav";
-//
-//		System.out.println(combineAudioCommand);
-//		try {
-//			BashCommandClass.runBashProcess(combineAudioCommand);
-//		} catch (IOException | InterruptedException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//
-//	}
-
 
 
 }
