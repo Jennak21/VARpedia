@@ -102,24 +102,22 @@ public class CreateAudioController extends SceneChanger {
 		if (_preview == null || _preview.isDone()) {
 			String selectedText = _textArea.getSelectedText();
 			
-			if (selectedText.isEmpty()) {
-				new WarningAlert("Please select text to preview");
-				return;
+			if (CheckSelection(selectedText)) {
+				_preview = new PreviewBackgroundTask(selectedText);
+				Thread previewThread = new Thread(_preview);
+				previewThread.start();
+			
+				_preview.setOnRunning(running -> {
+					_backButton.setDisable(true);
+					_nextButton.setDisable(true);
+				});
+				
+				_preview.setOnSucceeded(finish -> {
+					_backButton.setDisable(false);
+					_nextButton.setDisable(false);
+				});
 			}
 			
-			_preview = new PreviewBackgroundTask(selectedText);
-			Thread previewThread = new Thread(_preview);
-			previewThread.start();
-		
-			_preview.setOnRunning(running -> {
-				_backButton.setDisable(true);
-				_nextButton.setDisable(true);
-			});
-			
-			_preview.setOnSucceeded(finish -> {
-				_backButton.setDisable(false);
-				_nextButton.setDisable(false);
-			});
 		} else {
 			new WarningAlert("Please wait until current preview is done");
 		}
@@ -129,14 +127,33 @@ public class CreateAudioController extends SceneChanger {
 	private void SaveHandle() {
 		_selectedText = _textArea.getSelectedText();
 		
-		if (_selectedText.isEmpty()) {
-			new WarningAlert("Please select text to preview");
-			return;
+		if (CheckSelection(_selectedText)) {
+			_selectedVoice = (String)_voiceDropDown.getSelectionModel().getSelectedItem();
+			
+			FilenameGrid();
+		}
+	}
+	
+	private boolean CheckSelection(String selectedText) {
+		boolean valid = true;
+		
+		if (selectedText == null || selectedText.isEmpty()) {
+			valid = false;
+		}
+
+		String[] words = selectedText.split("\\s+");
+		int length = words.length;
+		
+		if (length > 40) {
+			valid = false;
 		}
 		
-		_selectedVoice = (String)_voiceDropDown.getSelectionModel().getSelectedItem();
-		
-		FilenameGrid();
+		if (valid) {
+			return true;
+		} else {
+			new WarningAlert("Please select between 1-40 words");
+			return false;
+		}
 	}
 	
 	private void FilenameGrid() {
