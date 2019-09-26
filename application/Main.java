@@ -29,6 +29,7 @@ public class Main extends Application {
 		} catch (IOException e) {
 			new ErrorAlert("Can't load application");
 		}
+
 	}
 	
 	public static void main(String[] args) {
