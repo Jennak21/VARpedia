@@ -1,6 +1,8 @@
 package controllers;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import application.BashCommandClass;
 import application.Creation;
@@ -71,10 +73,22 @@ public class CreateAudioController extends SceneChanger {
 		_process = CreationProcess.getInstance();
 		_textArea.setText(_process.getSearchText());
 		
-
-		ObservableList<String> voiceChoices = FXCollections.observableArrayList("voice_rab_diphone"); 
-		_voiceDropDown.setItems(voiceChoices);
+		List<String> voices = new ArrayList<String>();
+		ObservableList<String> voiceChoices = FXCollections.observableArrayList();
+				
+		try {
+			String getVoices = "ls /usr/share/festival/voices/english";
+			voices = BashCommandClass.getListOutput(getVoices);
+			for (String s: voices) {
+				voiceChoices.add(s);
+			}
+			
+		} catch (IOException | InterruptedException e1) {
+			
+			new ErrorAlert("Couldn't get voices");
+		}
 		
+		_voiceDropDown.setItems(voiceChoices);
 		_voiceDropDown.getSelectionModel().selectFirst();
 		
 		try {
