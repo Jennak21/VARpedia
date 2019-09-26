@@ -104,7 +104,7 @@ public class MainMenuController extends SceneChanger {
 	
 	@FXML
 	private void PlayHandle(ActionEvent event) {
-		MediaProcess process = MediaProcess.getInstance();
+		CreationStore process = CreationStore.getInstance();
 		
 		Creation selected = (Creation) _creationTable.getSelectionModel().getSelectedItem();
 		process.setCreation(selected);
@@ -117,8 +117,18 @@ public class MainMenuController extends SceneChanger {
 	}
 	
 	@FXML
-	private void DeleteHandle() {
+	private void DeleteHandle(ActionEvent event) {
+		CreationStore process = CreationStore.getInstance();
 		
+		Creation selected = (Creation) _creationTable.getSelectionModel().getSelectedItem();
+		process.setCreation(selected);
+		
+		try {
+			changeScene((Node)event.getSource(), "/fxml/DeleteScene.fxml");
+		} catch (IOException e) {
+			e.printStackTrace();
+//			new ErrorAlert("Couldn't change scenes");
+		}
 	}
 	
 	@FXML

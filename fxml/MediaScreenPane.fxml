@@ -10,7 +10,7 @@
    <children>
       <BorderPane fx:id="_controlsPane" prefHeight="200.0" prefWidth="200.0">
          <bottom>
-            <HBox fx:id="_bottomControls" maxHeight="40.0" minHeight="40.0" prefHeight="40.0" style="-fx-background-color: efefef;" BorderPane.alignment="CENTER">
+            <HBox fx:id="_bottomControls" maxHeight="40.0" minHeight="40.0" opacity="0.9" prefHeight="40.0" style="-fx-background-color: efefef;" BorderPane.alignment="CENTER">
                <padding>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </padding></HBox>
@@ -18,7 +18,7 @@
          <top>
             <HBox maxHeight="40.0" minHeight="40.0" prefHeight="40.0" BorderPane.alignment="CENTER">
                <children>
-                  <Button fx:id="_backButton" mnemonicParsing="false" onAction="#BackHandle" text="&lt;&lt;" />
+                  <Button fx:id="_backButton" mnemonicParsing="false" onAction="#BackHandle" opacity="0.9" text="&lt;&lt;" />
                </children>
             </HBox>
          </top>

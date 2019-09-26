@@ -54,7 +54,7 @@ public class MediaScreenController extends SceneChanger {
 	@FXML
 	private void initialize() {
 		//Setup player and load video
-		MediaProcess process = MediaProcess.getInstance();
+		CreationStore process = CreationStore.getInstance();
 		Creation creation = process.getCreation();
 		String creationName = creation.getName();
 		String fullFilePath = Main._FILEPATH + "/" + creationName + Creation.getExtention();
@@ -267,7 +267,7 @@ public class MediaScreenController extends SceneChanger {
 	@FXML
 	private void BackHandle(ActionEvent event) {
 		_player.stop();
-		MediaProcess.destroyProcess();
+		CreationStore.destroy();
 		
 		try {
 			changeScene((Node)event.getSource(), "/fxml/MainMenuPane.fxml");
