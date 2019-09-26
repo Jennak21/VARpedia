@@ -242,7 +242,7 @@ public class CreateAudioController extends SceneChanger {
 	@FXML
 	private void NextHandle() {
 		try {
-			changeScene(_gridPane, "/fxml/SelectAudioScene");
+			changeScene(_gridPane, "/fxml/SelectAudioScene.fxml");
 		} catch (IOException e) {
 			new ErrorAlert("Couldn't change scene");
 		}
