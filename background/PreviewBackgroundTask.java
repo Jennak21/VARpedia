@@ -4,25 +4,35 @@ import java.io.IOException;
 
 import application.BashCommandClass;
 import application.ErrorAlert;
+import application.Main;
 import javafx.concurrent.Task;
 
-public class PreviewBackgroundTask extends Task<Void> {
+public class PreviewBackgroundTask extends Task<Boolean> {
 	private String _text;
-	private Process process;
+	private Process _process;
 	
-	public PreviewBackgroundTask(String text) {
-		_text = text;
+	public PreviewBackgroundTask() {
+		//_text = text;
 	}
 	
 	@Override
-	protected Void call() throws Exception {
+	protected Boolean call() {
 		try {
-			String previewText = "echo \"" + _text + "\" | festival --tts";
-			BashCommandClass.runBashProcess(previewText);
+			String playAudio = "ffplay " + Main._FILEPATH + "/newCreation/tempAudio.mp4 -autoexit -nodisp";
+			ProcessBuilder processBuilder = new ProcessBuilder("bash", "-c", playAudio);
+			_process = processBuilder.start();
+			_process.waitFor();
+		
+			return true;
 							
 		} catch (IOException | InterruptedException e) {
+			return false;
 		}
-		
-		return null;
+	}
+	
+	public void stopProcess() {
+		if (_process != null) {
+			_process.destroy();
+		}
 	}
 }

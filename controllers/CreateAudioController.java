@@ -73,18 +73,17 @@ public class CreateAudioController extends SceneChanger {
 		_process = CreationProcess.getInstance();
 		_textArea.setText(_process.getSearchText());
 		
+		
 		List<String> voices = new ArrayList<String>();
 		ObservableList<String> voiceChoices = FXCollections.observableArrayList();
-				
+		
 		try {
 			String getVoices = "ls /usr/share/festival/voices/english";
 			voices = BashCommandClass.getListOutput(getVoices);
 			for (String s: voices) {
 				voiceChoices.add(s);
 			}
-			
-		} catch (IOException | InterruptedException e1) {
-			
+		} catch (IOException | InterruptedException e) {
 			new ErrorAlert("Couldn't get voices");
 		}
 		
@@ -112,61 +111,77 @@ public class CreateAudioController extends SceneChanger {
 	}
 	
 	@FXML
-	private void PreviewHandle() {
-		if (_preview == null || _preview.isDone()) {
-			String selectedText = _textArea.getSelectedText();
+	private synchronized void PreviewHandle() {
+		if (_previewButton.getText().equals("Preview Selected Text")) {
+		if (createTextFile() && createSettingsFile()) {
+			AudioBackgroundTask createAudio = new AudioBackgroundTask("tempAudio");
+			Thread audioThread = new Thread(createAudio);
+			audioThread.start();
 			
-			if (CheckSelection(selectedText)) {
-				_preview = new PreviewBackgroundTask(selectedText);
-				Thread previewThread = new Thread(_preview);
-				previewThread.start();
+			createAudio.setOnSucceeded(finish -> {
+				if (createAudio.getValue()) {
+					try {
+						String convert2mp3 = "ffmpeg -y -i " + Main._FILEPATH + "/newCreation/tempAudio.wav " + Main._FILEPATH + "/newCreation/tempAudio.mp4";
+						int exitVal = BashCommandClass.runBashProcess(convert2mp3);
+						
+						if (exitVal == 0) {
+							playAudio();
+						} else {
+							new ErrorAlert("Couldn't make audio");
+							ResetScene();
+						}
+						
+					} catch (IOException | InterruptedException e) {
+						new ErrorAlert("Couldn't play audio");
+					}
+				} else {
+					new ErrorAlert("Couldn't play audio");
+					ResetScene();
+				}
+			});
 			
-				_preview.setOnRunning(running -> {
-					_backButton.setDisable(true);
-					_nextButton.setDisable(true);
-				});
-				
-				_preview.setOnSucceeded(finish -> {
-					_backButton.setDisable(false);
-					_nextButton.setDisable(false);
-				});
-			}
 			
-		} else {
-			new WarningAlert("Please wait until current preview is done");
+			
+//			_preview = new PreviewBackgroundTask(_selectedText);
+//			Thread previewThread = new Thread(_preview);
+//			previewThread.start();
+//		
+//			_preview.setOnRunning(running -> {
+//				_backButton.setDisable(true);
+//				_nextButton.setDisable(true);
+//			});
+//			
+//			_preview.setOnSucceeded(finish -> {
+//				_backButton.setDisable(false);
+//				_nextButton.setDisable(false);
+//			});
 		}
+		} else {
+			ResetScene();
+		}
+	}
+	
+	private void playAudio() {
+		_preview = new PreviewBackgroundTask();
+		Thread previewThread = new Thread(_preview);
+		previewThread.start();
+		
+		_preview.setOnRunning(run -> {
+			_previewButton.setText("Stop preview");
+		});
+		
+		_preview.setOnSucceeded(finish -> {
+			ResetScene();
+		});
 	}
 	
 	@FXML
-	private void SaveHandle() {
-		_selectedText = _textArea.getSelectedText();
-		
-		if (CheckSelection(_selectedText)) {
-			_selectedVoice = (String)_voiceDropDown.getSelectionModel().getSelectedItem();
+	private void SaveHandle() {		
+		if (createTextFile() && createSettingsFile()) {
+			createTextFile();
+			createSettingsFile();
 			
 			FilenameGrid();
-		}
-	}
-	
-	private boolean CheckSelection(String selectedText) {
-		boolean valid = true;
-		
-		if (selectedText == null || selectedText.isEmpty()) {
-			valid = false;
-		}
-
-		String[] words = selectedText.split("\\s+");
-		int length = words.length;
-		
-		if (length > 40) {
-			valid = false;
-		}
-		
-		if (valid) {
-			return true;
-		} else {
-			new WarningAlert("Please select between 1-40 words");
-			return false;
 		}
 	}
 	
@@ -204,9 +219,57 @@ public class CreateAudioController extends SceneChanger {
 		}
 	}
 	
+	private boolean createSettingsFile() {
+		_selectedVoice = (String)_voiceDropDown.getSelectionModel().getSelectedItem();
+
+		if (_selectedVoice != null && !_selectedVoice.isEmpty()) {
+			try {
+				String settingsFile = "echo \"(voice_" + _selectedVoice + ")\" > " + Main._FILEPATH + "/newCreation/settings.scm";
+				BashCommandClass.runBashProcess(settingsFile);
+				
+				return true;
+			} catch (IOException | InterruptedException e) {
+				return false;
+			}
+		} else {
+			return false;
+		}
+	}
+	
+	private boolean createTextFile() {
+		_selectedText = _textArea.getSelectedText();
+		
+		boolean valid = true;
+		
+		if (_selectedText == null || _selectedText.isEmpty()) {
+			valid = false;
+		}
+
+		String[] words = _selectedText.split("\\s+");
+		int length = words.length;
+		
+		if (length > 40) {
+			valid = false;
+		}
+		
+		if (valid) {
+			try {
+				String textFile = "echo \"" + _selectedText + "\" > " + Main._FILEPATH + "/newCreation/text.txt";
+				BashCommandClass.runBashProcess(textFile);
+				
+				return true;
+			} catch (IOException | InterruptedException e) {
+				return false;
+			}
+		} else {
+			new WarningAlert("Please select between 1-40 words");
+			return false;
+		}
+	}	
+	
 	@FXML
 	private void YesHandle() {
-		AudioBackgroundTask audioTask = new AudioBackgroundTask(_selectedText, _selectedVoice, _filename);
+		AudioBackgroundTask audioTask = new AudioBackgroundTask(_filename);
 		Thread audioThread = new Thread(audioTask);
 		audioThread.start();
 		
@@ -249,6 +312,11 @@ public class CreateAudioController extends SceneChanger {
 		_filenameField.clear();
 		_settingsGrid.setVisible(true);
 		_filenameGrid.setVisible(false);
+		_previewButton.setText("Preview Selected Text");
+		
+		if (_preview != null) {
+			_preview.stopProcess();
+		}
 		
 		_cancelButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
@@ -256,10 +324,20 @@ public class CreateAudioController extends SceneChanger {
 				CancelHandle();
 			}
 		});
+		
+		
+		String removeFiles = "rm -f " + Main._FILEPATH + "/newCreation/tempAudio.wav " + Main._FILEPATH + "/newCreation/tempAudio.mp4";
+		try {
+			BashCommandClass.runBashProcess(removeFiles);
+		} catch (IOException | InterruptedException e) {
+			
+		}
 	}
 	
 	@FXML
 	private void BackHandle() {
+		ResetScene(); 
+		
 		try {
 			String removeFolder = "rm -r " + Main._FILEPATH + "/newCreation";
 			BashCommandClass.runBashProcess(removeFolder);
@@ -272,6 +350,8 @@ public class CreateAudioController extends SceneChanger {
 	
 	@FXML
 	private void NextHandle() {
+		ResetScene();
+		
 		try {
 			changeScene(_gridPane, "/fxml/SelectAudioScene.fxml");
 		} catch (IOException e) {
