@@ -15,7 +15,7 @@ public class ImageDownloader {
 //	private static final String _key = "48645574439994ec16e162c2056113b0";
 //	private static final String _secret = "bb4fa2492af05e83";
 	
-	private static String _filePath = "files" + System.getProperty("file.separator") + "newCreation";
+	private static String _filePath = "files" + System.getProperty("file.separator") + "newCreation" + System.getProperty("file.separator") + "vidCreationTemp";
 	
 	
 	public static String getAPIKey(String key) throws Exception {
