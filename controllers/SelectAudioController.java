@@ -9,6 +9,8 @@ import java.util.ResourceBundle;
 import application.BashCommandClass;
 import application.Creation;
 import application.Main;
+import application.WarningAlert;
+import background.PlayAudioBackgroundTask;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -57,6 +59,10 @@ public class SelectAudioController extends SceneChanger implements Initializable
 	private Button _backButton;
 
 	@FXML
+	private Button _playButton;
+
+
+	@FXML
 	private Spinner<Integer> _numImagesSpinner;
 
 	private ObservableList<AudioTable> _availablelist = FXCollections.observableArrayList();
@@ -64,8 +70,9 @@ public class SelectAudioController extends SceneChanger implements Initializable
 
 	private AudioTable _selectedAvailableAudio;
 	private AudioTable _selectedSelectedAudio;
-	
+	private AudioTable _selectedAudio; 
 	private String _filePath = Main._FILEPATH +"/newCreation/";
+	private PlayAudioBackgroundTask _playAudio;
 
 
 
@@ -76,17 +83,18 @@ public class SelectAudioController extends SceneChanger implements Initializable
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		
+
 		SpinnerValueFactory<Integer> spinnerValues = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 10, 1);
 		_numImagesSpinner.setValueFactory(spinnerValues);
 
 		_unselectButton.setDisable(true);
 		_selectButton.setDisable(true);
 		_nextButton.setDisable(true);
-		
+		_playButton.setDisable(true);
+
 		_creationProcess = CreationProcess.getInstance();
 		loadData();
-		
+
 	}
 
 	public void loadData() {
@@ -168,20 +176,21 @@ public class SelectAudioController extends SceneChanger implements Initializable
 
 	@FXML
 	private void onNextHandler(ActionEvent event) {
+		
 
 		int numImages = _numImagesSpinner.getValue();
-		
+
 		_creationProcess.setNumImages(numImages);
-		
+
 		ArrayList<String> audioSelectedList = new ArrayList<String>();
 
 		for (AudioTable audio : _selectedlist) {
 			audioSelectedList.add(audio.getAudioName());
 		}
-		
+
 		_creationProcess.setAudioFiles(audioSelectedList);
-		
-		
+
+
 		try {
 			changeScene((Node)event.getSource(), "/fxml/FileNameScene.fxml") ;
 		} catch (IOException e) {
@@ -198,11 +207,41 @@ public class SelectAudioController extends SceneChanger implements Initializable
 
 		if (_availablelist.indexOf(_selectedAvailableAudio)== (_availablelist.size() -1)) {
 			_selectButton.setDisable(true);
+			_playButton.setDisable(true);
 		} else {
 			_selectedAvailableAudio = _availablelist.get(0);
+			_selectedAudio = _selectedAvailableAudio;
 		}
 
 		_nextButton.setDisable(false);
+	}
+
+	@FXML
+	private void onPlayHandler(ActionEvent event) {
+		
+		boolean disableState = _nextButton.isDisable();
+				
+		if ( _playAudio == null ||  _playAudio.isDone() ) {
+
+			_playAudio = new PlayAudioBackgroundTask( _selectedAudio.getAudioName(), _filePath);
+			System.out.println("playing" + _selectedAudio.getAudioName());
+			Thread playAudioThread = new Thread(_playAudio);
+			playAudioThread.start();
+
+			_playAudio.setOnRunning(running -> {
+				_backButton.setDisable(true);
+				_nextButton.setDisable(true);
+			});
+
+			_playAudio.setOnSucceeded(finish -> {
+				_backButton.setDisable(false);
+				_nextButton.setDisable(disableState);
+			});
+
+		} else {	
+			new WarningAlert("Please wait until current preview is done");
+		}
+
 	}
 
 	@FXML
@@ -213,8 +252,10 @@ public class SelectAudioController extends SceneChanger implements Initializable
 		if (_selectedlist.indexOf(_selectedSelectedAudio)== (_selectedlist.size() -1)) {
 			_unselectButton.setDisable(true);
 			_nextButton.setDisable(true);
+			_playButton.setDisable(true);
 		} else {
 			_selectedSelectedAudio = _selectedlist.get(0);
+			_selectedAudio =_selectedSelectedAudio;
 		}
 	}
 
@@ -223,12 +264,18 @@ public class SelectAudioController extends SceneChanger implements Initializable
 		_unselectButton.setDisable(true);
 
 		_selectedAvailableAudio = _availableAudioTable.getSelectionModel().getSelectedItem();
+		_selectedAudio = _selectedAvailableAudio ;
+		
+		//clear selection on the selected table
+		_selectedAudioTable.getSelectionModel().clearSelection();
 
 		if (_selectedAvailableAudio  == null ) {
 			_selectButton.setDisable(true);
+			_playButton.setDisable(true);
 
 		}else {
-			_selectButton.setDisable(false);		 
+			_selectButton.setDisable(false);	
+			_playButton.setDisable(false);
 		}
 
 	}
@@ -236,13 +283,19 @@ public class SelectAudioController extends SceneChanger implements Initializable
 	@FXML
 	private void onSelectedClickHandler(MouseEvent event) {
 		_selectButton.setDisable(true);
+		
 		_selectedSelectedAudio = _selectedAudioTable.getSelectionModel().getSelectedItem();
+		_selectedAudio = _selectedSelectedAudio ;
+		//clear selection on the available table
+		_availableAudioTable.getSelectionModel().clearSelection();
 
 		if (_selectedSelectedAudio  == null ) {
 			_unselectButton.setDisable(true);
+			_playButton.setDisable(true);
 
 		}else {
-			_unselectButton.setDisable(false);		 
+			_unselectButton.setDisable(false);
+			_playButton.setDisable(false);
 		}
 	}
 
@@ -256,8 +309,15 @@ public class SelectAudioController extends SceneChanger implements Initializable
 			e.printStackTrace();
 		}
 		//return empty list
-		 List<String> list = new ArrayList<String>();
-		 return list;
+		List<String> list = new ArrayList<String>();
+		return list;
+	}
+	
+	public void onSpinnerClickHandler(MouseEvent event) {
+		_availableAudioTable.getSelectionModel().clearSelection();
+		_selectedAudioTable.getSelectionModel().clearSelection();
+		
+		
 	}
 
 

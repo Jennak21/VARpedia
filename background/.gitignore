@@ -1,1 +1,5 @@
 /WikitBackgroundTask.class
+/AudioBackgroundTask.class
+/PreviewBackgroundTask.class
+/PlayBackgroundTask.class
+/PlayAudioBackgroundTask.class

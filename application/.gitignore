@@ -3,3 +3,5 @@
 /MediaProcess.class
 /BashCommandClass.class
 /ErrorAlert.class
+/InformationAlert.class
+/WarningAlert.class

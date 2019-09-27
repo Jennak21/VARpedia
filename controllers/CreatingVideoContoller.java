@@ -19,6 +19,7 @@ public class CreatingVideoContoller extends SceneChanger implements Initializabl
 	private String _fileName;
 	private String _filePath = Main._FILEPATH +"/newCreation/";
 	private String _tempAudioFilePath;
+	private String _tempSlidesFilePath;
 	private String _tempVidFilePath;
 	private String _creationFilePath;
 	
@@ -28,11 +29,12 @@ public class CreatingVideoContoller extends SceneChanger implements Initializabl
 		_creationProcess = CreationProcess.getInstance();
 		_searchTerm = _creationProcess.getSearchTerm();
 		_numImages = _creationProcess.getNumImages();
-		_fileName= _creationProcess.getFileName();
+		_fileName= "\"" + _creationProcess.getFileName() + "\"";
 	
 		// TODO Auto-generated method stub
 		
-		_tempAudioFilePath = _filePath + _fileName +"TempAudio" + Creation.AUDIO_EXTENTION ;
+		_tempAudioFilePath = _filePath + _fileName + "TempAudio" + Creation.AUDIO_EXTENTION ;
+		_tempSlidesFilePath= _filePath + _fileName + "TempSlide" + Creation.EXTENTION;
 		_tempVidFilePath = _filePath  + _fileName + "TempVideo" + Creation.EXTENTION;
 		_creationFilePath = Main._FILEPATH + "/" + _fileName + Creation.EXTENTION;
 		
@@ -48,12 +50,13 @@ public class CreatingVideoContoller extends SceneChanger implements Initializabl
 
 		String combineAudioCommand = "sox ";
 		for (String audioName  : audioSelectedList)  {
-			combineAudioCommand = combineAudioCommand + _filePath  + audioName + Creation.AUDIO_EXTENTION + " ";
+			combineAudioCommand = combineAudioCommand + _filePath  +  "\"" + audioName + "\"" + Creation.AUDIO_EXTENTION + " ";
 
 		}
 		
 		
 		combineAudioCommand = combineAudioCommand + _tempAudioFilePath;
+		System.out.println(combineAudioCommand);
 
 		System.out.println(combineAudioCommand);
 		try {
@@ -68,20 +71,20 @@ public class CreatingVideoContoller extends SceneChanger implements Initializabl
 	public void createImageVideo() {
 		ImageDownloader.getImages(_searchTerm, _numImages);
 		String lengthOfAudioCommand = "echo `soxi -D " + _tempAudioFilePath + "`";
-		String lengthOfAudio = "0.0000"; //IS THIS RIGHT
+		String lengthOfAudio = "0.00"; //IS THIS RIGHT
 		try {
 			lengthOfAudio = BashCommandClass.getOutputFromCommand(lengthOfAudioCommand);
-			System.out.println(lengthOfAudio);
+			System.out.println("hi" + lengthOfAudio);
 		} catch (IOException | InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		float lengthOfImage =  (float) (1.0000 / (Float.valueOf(lengthOfAudio) / _numImages));
+		double lengthOfImage =  (1.00 / (Double.valueOf(lengthOfAudio) / _numImages));
 		System.out.println(lengthOfImage);
 		
 		
-		String makeVideoCommand = "ffmpeg -r " + lengthOfImage + " -pattern_type glob -i '" + _filePath + "*.jpg' -c:v libx264 -vf \"scale=-2:min(1080\\,trunc(ih/2)*2)\" "+ _tempVidFilePath 
+		String makeVideoCommand = "ffmpeg -r " + lengthOfImage  + " -pattern_type glob -i '" + _filePath + "*.jpg' -c:v libx264 -vf \"scale=-2:min(1080\\,trunc(ih/2)*2)\" "+ _tempSlidesFilePath 
 				+ "&> /dev/null";
 
 		try {
@@ -94,10 +97,16 @@ public class CreatingVideoContoller extends SceneChanger implements Initializabl
 	}
 
 	public void createVideo() { 
-		String creationVideoCommand = "ffmpeg -i " + _tempVidFilePath + " -i " + _tempAudioFilePath + " -c:v copy -c:a aac -strict" +
-				" experimental " + _creationFilePath + " &> /dev/null; ";
-		String deleteTempFileCommand = "rm -r " + _filePath;
-		String command = creationVideoCommand + deleteTempFileCommand;
+		String creationVideoCommand = "ffmpeg -i " + _tempSlidesFilePath + " -i " + _tempAudioFilePath + " -c:v copy -c:a aac -strict" +
+				" experimental " + _tempVidFilePath + " &> /dev/null; ";
+		System.out.println(creationVideoCommand);
+		String textOnVideoCommand = "ffmpeg -i " + _tempVidFilePath + " -vf \"drawtext=fontfile=Montserrat-Regular.ttf:" + 
+				"text='" + _searchTerm +"':fontcolor=white:fontsize=24:box=1: boxcolor=black@0.5:" + 
+				"boxborderw=5:x=(w-text_w)/2:y=(h-text_h)/2\" -codec:a copy " +_creationFilePath ;
+		
+		System.out.println(textOnVideoCommand);
+//		String deleteTempFileCommand = "rm -r " + _filePath;
+		String command = creationVideoCommand + textOnVideoCommand ;
 
 		try {
 			BashCommandClass.runBashProcess(command);
