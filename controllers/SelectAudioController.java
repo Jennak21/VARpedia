@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import application.BashCommandClass;
 import application.Creation;
+import application.ErrorAlert;
 import application.Main;
 import application.WarningAlert;
 import background.PlayAudioBackgroundTask;
@@ -171,6 +172,11 @@ public class SelectAudioController extends SceneChanger implements Initializable
 
 	@FXML
 	private void onBackHandler(ActionEvent event) {
+		try {
+			changeScene((Node)event.getSource(), "/fxml/CreateAudioScene.fxml");
+		} catch (IOException e) {
+		new ErrorAlert("Couldn't change scenes");
+		}
 
 	}
 
@@ -194,8 +200,7 @@ public class SelectAudioController extends SceneChanger implements Initializable
 		try {
 			changeScene((Node)event.getSource(), "/fxml/FileNameScene.fxml") ;
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			new ErrorAlert("Couldn't change scenes");
 		}
 
 	}

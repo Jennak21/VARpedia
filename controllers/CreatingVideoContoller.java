@@ -119,6 +119,8 @@ public class CreatingVideoContoller extends SceneChanger implements Initializabl
 					new ErrorAlert("Couldn't change scene");
 				}
 			}
+			
+			CreationProcess.destroy();
 		});
 	}
 	
@@ -134,6 +136,7 @@ public class CreatingVideoContoller extends SceneChanger implements Initializabl
 		} catch (IOException e) {
 			new ErrorAlert("Couldn't change scene");
 		}
+		CreationProcess.destroy();
 	}
 
 
