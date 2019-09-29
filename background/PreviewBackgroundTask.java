@@ -8,17 +8,17 @@ import application.Main;
 import javafx.concurrent.Task;
 
 public class PreviewBackgroundTask extends Task<Boolean> {
-	private String _text;
+	private String _filename;
 	private Process _process;
 	
-	public PreviewBackgroundTask() {
-		//_text = text;
+	public PreviewBackgroundTask(String filename) {
+		_filename = filename;
 	}
 	
 	@Override
 	protected Boolean call() {
 		try {
-			String playAudio = "ffplay " + Main._FILEPATH + "/newCreation/tempAudio.mp4 -autoexit -nodisp";
+			String playAudio = "ffplay " + Main._FILEPATH + "/newCreation/" + _filename + ".mp4 -autoexit -nodisp";
 			ProcessBuilder processBuilder = new ProcessBuilder("bash", "-c", playAudio);
 			_process = processBuilder.start();
 			_process.waitFor();

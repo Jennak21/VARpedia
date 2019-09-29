@@ -68,12 +68,16 @@ public class CreateAudioController extends SceneChanger {
 	private String _selectedVoice;
 	private String _filename;
 	
+	/**
+	 * Run when scene is setup
+	 */
 	@FXML
 	public void initialize() {
+		//Set search text
 		_process = CreationProcess.getInstance();
 		_textArea.setText(_process.getSearchText());
 		
-		
+		//Get available festival voices and set in dropdown
 		List<String> voices = new ArrayList<String>();
 		ObservableList<String> voiceChoices = FXCollections.observableArrayList();
 		
@@ -90,6 +94,7 @@ public class CreateAudioController extends SceneChanger {
 		_voiceDropDown.setItems(voiceChoices);
 		_voiceDropDown.getSelectionModel().selectFirst();
 		
+		//Check if any audio files exist, if not then disable 'next' button
 		try {
 			String checkAudio = "ls " + Main._FILEPATH + "/newCreation/*" + Creation.AUDIO_EXTENTION;
 			int exitVal = BashCommandClass.runBashProcess(checkAudio);
@@ -101,68 +106,59 @@ public class CreateAudioController extends SceneChanger {
 			
 		}
 		
-		
+		//Ensure scene is at initial state
 		ResetScene();
 	}
 	
+	/**
+	 * Reset search text
+	 */
 	@FXML
 	private void ResetHandle() {
 		_textArea.setText(_process.getSearchText());
 	}
 	
+	/**
+	 * Run for preview text
+	 */
 	@FXML
 	private synchronized void PreviewHandle() {
+		//Action dependent on whether there is a preview running or not
 		if (_previewButton.getText().equals("Preview Selected Text")) {
-		if (createTextFile() && createSettingsFile()) {
-			AudioBackgroundTask createAudio = new AudioBackgroundTask("tempAudio");
-			Thread audioThread = new Thread(createAudio);
-			audioThread.start();
-			
-			createAudio.setOnSucceeded(finish -> {
-				if (createAudio.getValue()) {
-					try {
-						String convert2mp3 = "ffmpeg -y -i " + Main._FILEPATH + "/newCreation/tempAudio.wav " + Main._FILEPATH + "/newCreation/tempAudio.mp4";
-						int exitVal = BashCommandClass.runBashProcess(convert2mp3);
-						
-						if (exitVal == 0) {
-							playAudio();
-						} else {
-							new ErrorAlert("Couldn't make audio");
-							ResetScene();
+			if (createTextFile() && createSettingsFile()) {
+				AudioBackgroundTask createAudio = new AudioBackgroundTask("tempAudio");
+				Thread audioThread = new Thread(createAudio);
+				audioThread.start();
+				
+				createAudio.setOnSucceeded(finish -> {
+					if (createAudio.getValue()) {
+						try {
+							String convert2mp3 = "ffmpeg -y -i " + Main._FILEPATH + "/newCreation/tempAudio.wav " + Main._FILEPATH + "/newCreation/tempAudio.mp4";
+							int exitVal = BashCommandClass.runBashProcess(convert2mp3);
+							
+							if (exitVal == 0) {
+								playAudio();
+							} else {
+								new ErrorAlert("Couldn't make audio");
+								ResetScene();
+							}
+							
+						} catch (IOException | InterruptedException e) {
+							new ErrorAlert("Couldn't play audio");
 						}
-						
-					} catch (IOException | InterruptedException e) {
+					} else {
 						new ErrorAlert("Couldn't play audio");
+						ResetScene();
 					}
-				} else {
-					new ErrorAlert("Couldn't play audio");
-					ResetScene();
-				}
-			});
-			
-			
-			
-//			_preview = new PreviewBackgroundTask(_selectedText);
-//			Thread previewThread = new Thread(_preview);
-//			previewThread.start();
-//		
-//			_preview.setOnRunning(running -> {
-//				_backButton.setDisable(true);
-//				_nextButton.setDisable(true);
-//			});
-//			
-//			_preview.setOnSucceeded(finish -> {
-//				_backButton.setDisable(false);
-//				_nextButton.setDisable(false);
-//			});
-		}
+				});
+			}
 		} else {
 			ResetScene();
 		}
 	}
 	
 	private void playAudio() {
-		_preview = new PreviewBackgroundTask();
+		_preview = new PreviewBackgroundTask("tempAudio");
 		Thread previewThread = new Thread(_preview);
 		previewThread.start();
 		

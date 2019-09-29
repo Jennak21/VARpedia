@@ -15,15 +15,15 @@
 <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="342.0" prefWidth="606.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.SelectAudioController">
    <columnConstraints>
       <ColumnConstraints hgrow="SOMETIMES" maxWidth="356.5" minWidth="10.0" prefWidth="205.0" />
-      <ColumnConstraints hgrow="SOMETIMES" maxWidth="356.5" minWidth="10.0" prefWidth="46.0" />
-      <ColumnConstraints hgrow="SOMETIMES" maxWidth="356.5" minWidth="10.0" prefWidth="196.0" />
-      <ColumnConstraints hgrow="SOMETIMES" maxWidth="369.0" minWidth="10.0" prefWidth="160.0" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="356.5" minWidth="10.0" prefWidth="51.5" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="356.5" minWidth="10.0" prefWidth="202.5" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="369.0" minWidth="10.0" prefWidth="147.5" />
    </columnConstraints>
    <rowConstraints>
       <RowConstraints maxHeight="340.0" minHeight="10.0" prefHeight="339.5" vgrow="SOMETIMES" />
    </rowConstraints>
    <children>
-      <TableView fx:id="_selectedAudioTable" onMouseClicked="#onSelectedClickHandler" prefHeight="320.0" prefWidth="181.0" GridPane.columnIndex="2">
+      <TableView fx:id="_selectedAudioTable" onMouseClicked="#onSelectedClickHandler" prefHeight="322.0" prefWidth="171.0" GridPane.columnIndex="2">
          <columns>
             <TableColumn fx:id="_selectedAudioCol" prefWidth="182.0" text="Selected Audio" />
          </columns>
@@ -43,6 +43,11 @@
          <children>
             <Button fx:id="_selectButton" mnemonicParsing="false" onAction="#onSelectButtonHandler" text="&gt;&gt;" />
             <Button fx:id="_unselectButton" mnemonicParsing="false" onAction="#onUnselectButtonHandler" text="&lt;&lt;" />
+            <Button fx:id="_playButton" mnemonicParsing="false" onAction="#onPlayHandler" text="Play">
+               <VBox.margin>
+                  <Insets top="40.0" />
+               </VBox.margin>
+            </Button>
          </children>
       </VBox>
       <HBox alignment="BOTTOM_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="89.0" prefWidth="143.0" spacing="20.0" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
@@ -57,10 +62,10 @@
             <Insets bottom="10.0" right="10.0" />
          </GridPane.margin>
       </HBox>
-      <VBox alignment="CENTER" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="261.0" prefWidth="148.0" spacing="20.0" GridPane.columnIndex="3" GridPane.valignment="TOP">
+      <VBox alignment="CENTER" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="287.0" prefWidth="138.0" spacing="20.0" GridPane.columnIndex="3" GridPane.valignment="TOP">
          <children>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Select the number of images you would like to include" textAlignment="CENTER" wrappingWidth="116.171875" />
-            <Spinner fx:id="_numImagesSpinner" prefHeight="15.0" prefWidth="94.0" />
+            <Spinner fx:id="_numImagesSpinner" onMouseClicked="#onSpinnerClickHandler" prefHeight="15.0" prefWidth="94.0" />
          </children>
          <opaqueInsets>
             <Insets />
@@ -71,23 +76,3 @@
       </VBox>
    </children>
 </GridPane>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

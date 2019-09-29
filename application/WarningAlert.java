@@ -1,5 +1,8 @@
 package application;
 
+/**
+ * Create and display warning alert box
+ */
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
