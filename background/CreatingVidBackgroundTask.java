@@ -59,7 +59,7 @@ public class CreatingVidBackgroundTask extends Task<Boolean>{
 
 	}
 
-	public void createImageVideo() throws Exception {
+	private void createImageVideo() throws Exception {
 
 
 		updateMessage("Fetching Images");
@@ -72,16 +72,18 @@ public class CreatingVidBackgroundTask extends Task<Boolean>{
 		
 		//run bash command that gets length of audio
 		String lengthOfAudioCommand = "echo `soxi -D " + _tempAudioFilePath + "`";
-		String lengthOfAudio = "0.00"; 
+		
+		String lengthOfAudio = "0.000000000000"; 
 		lengthOfAudio = BashCommandClass.getOutputFromCommand(lengthOfAudioCommand);
 
+
 		//calculate duration to use in bash command that will create a slideshow
-		double lengthOfImage =  (1.00 / (Double.valueOf(lengthOfAudio) / _numImages));
+		float lengthOfImage = Float.valueOf(1)/ (Float.valueOf(lengthOfAudio) / _numImages);
 
 
-		String makeVideoCommand = "ffmpeg -r " + lengthOfImage  + " -pattern_type glob -i '" + _tempFilePath + "*.jpg' -c:v libx264 -vf \"scale=-2:min(1080\\,trunc(ih/2)*2)\" "+ _tempSlidesFilePath 
+		String makeVideoCommand = "ffmpeg -framerate " + lengthOfImage + " -i \"" + _tempFilePath + "%01d.jpg\" -c:v libx264 -vf \"scale=-2:min(1080\\,trunc(ih/2)*2)\" -r 25 "+ _tempSlidesFilePath 
 				+ "&> /dev/null";
-
+	
 		BashCommandClass.runBashProcess(makeVideoCommand );
 		
 
@@ -105,7 +107,8 @@ public class CreatingVidBackgroundTask extends Task<Boolean>{
 				"x=(w-text_w)/2:y=(h-text_h)/2\" -codec:a copy " +_creationFilePath + "; ";
 
 		String deleteFileCommand = "rm -r " + _filePath;
-		String command = creationVideoCommand + textOnVideoCommand + deleteFileCommand ;
+//		String command = creationVideoCommand + textOnVideoCommand + deleteFileCommand ;
+		String command = creationVideoCommand + textOnVideoCommand ;
 
 		BashCommandClass.runBashProcess(command);
 		
@@ -117,7 +120,7 @@ public class CreatingVidBackgroundTask extends Task<Boolean>{
 
 	}
 
-	public void combineAudio() throws IOException, InterruptedException {
+	private void combineAudio() throws IOException, InterruptedException {
 
 		updateMessage("Combining Audio");
 

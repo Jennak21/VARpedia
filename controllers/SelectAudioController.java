@@ -99,7 +99,7 @@ public class SelectAudioController extends SceneChanger implements Initializable
 
 	}
 
-	public void loadData() {
+	private void loadData() {
 		List<String> audioNames = getAudioNames();	
 
 		//populate Observable list with the names of existing audio
@@ -323,7 +323,7 @@ public class SelectAudioController extends SceneChanger implements Initializable
 		}
 	}
 
-	public List<String> getAudioNames() {
+	private List<String> getAudioNames() {
 		//run command in a bash process to get file names as a list
 		String getAudioFileNameCommand = "ls -1a " + _filePath +"*" + Creation.AUDIO_EXTENTION +" | sed -r \"s/.+\\/(.+)\\..+/\\1/\"";
 		try {

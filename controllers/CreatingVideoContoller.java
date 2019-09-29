@@ -61,7 +61,7 @@ public class CreatingVideoContoller extends SceneChanger implements Initializabl
 	}
 
 
-	public void createVideo() { 
+	private void createVideo() { 
 
 
 		//create video on background thread
@@ -120,7 +120,7 @@ public class CreatingVideoContoller extends SceneChanger implements Initializabl
 		});
 	}
 	
-	public void quit() {
+	private void quit() {
 		// remove files that had been created
 		String removeVidFiles = "rm -r " + _tempFilePath;
 		try {
