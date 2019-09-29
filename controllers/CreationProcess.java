@@ -17,7 +17,7 @@ public class CreationProcess {
 	private static CreationProcess CREATION_INSTANCE= null;
 
 
-	private String _searchTerm = "banana";
+	private String _searchTerm = "apple";
 	private String _fullSearchText;
 	private String _fullUserText;
 	private String _selectedText;

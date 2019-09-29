@@ -6,7 +6,9 @@ import java.util.ResourceBundle;
 
 import application.BashCommandClass;
 import application.Creation;
+import application.ErrorAlert;
 import application.Main;
+import application.WarningAlert;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -43,26 +45,35 @@ public class FileNameController extends SceneChanger implements Initializable{
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		//make buttons used for future prompts invisible
 		_yesButton.setVisible(false);
 		_noButton.setVisible(false);
+		
 		_nextButton.setDisable(true);
+		
 		_creationProcess = CreationProcess.getInstance();
 		
 	}
 	
 	@FXML
 	private void onYesButtonHandler(ActionEvent event) {
+		//if user wants to replace delete existing and store file name
 		deleteExistingFile(_fileName);
 		_creationProcess.setFileName(_fileName);
+		
 		changeToCreateVideoScene (event);
 	}
 	
 	@FXML
 	private void onNoButtonHandler(ActionEvent event) {
+		//clear text input for filename
 		_fileNameEntry.clear();
+		
+		//set overwriting buttons and text to invisible
 		_overwriteLabel.setVisible(false);
 		_yesButton.setVisible(false);
 		_noButton.setVisible(false);
+		
 		_nextButton.setVisible(true);
 		_nextButton.setDisable(true);
 		
@@ -73,19 +84,17 @@ public class FileNameController extends SceneChanger implements Initializable{
 		try {
 			changeScene((Node)event.getSource(), "/fxml/SelectAudioScene.fxml") ;
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			new ErrorAlert("Couldn't change scenes");
 		}
 
 	}
 	
 	@FXML
 	private void onTypeHandler() {
-		//check if field properties are empty or not, set create button to disable or not accordingly
+		//check if field properties are empty or not, set create button to  be disabled or not accordingly
 		_fileName = _fileNameEntry.getText();
 		boolean isDisabled = ((_fileName.isEmpty())|| _fileName.trim().isEmpty());
 		_nextButton.setDisable(isDisabled);
-	
 
 	}
 
@@ -109,8 +118,7 @@ public class FileNameController extends SceneChanger implements Initializable{
 		try {
 			BashCommandClass.runBashProcess(command);
 		} catch (IOException | InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			new WarningAlert("Could not delete existing file");
 		}
 	}
 
@@ -123,8 +131,7 @@ public class FileNameController extends SceneChanger implements Initializable{
 		try {
 			num = BashCommandClass.runBashProcess(command);
 		} catch (IOException | InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			new ErrorAlert("Something went wrong");
 			return false;
 		}
 

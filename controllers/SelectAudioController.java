@@ -88,6 +88,7 @@ public class SelectAudioController extends SceneChanger implements Initializable
 		SpinnerValueFactory<Integer> spinnerValues = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 10, 1);
 		_numImagesSpinner.setValueFactory(spinnerValues);
 
+		//disable buttons for user
 		_unselectButton.setDisable(true);
 		_selectButton.setDisable(true);
 		_nextButton.setDisable(true);
@@ -101,15 +102,15 @@ public class SelectAudioController extends SceneChanger implements Initializable
 	public void loadData() {
 		List<String> audioNames = getAudioNames();	
 
+		//populate Observable list with the names of existing audio
 		for (String audioName : audioNames) {
 
 			_availablelist.add(new AudioTable(audioName));
 
 		}
 
-		//_creationList.getItems().addAll( _observeList);
 
-
+		//set up columns in both tables
 		_availableAudioCol.setCellValueFactory(new PropertyValueFactory<AudioTable, String>("AudioName"));
 		_availableAudioTable.setItems(_availablelist);
 
@@ -119,6 +120,7 @@ public class SelectAudioController extends SceneChanger implements Initializable
 
 
 
+		// create a TableRow and add listeners to allow for dragging and dropping
 		_selectedAudioTable.setRowFactory(tv -> {
 			TableRow<AudioTable> row = new TableRow<>();
 
@@ -180,16 +182,19 @@ public class SelectAudioController extends SceneChanger implements Initializable
 
 	}
 
+	
 	@FXML
 	private void onNextHandler(ActionEvent event) {
 		
 
 		int numImages = _numImagesSpinner.getValue();
 
+		//store numImages and selectedAudio
 		_creationProcess.setNumImages(numImages);
 
 		ArrayList<String> audioSelectedList = new ArrayList<String>();
-
+		
+		//populate list of audio and store as field
 		for (AudioTable audio : _selectedlist) {
 			audioSelectedList.add(audio.getAudioName());
 		}
@@ -207,32 +212,37 @@ public class SelectAudioController extends SceneChanger implements Initializable
 
 	@FXML
 	private void onSelectButtonHandler(ActionEvent event) {
+		//move the selected Audio
 		_selectedlist.add(_selectedAvailableAudio);			
 		_availablelist.remove(_selectedAvailableAudio);	
 
+		//check if the selected audio is the last audio in the available list
 		if (_availablelist.indexOf(_selectedAvailableAudio)== (_availablelist.size() -1)) {
+			//list is is empty so disable buttons
 			_selectButton.setDisable(true);
 			_playButton.setDisable(true);
 		} else {
 			_selectedAvailableAudio = _availablelist.get(0);
 			_selectedAudio = _selectedAvailableAudio;
 		}
-
 		_nextButton.setDisable(false);
 	}
 
 	@FXML
 	private void onPlayHandler(ActionEvent event) {
 		
+		//get state of nextButton
 		boolean disableState = _nextButton.isDisable();
-				
+		
+		//check if there isnt an existing audio being played
 		if ( _playAudio == null ||  _playAudio.isDone() ) {
 
+			//create background task t
 			_playAudio = new PlayAudioBackgroundTask( _selectedAudio.getAudioName(), _filePath);
-			System.out.println("playing" + _selectedAudio.getAudioName());
 			Thread playAudioThread = new Thread(_playAudio);
 			playAudioThread.start();
 
+			//while running disable certain buttons
 			_playAudio.setOnRunning(running -> {
 				_backButton.setDisable(true);
 				_nextButton.setDisable(true);
@@ -251,9 +261,11 @@ public class SelectAudioController extends SceneChanger implements Initializable
 
 	@FXML
 	private void onUnselectButtonHandler(ActionEvent event) { 
+		//move selected Audio
 		_availablelist.add(_selectedSelectedAudio);	
 		_selectedlist.remove(_selectedSelectedAudio);			
 
+		//check if the selected audio is the last audio in the selectedlist
 		if (_selectedlist.indexOf(_selectedSelectedAudio)== (_selectedlist.size() -1)) {
 			_unselectButton.setDisable(true);
 			_nextButton.setDisable(true);
@@ -266,14 +278,17 @@ public class SelectAudioController extends SceneChanger implements Initializable
 
 	@FXML
 	private void onAvailableClickHandler(MouseEvent event) {
+		//enable button to move audio to available list
 		_unselectButton.setDisable(true);
 
 		_selectedAvailableAudio = _availableAudioTable.getSelectionModel().getSelectedItem();
+		//set field used for playing audio to the selected audio item
 		_selectedAudio = _selectedAvailableAudio ;
 		
 		//clear selection on the selected table
 		_selectedAudioTable.getSelectionModel().clearSelection();
 
+		//if the a non-empty audio was selected then enable select and play buttons
 		if (_selectedAvailableAudio  == null ) {
 			_selectButton.setDisable(true);
 			_playButton.setDisable(true);
@@ -287,13 +302,17 @@ public class SelectAudioController extends SceneChanger implements Initializable
 
 	@FXML
 	private void onSelectedClickHandler(MouseEvent event) {
+		//enable button to move audio to back to the available list
 		_selectButton.setDisable(true);
 		
 		_selectedSelectedAudio = _selectedAudioTable.getSelectionModel().getSelectedItem();
+		//set field used for playing audio to the selected audio item
 		_selectedAudio = _selectedSelectedAudio ;
+		
 		//clear selection on the available table
 		_availableAudioTable.getSelectionModel().clearSelection();
 
+		//if the a non-empty audio was selected then enable unselect and play buttons
 		if (_selectedSelectedAudio  == null ) {
 			_unselectButton.setDisable(true);
 			_playButton.setDisable(true);
@@ -305,13 +324,12 @@ public class SelectAudioController extends SceneChanger implements Initializable
 	}
 
 	public List<String> getAudioNames() {
-		//create a text file that stores file names
+		//run command in a bash process to get file names as a list
 		String getAudioFileNameCommand = "ls -1a " + _filePath +"*" + Creation.AUDIO_EXTENTION +" | sed -r \"s/.+\\/(.+)\\..+/\\1/\"";
 		try {
 			return BashCommandClass.getListOutput(getAudioFileNameCommand);
 		} catch (IOException | InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			new ErrorAlert("Could not retrieve audio");
 		}
 		//return empty list
 		List<String> list = new ArrayList<String>();

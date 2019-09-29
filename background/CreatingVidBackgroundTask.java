@@ -26,7 +26,6 @@ public class CreatingVidBackgroundTask extends Task<Boolean>{
 	
 
 
-
 	public CreatingVidBackgroundTask(String term, int numImages, String filePath, String tempFilePath, String tempAudioFP, String tempSlidesFP, String tempVidFP, String creationFP) {
 		_searchTerm = term;
 		_numImages = numImages;
@@ -49,7 +48,7 @@ public class CreatingVidBackgroundTask extends Task<Boolean>{
 			createImageVideo();
 			createVideo();
 			return true;
-		} catch (IOException | InterruptedException e) {
+		} catch (Exception e) {
 			return false;
 		}
 
@@ -68,19 +67,23 @@ public class CreatingVidBackgroundTask extends Task<Boolean>{
 
 	}
 
-	public void createImageVideo() throws IOException, InterruptedException {
+	public void createImageVideo() throws Exception {
 
 
 		updateMessage("Fetching Images");
 
 		ImageDownloader.getImages(_searchTerm, _numImages);
+		
+		updateProgress(50,100);
+		
+		updateMessage("Compiling images");
+		
+		//run bash command that gets length of audio
 		String lengthOfAudioCommand = "echo `soxi -D " + _tempAudioFilePath + "`";
-		String lengthOfAudio = "0.00"; //IS THIS RIGHT
-
+		String lengthOfAudio = "0.00"; 
 		lengthOfAudio = BashCommandClass.getOutputFromCommand(lengthOfAudioCommand);
 
-		updateMessage("Compiling images");
-
+		//calculate duration to use in bash command that will create a slideshow
 		double lengthOfImage =  (1.00 / (Double.valueOf(lengthOfAudio) / _numImages));
 
 
@@ -89,7 +92,7 @@ public class CreatingVidBackgroundTask extends Task<Boolean>{
 
 		BashCommandClass.runBashProcess(makeVideoCommand );
 		
-		//update user
+
 		updateProgress(70,100);
 
 
@@ -97,11 +100,14 @@ public class CreatingVidBackgroundTask extends Task<Boolean>{
 
 	private void createVideo() throws IOException, InterruptedException {
 		updateMessage("Creating video");
+		
+		//combine video and audio
 		String creationVideoCommand = "ffmpeg -i " + _tempSlidesFilePath + " -i " + _tempAudioFilePath + " -c:v copy -c:a aac -strict" +
 				" experimental " + _tempVidFilePath + " &> /dev/null; ";
 
+		updateProgress(80,100);
 
-
+		//put text on video
 		String textOnVideoCommand = "ffmpeg -i " + _tempVidFilePath + " -vf \"drawtext=fontfile=Montserrat-Regular.ttf:" + 
 				"text='" + _searchTerm +"':fontcolor=white:fontsize=24:box=1: boxcolor=black@0.5:" + 
 				"boxborderw=5:x=(w-text_w)/2:y=(h-text_h)/2\" -codec:a copy " +_creationFilePath ;
@@ -125,17 +131,15 @@ public class CreatingVidBackgroundTask extends Task<Boolean>{
 
 		ArrayList<String> audioSelectedList = _creationProcess.getAudioFiles();
 
+		//loop through audio on the selectedlist and add to bash command which will return length of audio
 		String combineAudioCommand = "sox ";
 		for (String audioName  : audioSelectedList)  {
 			combineAudioCommand = combineAudioCommand + _filePath  +  "\"" + audioName + "\"" + Creation.AUDIO_EXTENTION + " ";
 
 		}
 
-
 		combineAudioCommand = combineAudioCommand + _tempAudioFilePath;
-		System.out.println(combineAudioCommand);
-
-		System.out.println(combineAudioCommand);
+	
 
 		BashCommandClass.runBashProcess(combineAudioCommand);
 		

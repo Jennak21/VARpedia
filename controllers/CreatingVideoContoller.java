@@ -53,7 +53,7 @@ public class CreatingVideoContoller extends SceneChanger implements Initializabl
 		_numImages = _creationProcess.getNumImages();
 		_fileName= "\"" + _creationProcess.getFileName() + "\"";
 
-
+		//setup paths
 		_tempAudioFilePath = _tempFilePath + _fileName + "TempAudio" + Creation.AUDIO_EXTENTION ;
 		_tempSlidesFilePath= _tempFilePath + _fileName + "TempSlide" + Creation.EXTENTION;
 		_tempVidFilePath = _tempFilePath  + _fileName + "TempVideo" + Creation.EXTENTION;
@@ -67,14 +67,13 @@ public class CreatingVideoContoller extends SceneChanger implements Initializabl
 	public void createVideo() { 
 
 
-		//Run search on background thread
+		//create video on background thread
 		CreatingVidBackgroundTask createVidBG = new CreatingVidBackgroundTask(_searchTerm, _numImages, _filePath, _tempFilePath, _tempAudioFilePath, _tempSlidesFilePath, _tempVidFilePath, _creationFilePath);
 		Thread createVidThread = new Thread(createVidBG );
 		createVidThread.start();
 
 
 
-		//Update user that search is happening
 		createVidBG.setOnRunning(running -> {
 			//make label visible which will show progress updates
 			_creatingLabel.textProperty().bind( createVidBG.messageProperty());
@@ -83,7 +82,7 @@ public class CreatingVideoContoller extends SceneChanger implements Initializabl
 			_progressIndicator.progressProperty().unbind();
 			_progressIndicator.progressProperty().bind(createVidBG.progressProperty());
 
-			//Cancel search if user wants to quit
+			//Cancel creation if user wants to quit
 			_cancelButton.setOnAction(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent event) {
@@ -92,22 +91,22 @@ public class CreatingVideoContoller extends SceneChanger implements Initializabl
 			});
 		});
 
-		//If user has cancelled, go back to main screen
+		//If user has cancelled, go back to back to fileName screen
 		createVidBG.setOnCancelled(cancel -> {
 			quit();
 		});
 
-		//When search finishes
+		//When creation has finished
 		createVidBG.setOnSucceeded(succeeded -> {
 			
 			_cancelButton.setVisible(false);
 			
-			//Check for successful search
+			//Check for successful video creation
 			if (createVidBG.getValue()) {
 				try {
 					changeScene(_anchorPane, "/fxml/MainMenuPane.fxml");
 				} catch (IOException e) {
-					new ErrorAlert("Something went wrong");
+					new ErrorAlert("Couldn't change scene");
 				}
 
 			} else {
@@ -125,6 +124,7 @@ public class CreatingVideoContoller extends SceneChanger implements Initializabl
 	}
 	
 	public void quit() {
+		// remove files that had been created
 		String removeVidFiles = "rm -r " + _tempFilePath;
 		try {
 			BashCommandClass.runBashProcess(removeVidFiles);
@@ -136,7 +136,6 @@ public class CreatingVideoContoller extends SceneChanger implements Initializabl
 		} catch (IOException e) {
 			new ErrorAlert("Couldn't change scene");
 		}
-		CreationProcess.destroy();
 	}
 
 
