@@ -2,7 +2,6 @@ package controllers;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import application.BashCommandClass;
@@ -10,7 +9,6 @@ import application.Creation;
 import application.ErrorAlert;
 import application.Main;
 import background.CreatingVidBackgroundTask;
-import background.WikitBackgroundTask;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -19,7 +17,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.AnchorPane;
 import javafx.fxml.Initializable;
-import javafx.geometry.Pos;
 
 
 public class CreatingVideoContoller extends SceneChanger implements Initializable{ 

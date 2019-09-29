@@ -5,7 +5,6 @@ import java.util.ArrayList;
 
 import application.BashCommandClass;
 import application.Creation;
-import application.ErrorAlert;
 import application.Main;
 import controllers.CreationProcess;
 import controllers.ImageDownloader;
@@ -109,8 +108,8 @@ public class CreatingVidBackgroundTask extends Task<Boolean>{
 
 		//put text on video
 		String textOnVideoCommand = "ffmpeg -i " + _tempVidFilePath + " -vf \"drawtext=fontfile=Montserrat-Regular.ttf:" + 
-				"text='" + _searchTerm +"':fontcolor=white:fontsize=24:box=1: boxcolor=black@0.5:" + 
-				"boxborderw=5:x=(w-text_w)/2:y=(h-text_h)/2\" -codec:a copy " +_creationFilePath ;
+				"text='" + _searchTerm +"':fontcolor=white:fontsize=24:" + 
+				"x=(w-text_w)/2:y=(h-text_h)/2\" -codec:a copy " +_creationFilePath + "; ";
 
 		String deleteFileCommand = "rm -r " + _filePath;
 		String command = creationVideoCommand + textOnVideoCommand + deleteFileCommand ;
@@ -148,5 +147,5 @@ public class CreatingVidBackgroundTask extends Task<Boolean>{
 
 	}
 
-
+	
 }
