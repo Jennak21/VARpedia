@@ -8,35 +8,42 @@ public class Creation {
 	public static String AUDIO_EXTENTION = ".wav";
 	private static String DEFAULT_LENGTH = "???";
 	
+	private StringProperty _name;
+	private StringProperty _length;
 	
-	private StringProperty name;
-	private StringProperty length;
-	
-	
-	public Creation(String n) {
-		this(n, DEFAULT_LENGTH);
+	/**
+	 * Constructor
+	 * @param name Creation name
+	 */
+	public Creation(String name) {
+		this(name, DEFAULT_LENGTH);
 	}
 	
-	public Creation(String n, String l) {
-		name = new SimpleStringProperty(n);
-		length = new SimpleStringProperty(l);
+	/**
+	 * Constructor
+	 * @param name Creation name
+	 * @param length Creation length
+	 */
+	public Creation(String name, String length) {
+		_name = new SimpleStringProperty(name);
+		_length = new SimpleStringProperty(length);
 	}
 	
-	public void setLength(String l) {
-		length.set(l);
+	public void setLength(String length) {
+		_length.set(length);
 	}
 	
 	public String getName() {
-		return name.get();
+		return _name.get();
 	}
 	
 	public String getLength() {
-		return length.get();
+		return _length.get();
 	}
 	
 	@Override
 	public String toString() {
-		return (name.get() + ": " + length.get());
+		return (_name.get() + ": " + _length.get());
 	}
 	
 	public static String getExtention() {

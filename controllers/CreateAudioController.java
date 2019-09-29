@@ -68,12 +68,16 @@ public class CreateAudioController extends SceneChanger {
 	private String _selectedVoice;
 	private String _filename;
 	
+	/**
+	 * Run when scene is setup
+	 */
 	@FXML
 	public void initialize() {
+		//Set search text
 		_process = CreationProcess.getInstance();
 		_textArea.setText(_process.getSearchText());
 		
-		
+		//Get available festival voices and set in dropdown
 		List<String> voices = new ArrayList<String>();
 		ObservableList<String> voiceChoices = FXCollections.observableArrayList();
 		
@@ -90,6 +94,7 @@ public class CreateAudioController extends SceneChanger {
 		_voiceDropDown.setItems(voiceChoices);
 		_voiceDropDown.getSelectionModel().selectFirst();
 		
+		//Check if any audio files exist, if not then disable 'next' button
 		try {
 			String checkAudio = "ls " + Main._FILEPATH + "/newCreation/*" + Creation.AUDIO_EXTENTION;
 			int exitVal = BashCommandClass.runBashProcess(checkAudio);
@@ -101,17 +106,24 @@ public class CreateAudioController extends SceneChanger {
 			
 		}
 		
-		
+		//Ensure scene is at initial state
 		ResetScene();
 	}
 	
+	/**
+	 * Reset search text
+	 */
 	@FXML
 	private void ResetHandle() {
 		_textArea.setText(_process.getSearchText());
 	}
 	
+	/**
+	 * Run for preview text
+	 */
 	@FXML
 	private synchronized void PreviewHandle() {
+		//Action dependent on whether there is a preview running or not
 		if (_previewButton.getText().equals("Preview Selected Text")) {
 			if (createTextFile() && createSettingsFile()) {
 				AudioBackgroundTask createAudio = new AudioBackgroundTask("tempAudio");

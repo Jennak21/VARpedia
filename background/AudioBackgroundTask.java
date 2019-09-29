@@ -18,11 +18,12 @@ public class AudioBackgroundTask extends Task<Boolean> {
 
 	@Override
 	protected Boolean call() {
-		
+		//Convert text to audio
 		try {
 			String makeAudio = "text2wave -o " + Main._FILEPATH + "/newCreation/" + _filename + Creation.AUDIO_EXTENTION + " " + Main._FILEPATH + "/newCreation/text.txt -eval " + Main._FILEPATH + "/newCreation/settings.scm";
 			int exitVal = BashCommandClass.runBashProcess(makeAudio);
 
+			//Read exit value of command and return relevant boolean
 			if (exitVal == 0) {
 				return true;
 			} else {

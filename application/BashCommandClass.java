@@ -9,36 +9,48 @@ import java.util.List;
 
 
 public class BashCommandClass {
-	
+	/**
+	 * Run bash command
+	 * @param command Command to run
+	 * @return Exit value of command
+	 * @throws IOException
+	 * @throws InterruptedException
+	 */
 	public static int runBashProcess (String command) throws IOException, InterruptedException {
+		//Setup command
 		List<String> commands;
-
 		commands = new ArrayList<>();
 		commands.add("bash");
 		commands.add("-c");
-
 		commands.add(2, command);
 
+		//Run command
 		ProcessBuilder processBuilder = new ProcessBuilder(commands);
 		Process process = processBuilder.start();
 		process.waitFor();
-		//get exit status
+		
+		//Get exit status
 		int status = process.exitValue();
 		return status;
 	}
 
+	/**
+	 * Run bash command and return stdout
+	 * @param command Command to run
+	 * @return stdout of command
+	 * @throws IOException
+	 * @throws InterruptedException
+	 */
 	public static String getOutputFromCommand(String command) throws IOException, InterruptedException{
-
+		//Setup command
 		List<String> commands;
-
 		commands = new ArrayList<>();
 		commands.add("bash");
 		commands.add("-c");
-		
 		commands.add(2, command);
-
 		StringBuffer output = new StringBuffer();
 
+		//Run command
 		ProcessBuilder processBuilder = new ProcessBuilder(commands);
 		Process process = processBuilder.start();
 		int status = process.waitFor();
@@ -47,7 +59,7 @@ public class BashCommandClass {
 			return " ";
 		}
 
-		//read output and append to string
+		//Read output and append to string
 		BufferedReader stdOut = new BufferedReader(
 				new InputStreamReader(process.getInputStream()));
 
@@ -59,25 +71,32 @@ public class BashCommandClass {
 		return output.toString();
 	}
 	
+	/**
+	 * Run bash command
+	 * @param command Command to run
+	 * @return stdout of command in list form
+	 * @throws IOException
+	 * @throws InterruptedException
+	 */
 	public static List<String> getListOutput(String command) throws IOException, InterruptedException {
+		//Setup command
 		List<String> commands;
-
 		commands = new ArrayList<>();
 		commands.add("bash");
 		commands.add("-c");
 		commands.add(2, command);
-		
 		List<String> output = new ArrayList<String>();
 
+		//Run command
 		ProcessBuilder processBuilder = new ProcessBuilder(commands);
 		Process process = processBuilder.start();
 		int status = process.waitFor();
-
 
 		if (status != 0) {
 			return null;
 		}
 		
+		//Read output of command
 		InputStream stdout = process.getInputStream();
 		BufferedReader stdoutBuffered = new BufferedReader(new InputStreamReader(stdout));
 		String line = null;

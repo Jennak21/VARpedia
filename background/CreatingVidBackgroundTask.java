@@ -11,7 +11,6 @@ import controllers.ImageDownloader;
 import javafx.concurrent.Task;
 
 public class CreatingVidBackgroundTask extends Task<Boolean>{
-
 	private String _searchTerm;
 	private String _filePath;
 	private String _tempFilePath;
@@ -22,9 +21,6 @@ public class CreatingVidBackgroundTask extends Task<Boolean>{
 	private int _numImages;
 	private CreationProcess _creationProcess;
 
-	
-
-
 	public CreatingVidBackgroundTask(String term, int numImages, String filePath, String tempFilePath, String tempAudioFP, String tempSlidesFP, String tempVidFP, String creationFP) {
 		_searchTerm = term;
 		_numImages = numImages;
@@ -34,9 +30,7 @@ public class CreatingVidBackgroundTask extends Task<Boolean>{
 		_tempAudioFilePath = tempAudioFP;
 		_tempVidFilePath = tempVidFP;
 		_creationFilePath = creationFP; 
-
 		_creationProcess = CreationProcess.getInstance();
-
 	}
 
 	@Override
@@ -50,7 +44,6 @@ public class CreatingVidBackgroundTask extends Task<Boolean>{
 		} catch (Exception e) {
 			return false;
 		}
-
 	}
 
 	private void makeTempDir() throws IOException, InterruptedException {

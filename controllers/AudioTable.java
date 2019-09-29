@@ -7,8 +7,7 @@ public class AudioTable {
 	public AudioTable(String audioName) {
 		_audioName = audioName;
 	}
-
-
+	
 	public String getAudioName() {
 		return _audioName;
 	}
@@ -16,6 +15,4 @@ public class AudioTable {
 	public void setAudioName(String audioName) {
 		_audioName = audioName;
 	}
-
-
 }
