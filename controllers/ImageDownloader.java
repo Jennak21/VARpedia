@@ -55,12 +55,16 @@ public class ImageDownloader {
 	        
 	        PhotoList<Photo> results = photos.search(params, resultsPerPage, page);
 	        
+	        int i =0;
 	        for (Photo photo: results) {
+	        	
 	        		BufferedImage image = photos.getImage(photo,Size.LARGE);
-		        	String filename = query.trim().replace(' ', '-')+"-"+System.currentTimeMillis()+"-"+photo.getId()+".jpg";
+//		        	String filename = query.trim().replace(' ', '-')+"-"+System.currentTimeMillis()+"-"+photo.getId()+".jpg";
+	        		String filename = i + ".jpg";
 		        	File outputfile = new File(_filePath, filename);
 		        	ImageIO.write(image, "jpg", outputfile);
 
+		        	i++;
 	        }
 	}
 }

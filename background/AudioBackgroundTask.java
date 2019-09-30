@@ -28,10 +28,11 @@ public class AudioBackgroundTask extends Task<Boolean> {
 				return false;
 			}
 			
-			String checkSize = "stat -c%s " + Main._FILEPATH + "/newCreation/" + _filename + Creation.AUDIO_EXTENTION;
-			String stringSize = BashCommandClass.getOutputFromCommand(checkSize);
-			int intSize = Integer.parseInt(stringSize);
-			if (intSize <= 0) {
+			
+			String checkLength = "stat -c%s " + Main._FILEPATH + "/newCreation/" + _filename + Creation.AUDIO_EXTENTION;
+			String stringLength = BashCommandClass.getOutputFromCommand(checkLength);
+			int intLength = Integer.parseInt(stringLength);
+			if (intLength == 0) {
 				return false;
 			}
 			

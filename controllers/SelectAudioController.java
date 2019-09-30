@@ -85,7 +85,7 @@ public class SelectAudioController extends SceneChanger implements Initializable
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 
-		SpinnerValueFactory<Integer> spinnerValues = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 10, 1);
+		SpinnerValueFactory<Integer> spinnerValues = new SpinnerValueFactory.IntegerSpinnerValueFactory(3, 10, 1);
 		_numImagesSpinner.setValueFactory(spinnerValues);
 
 		//disable buttons for user
@@ -99,7 +99,7 @@ public class SelectAudioController extends SceneChanger implements Initializable
 
 	}
 
-	public void loadData() {
+	private void loadData() {
 		List<String> audioNames = getAudioNames();	
 
 		//populate Observable list with the names of existing audio
@@ -174,6 +174,8 @@ public class SelectAudioController extends SceneChanger implements Initializable
 
 	@FXML
 	private void onBackHandler(ActionEvent event) {
+		stopPlayback();
+		
 		try {
 			changeScene((Node)event.getSource(), "/fxml/CreateAudioScene.fxml");
 		} catch (IOException e) {
@@ -185,7 +187,7 @@ public class SelectAudioController extends SceneChanger implements Initializable
 	
 	@FXML
 	private void onNextHandler(ActionEvent event) {
-		
+		stopPlayback();
 
 		int numImages = _numImagesSpinner.getValue();
 
@@ -231,12 +233,8 @@ public class SelectAudioController extends SceneChanger implements Initializable
 	@FXML
 	private void onPlayHandler(ActionEvent event) {
 		
-		//get state of nextButton
-		boolean disableState = _nextButton.isDisable();
-		
 		//check if there isnt an existing audio being played
-		if ( _playAudio == null ||  _playAudio.isDone() ) {
-
+		if (_playButton.getText().equals("Play")) {
 			//create background task t
 			_playAudio = new PlayAudioBackgroundTask( _selectedAudio.getAudioName(), _filePath);
 			Thread playAudioThread = new Thread(_playAudio);
@@ -244,17 +242,15 @@ public class SelectAudioController extends SceneChanger implements Initializable
 
 			//while running disable certain buttons
 			_playAudio.setOnRunning(running -> {
-				_backButton.setDisable(true);
-				_nextButton.setDisable(true);
+				_playButton.setText("Stop");
 			});
 
 			_playAudio.setOnSucceeded(finish -> {
-				_backButton.setDisable(false);
-				_nextButton.setDisable(disableState);
+				_playButton.setText("Play");
 			});
 
 		} else {	
-			new WarningAlert("Please wait until current preview is done");
+			stopPlayback();
 		}
 
 	}
@@ -323,7 +319,7 @@ public class SelectAudioController extends SceneChanger implements Initializable
 		}
 	}
 
-	public List<String> getAudioNames() {
+	private List<String> getAudioNames() {
 		//run command in a bash process to get file names as a list
 		String getAudioFileNameCommand = "ls -1a " + _filePath +"*" + Creation.AUDIO_EXTENTION +" | sed -r \"s/.+\\/(.+)\\..+/\\1/\"";
 		try {
@@ -339,9 +335,11 @@ public class SelectAudioController extends SceneChanger implements Initializable
 	public void onSpinnerClickHandler(MouseEvent event) {
 		_availableAudioTable.getSelectionModel().clearSelection();
 		_selectedAudioTable.getSelectionModel().clearSelection();
-		
-		
 	}
 
-
+	private void stopPlayback() {
+		if (_playAudio != null) {
+			_playAudio.stopProcess();
+		}
+	}
 }
