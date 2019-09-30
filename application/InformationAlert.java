@@ -3,6 +3,11 @@ package application;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
+/**
+ * Create and display information alert dialogue box
+ * @author mgur707
+ *
+ */
 public class InformationAlert {
 	
 	public InformationAlert(String message) {

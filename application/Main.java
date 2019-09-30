@@ -16,9 +16,9 @@ public class Main extends Application {
 	
 	@Override
 	public void start(Stage primaryStage) {
-		//New
 		setup(); 
 		
+		//Load main menu
 		Parent layout;
 		try {
 			layout = FXMLLoader.load(getClass().getResource("/fxml/MainMenuPane.fxml"));
@@ -29,13 +29,15 @@ public class Main extends Application {
 		} catch (IOException e) {
 			new ErrorAlert("Can't load application");
 		}
-
 	}
 	
 	public static void main(String[] args) {
 		launch(args);
 	}
 	
+	/**
+	 * Setup done at launch of application
+	 */
 	private void setup() {			
 		//Set files folder directory path based on current working path
 		String dir = System.getProperty("user.dir");
