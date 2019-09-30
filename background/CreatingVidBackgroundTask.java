@@ -40,6 +40,14 @@ public class CreatingVidBackgroundTask extends Task<Boolean>{
 			combineAudio();
 			createImageVideo();
 			createVideo();
+			
+			String checkLength = "stat -c%s " +  _creationFilePath;
+			String stringLength = BashCommandClass.getOutputFromCommand(checkLength);
+			int intLength = Integer.parseInt(stringLength);
+			if (intLength == 0) {
+				return false;
+			}
+			
 			return true;
 		} catch (Exception e) {
 			return false;
@@ -73,9 +81,7 @@ public class CreatingVidBackgroundTask extends Task<Boolean>{
 		//run bash command that gets length of audio
 		String lengthOfAudioCommand = "echo `soxi -D " + _tempAudioFilePath + "`";
 		
-		String lengthOfAudio = "0.000000000000"; 
-		lengthOfAudio = BashCommandClass.getOutputFromCommand(lengthOfAudioCommand);
-
+		String lengthOfAudio = BashCommandClass.getOutputFromCommand(lengthOfAudioCommand);
 
 		//calculate duration to use in bash command that will create a slideshow
 		float lengthOfImage = Float.valueOf(1)/ (Float.valueOf(lengthOfAudio) / _numImages);
@@ -84,7 +90,8 @@ public class CreatingVidBackgroundTask extends Task<Boolean>{
 		String makeVideoCommand = "ffmpeg -framerate " + lengthOfImage + " -i \"" + _tempFilePath + "%01d.jpg\" -c:v libx264 -vf \"scale=-2:min(1080\\,trunc(ih/2)*2)\" -r 25 "+ _tempSlidesFilePath 
 				+ "&> /dev/null";
 	
-		BashCommandClass.runBashProcess(makeVideoCommand );
+		BashCommandClass.runBashProcess(makeVideoCommand);
+		
 		
 
 		updateProgress(70,100);

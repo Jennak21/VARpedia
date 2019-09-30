@@ -24,11 +24,19 @@ public class AudioBackgroundTask extends Task<Boolean> {
 			int exitVal = BashCommandClass.runBashProcess(makeAudio);
 
 			//Read exit value of command and return relevant boolean
-			if (exitVal == 0) {
-				return true;
-			} else {
+			if (exitVal != 0) {
+				return false;
+			} 
+			
+			String checkLength = "stat -c%s " + Main._FILEPATH + "/newCreation/" + _filename + Creation.AUDIO_EXTENTION;
+			String stringLength = BashCommandClass.getOutputFromCommand(checkLength);
+			int intLength = Integer.parseInt(stringLength);
+			if (intLength == 0) {
 				return false;
 			}
+			
+			return true;
+					
 		}
 		catch (IOException | InterruptedException e) {
 			return false;

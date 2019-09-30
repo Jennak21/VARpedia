@@ -167,7 +167,7 @@ public class CreateAudioController extends SceneChanger {
 		});
 		
 		_preview.setOnSucceeded(finish -> {
-			ResetScene();
+			_previewButton.setText("Preview Selected Text");
 		});
 	}
 	
