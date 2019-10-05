@@ -28,7 +28,8 @@ public class Main extends Application {
 			primaryStage.setTitle("WikiSpeak");
 			primaryStage.show();
 		} catch (IOException e) {
-			new ErrorAlert("Can't load application");
+			//new ErrorAlert("Can't load application");
+			e.printStackTrace();
 		}
 	}
 	
@@ -45,7 +46,7 @@ public class Main extends Application {
 		_FILEPATH = dir + "/files";
 		
 		//Create files folder if one doesn't exist
-		String cmd = "mkdir -p " + _FILEPATH;
+		String cmd = "mkdir -p " + _FILEPATH + "/creations " + _FILEPATH + "/videos " + _FILEPATH + "/audio";
 		try {
 			int exitVal = BashCommandClass.runBashProcess(cmd);
 			if (exitVal != 0) {

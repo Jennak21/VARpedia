@@ -1,8 +1,14 @@
 package controllers;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.SequenceInputStream;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.sound.sampled.AudioFileFormat;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
 
 import application.BashCommandClass;
 import application.Creation;
@@ -11,6 +17,7 @@ import application.InformationAlert;
 import application.Main;
 import application.WarningAlert;
 import background.AudioBackgroundTask;
+import background.PlayAudioBackgroundTask;
 import background.PreviewBackgroundTask;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -34,7 +41,9 @@ public class CreateAudioController extends SceneChanger {
 	@FXML
 	private TextArea _textArea;
 	@FXML
-	private Button _resetButton;
+	private Button _resetTextButton;
+	@FXML
+	private Button _resetAudioButton;
 	@FXML
 	private Button _nextButton;
 	@FXML
@@ -45,28 +54,11 @@ public class CreateAudioController extends SceneChanger {
 	private Button _previewButton;
 	@FXML
 	private Button _saveButton;
-	@FXML
-	private TextField _filenameField;
-	@FXML
-	private Button _cancelButton;
-	@FXML
-	private Button _makeAudioButton;
-	@FXML
-	private GridPane _nameEntryGrid;
-	@FXML
-	private GridPane _overwriteGrid;
-	@FXML
-	private Button _yesButton;
-	@FXML
-	private Button _noButton;
-	@FXML
-	private Label _overwriteLabel;
 	
 	private CreationProcess _process;
-	private PreviewBackgroundTask _preview;
+	private PlayAudioBackgroundTask _preview;
 	private String _selectedText;
 	private String _selectedVoice;
-	private String _filename;
 	
 	/**
 	 * Run when scene is setup
@@ -105,17 +97,36 @@ public class CreateAudioController extends SceneChanger {
 		} catch (IOException | InterruptedException e) {
 			
 		}
-		
-		//Ensure scene is at initial state
-		ResetScene();
 	}
 	
 	/**
 	 * Reset search text
 	 */
 	@FXML
-	private void ResetHandle() {
+	private void ResetTextHandle() {
 		_textArea.setText(_process.getSearchText());
+	}
+	
+	@FXML
+	private void ResetAudioHandle() {		
+		try {
+			String searchCommand = "ls " + Main._FILEPATH + "/newCreation/audio" + Creation.AUDIO_EXTENTION;
+			int exitVal = BashCommandClass.runBashProcess(searchCommand);
+			
+			if (exitVal == 0) {
+				String resetCommand = "rm -f " + Main._FILEPATH + "/newCreation/audio" + Creation.AUDIO_EXTENTION;
+				exitVal = BashCommandClass.runBashProcess(resetCommand);
+				
+				if (exitVal == 0) {
+					new InformationAlert("Audio reset");
+				} else {
+					new ErrorAlert("Could not reset audio");
+				}
+			}
+		} catch (IOException | InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	/**
@@ -125,40 +136,32 @@ public class CreateAudioController extends SceneChanger {
 	private synchronized void PreviewHandle() {
 		//Action dependent on whether there is a preview running or not
 		if (_previewButton.getText().equals("Preview Selected Text")) {
+			//Create files for preview text and settings
 			if (createTextFile() && createSettingsFile()) {
+				//Background task for making audio file
 				AudioBackgroundTask createAudio = new AudioBackgroundTask("tempAudio");
 				Thread audioThread = new Thread(createAudio);
 				audioThread.start();
 				
+				//When audio finished being made
 				createAudio.setOnSucceeded(finish -> {
+					//If successfully made audio, play it
 					if (createAudio.getValue()) {
-						try {
-							String convert2mp3 = "ffmpeg -y -i " + Main._FILEPATH + "/newCreation/tempAudio.wav " + Main._FILEPATH + "/newCreation/tempAudio.mp4";
-							int exitVal = BashCommandClass.runBashProcess(convert2mp3);
-							
-							if (exitVal == 0) {
-								playAudio();
-							} else {
-								new ErrorAlert("Couldn't make audio");
-								ResetScene();
-							}
-							
-						} catch (IOException | InterruptedException e) {
-							new ErrorAlert("Couldn't play audio");
-						}
+						playAudio();
 					} else {
 						new ErrorAlert("Couldn't play audio");
-						ResetScene();
 					}
 				});
 			}
 		} else {
-			ResetScene();
+			if (_preview != null) {
+				_preview.stopProcess();
+			}
 		}
 	}
 	
 	private void playAudio() {
-		_preview = new PreviewBackgroundTask("tempAudio");
+		_preview = new PlayAudioBackgroundTask("tempAudio", Main._FILEPATH + "/newCreation/");
 		Thread previewThread = new Thread(_preview);
 		previewThread.start();
 		
@@ -174,44 +177,71 @@ public class CreateAudioController extends SceneChanger {
 	@FXML
 	private void SaveHandle() {		
 		if (createTextFile() && createSettingsFile()) {
-			createTextFile();
-			createSettingsFile();
+			//Background task for making audio file
+			AudioBackgroundTask createAudio = new AudioBackgroundTask("newAudio");
+			Thread audioThread = new Thread(createAudio);
+			audioThread.start();
 			
-			FilenameGrid();
+			//When audio finished being made
+			createAudio.setOnSucceeded(finish -> {
+				//If successfully made audio, play it
+				if (createAudio.getValue()) {
+					boolean combineVal = combineAudio();
+					if (combineVal) {
+						new InformationAlert("Added new audio");
+						_nextButton.setDisable(false);
+					} else {
+						new ErrorAlert("Couldn't add audio");
+					}
+				} else {
+					new ErrorAlert("Couldn't save audio");
+				}
+			});
 		}
 	}
 	
-	private void FilenameGrid() {
-		_settingsGrid.setVisible(false);
-		_filenameGrid.setVisible(true);
-		_nameEntryGrid.setVisible(true);
-		_overwriteGrid.setVisible(false);
-	}
-	
-	@FXML
-	private void MakeAudioHandle() {
-		_filename = _filenameField.getText();
-		if (_filename.isEmpty()) {
-			new WarningAlert("Please enter a filename");
-			return;
-		}
-		
+	private boolean combineAudio() {
 		try {
-			String fileExist = "ls " + Main._FILEPATH + "/newCreation/" + _filename + Creation.AUDIO_EXTENTION;
-			int exitVal = BashCommandClass.runBashProcess(fileExist);
+			String checkForAudio = "ls " + Main._FILEPATH + "/newCreation/audio" + Creation.AUDIO_EXTENTION;
+			int exitVal = BashCommandClass.runBashProcess(checkForAudio);
 			
-
-			if (exitVal != 0) {
-				YesHandle();
-			} else {
-				_overwriteLabel.setText("'" + _filename + "' already exists, would you like to overwrite?");
+			
+			if (exitVal == 0) {
+				String file1 = Main._FILEPATH + "/newCreation/audio" + Creation.AUDIO_EXTENTION;
+				String file2 = Main._FILEPATH + "/newCreation/newAudio" + Creation.AUDIO_EXTENTION;
+				String outputFile = Main._FILEPATH + "/newCreation/finalAudio" + Creation.AUDIO_EXTENTION;
+				String combineAudioCommand = "sox " + file1 + " " + file2 + " " + outputFile;
+			
+				exitVal = BashCommandClass.runBashProcess(combineAudioCommand);
 				
-				_nameEntryGrid.setVisible(false);
-				_overwriteGrid.setVisible(true);
+				if (exitVal == 0) {
+					String removeCommand = "rm -f " + file1 + " " + file2;
+					BashCommandClass.runBashProcess(removeCommand);
+					
+					File tempAudio = new File(Main._FILEPATH + "/newCreation/finalAudio" + Creation.AUDIO_EXTENTION);
+			        File finalAudio = new File(Main._FILEPATH + "/newCreation/audio" + Creation.AUDIO_EXTENTION);
+			 
+			        // Renames the file denoted by this abstract pathname.
+			        boolean renamed = tempAudio.renameTo(finalAudio);
+			        
+			        return true;
+				} else {
+					String removeCommand = "rm -f " + file2;
+					BashCommandClass.runBashProcess(removeCommand);
+										
+					return false;
+				}
+			} else {
+				File tempAudio = new File(Main._FILEPATH + "/newCreation/newAudio" + Creation.AUDIO_EXTENTION);
+		        File finalAudio = new File(Main._FILEPATH + "/newCreation/audio" + Creation.AUDIO_EXTENTION);
+		 
+		        // Renames the file denoted by this abstract pathname.
+		        boolean renamed = tempAudio.renameTo(finalAudio);
+		        
+		        return true;
 			}
 		} catch (IOException | InterruptedException e) {
-			new ErrorAlert("Something went wrong");
-			ResetScene();
+			return false;
 		}
 	}
 	
@@ -264,76 +294,7 @@ public class CreateAudioController extends SceneChanger {
 	}	
 	
 	@FXML
-	private void YesHandle() {
-		AudioBackgroundTask audioTask = new AudioBackgroundTask(_filename);
-		Thread audioThread = new Thread(audioTask);
-		audioThread.start();
-		
-		audioTask.setOnRunning(running -> {
-			_cancelButton.setOnAction(new EventHandler<ActionEvent>() {
-				@Override
-				public void handle(ActionEvent event) {
-					audioTask.cancel();
-				}
-			});
-		});
-		
-		audioTask.setOnCancelled(cancel -> {
-			ResetScene();
-		});
-		
-		audioTask.setOnSucceeded(finish -> {
-			if (audioTask.getValue()) {
-				_nextButton.setDisable(false);
-				new InformationAlert("Successfully created audio");
-			} else {
-				new ErrorAlert("Couldn't create audio");
-			}
-			
-			ResetScene();
-		});
-	}
-	
-	@FXML
-	private void NoHandle() {
-		FilenameGrid();
-	}
-	
-	@FXML
-	private void CancelHandle() {
-		ResetScene();
-	}
-	
-	private void ResetScene() {
-		_filenameField.clear();
-		_settingsGrid.setVisible(true);
-		_filenameGrid.setVisible(false);
-		_previewButton.setText("Preview Selected Text");
-		
-		if (_preview != null) {
-			_preview.stopProcess();
-		}
-		
-		_cancelButton.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				CancelHandle();
-			}
-		});
-		
-		
-		String removeFiles = "rm -f " + Main._FILEPATH + "/newCreation/tempAudio.wav " + Main._FILEPATH + "/newCreation/tempAudio.mp4";
-		try {
-			BashCommandClass.runBashProcess(removeFiles);
-		} catch (IOException | InterruptedException e) {
-			
-		}
-	}
-	
-	@FXML
-	private void BackHandle() {
-		ResetScene(); 
-		
+	private void BackHandle() {		
 		try {
 			String removeFolder = "rm -r " + Main._FILEPATH + "/newCreation";
 			BashCommandClass.runBashProcess(removeFolder);
@@ -345,12 +306,13 @@ public class CreateAudioController extends SceneChanger {
 	}
 	
 	@FXML
-	private void NextHandle() {
-		ResetScene();
-		
+	private void NextHandle() {		
 		try {
+			String removeTempaudio = "rm -r " + Main._FILEPATH + "/newCreation/tempAudio" + Creation.AUDIO_EXTENTION;
+			BashCommandClass.runBashProcess(removeTempaudio);
+			
 			changeScene(_gridPane, "/fxml/SelectAudioScene.fxml");
-		} catch (IOException e) {
+		} catch (IOException | InterruptedException e) {
 			new ErrorAlert("Couldn't change scene");
 		}
 	}

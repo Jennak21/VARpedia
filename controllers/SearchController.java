@@ -5,6 +5,8 @@ import java.io.IOException;
 import application.ErrorAlert;
 import application.WarningAlert;
 import background.WikitBackgroundTask;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -30,6 +32,22 @@ public class SearchController extends SceneChanger {
 	private Button _backButton;
 	@FXML
 	private Label _searchingLabel;
+	
+	@FXML
+	private void initialize() {
+		_searchButton.setDisable(true);
+		
+		_searchField.textProperty().addListener(new ChangeListener<String>() {
+			@Override
+			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+				if (_searchField.getText().isEmpty()) {
+					_searchButton.setDisable(true);
+				} else {
+					_searchButton.setDisable(false);
+				}
+			}
+		});
+	}
 	
 	@FXML
 	private void BackHandle(ActionEvent event) throws IOException {
@@ -80,7 +98,7 @@ public class SearchController extends SceneChanger {
 				try {
 					changeScene(_gridPane, "/fxml/CreateAudioScene.fxml");
 				} catch (IOException e) {
-					new ErrorAlert("Something went wrong");
+					e.printStackTrace();
 				}
 				
 			} else {
