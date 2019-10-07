@@ -13,7 +13,8 @@ import com.flickr4java.flickr.photos.*;
 public class ImageDownloader {
 	
 
-	private static String _filePath = "files" + System.getProperty("file.separator") + "newCreation" + System.getProperty("file.separator") + "vidCreationTemp";
+	private static String _filePath = "files" + System.getProperty("file.separator") + "newCreation" 
+	+ System.getProperty("file.separator") + "allImages";
 	
 	
 	public static String getAPIKey(String key) throws Exception {

@@ -11,6 +11,7 @@ import application.Creation;
 import application.ErrorAlert;
 import application.Main;
 import application.WarningAlert;
+import background.DownloadImageBackgroundTask;
 import background.PlayAudioBackgroundTask;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -74,6 +75,7 @@ public class SelectAudioController extends SceneChanger implements Initializable
 	private AudioTable _selectedAudio; 
 	private String _filePath = Main._FILEPATH +"/newCreation/";
 	private PlayAudioBackgroundTask _playAudio;
+	private DownloadImageBackgroundTask _downloadImage;
 
 
 
@@ -175,19 +177,22 @@ public class SelectAudioController extends SceneChanger implements Initializable
 	@FXML
 	private void onBackHandler(ActionEvent event) {
 		stopPlayback();
-		
+
 		try {
 			changeScene((Node)event.getSource(), "/fxml/CreateAudioScene.fxml");
 		} catch (IOException e) {
-		new ErrorAlert("Couldn't change scenes");
+			new ErrorAlert("Couldn't change scenes");
 		}
 
 	}
 
-	
+
 	@FXML
 	private void onNextHandler(ActionEvent event) {
+		
+
 		stopPlayback();
+
 
 		int numImages = _numImagesSpinner.getValue();
 
@@ -195,7 +200,7 @@ public class SelectAudioController extends SceneChanger implements Initializable
 		_creationProcess.setNumImages(numImages);
 
 		ArrayList<String> audioSelectedList = new ArrayList<String>();
-		
+
 		//populate list of audio and store as field
 		for (AudioTable audio : _selectedlist) {
 			audioSelectedList.add(audio.getAudioName());
@@ -204,11 +209,19 @@ public class SelectAudioController extends SceneChanger implements Initializable
 		_creationProcess.setAudioFiles(audioSelectedList);
 
 
+		//		try {
+		//			changeScene((Node)event.getSource(), "/fxml/FileNameScene.fxml") ;
+		//		} catch (IOException e) {
+		//			new ErrorAlert("Couldn't change scenes");
+		//		}
+
 		try {
-			changeScene((Node)event.getSource(), "/fxml/FileNameScene.fxml") ;
+			changeScene((Node)event.getSource(), "/fxml/SelectImageScene.fxml") ;
 		} catch (IOException e) {
 			new ErrorAlert("Couldn't change scenes");
 		}
+
+
 
 	}
 
@@ -232,7 +245,7 @@ public class SelectAudioController extends SceneChanger implements Initializable
 
 	@FXML
 	private void onPlayHandler(ActionEvent event) {
-		
+
 		//check if there isnt an existing audio being played
 		if (_playButton.getText().equals("Play")) {
 			//create background task t
@@ -280,7 +293,7 @@ public class SelectAudioController extends SceneChanger implements Initializable
 		_selectedAvailableAudio = _availableAudioTable.getSelectionModel().getSelectedItem();
 		//set field used for playing audio to the selected audio item
 		_selectedAudio = _selectedAvailableAudio ;
-		
+
 		//clear selection on the selected table
 		_selectedAudioTable.getSelectionModel().clearSelection();
 
@@ -300,11 +313,11 @@ public class SelectAudioController extends SceneChanger implements Initializable
 	private void onSelectedClickHandler(MouseEvent event) {
 		//enable button to move audio to back to the available list
 		_selectButton.setDisable(true);
-		
+
 		_selectedSelectedAudio = _selectedAudioTable.getSelectionModel().getSelectedItem();
 		//set field used for playing audio to the selected audio item
 		_selectedAudio = _selectedSelectedAudio ;
-		
+
 		//clear selection on the available table
 		_availableAudioTable.getSelectionModel().clearSelection();
 
@@ -331,7 +344,7 @@ public class SelectAudioController extends SceneChanger implements Initializable
 		List<String> list = new ArrayList<String>();
 		return list;
 	}
-	
+
 	public void onSpinnerClickHandler(MouseEvent event) {
 		_availableAudioTable.getSelectionModel().clearSelection();
 		_selectedAudioTable.getSelectionModel().clearSelection();
