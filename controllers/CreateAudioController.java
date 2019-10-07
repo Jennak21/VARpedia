@@ -171,6 +171,12 @@ public class CreateAudioController extends SceneChanger {
 		
 		_preview.setOnSucceeded(finish -> {
 			_previewButton.setText("Preview Selected Text");
+			try {			
+				String removeFile = "rm -f " + Main._FILEPATH + "/newCreation/tempAudio" + Creation.AUDIO_EXTENTION;
+				BashCommandClass.runBashProcess(removeFile);
+			} catch (IOException | InterruptedException e) {
+				new ErrorAlert("Something went wrong");
+			}
 		});
 	}
 	
@@ -302,13 +308,13 @@ public class CreateAudioController extends SceneChanger {
 			changeScene(_gridPane, "/fxml/SearchScene.fxml");
 		} catch (IOException | InterruptedException e) {
 			new ErrorAlert("Something went wrong");
-		}
+		}	
 	}
 	
 	@FXML
 	private void NextHandle() {		
 		try {
-			String removeTempaudio = "rm -r " + Main._FILEPATH + "/newCreation/tempAudio" + Creation.AUDIO_EXTENTION;
+			String removeTempaudio = "rm -f " + Main._FILEPATH + "/newCreation/tempAudio" + Creation.AUDIO_EXTENTION;
 			BashCommandClass.runBashProcess(removeTempaudio);
 			
 			changeScene(_gridPane, "/fxml/SelectAudioScene.fxml");
