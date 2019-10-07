@@ -10,11 +10,11 @@
    <children>
       <TableView fx:id="_imageTable" layoutX="14.0" layoutY="14.0" prefHeight="372.0" prefWidth="286.0">
         <columns>
-          <TableColumn fx:id="_imageCol" prefWidth="234.0" text="Images" />
-            <TableColumn fx:id="_selectCol" prefWidth="51.0" text="Select" />
+          <TableColumn fx:id="_imageCol" prefWidth="204.5" text="Images" />
+            <TableColumn fx:id="_selectCol" prefWidth="80.5" text="Select" />
         </columns>
       </TableView>
-      <Button fx:id="_nextButton" layoutX="545.0" layoutY="362.0" mnemonicParsing="false" text="Next" />
+      <Button fx:id="_nextButton" layoutX="545.0" layoutY="362.0" mnemonicParsing="false" onAction="#onNextHandler" text="Next" />
       <Button fx:id="_backButton" layoutX="310.0" layoutY="362.0" mnemonicParsing="false" text="Back" />
    </children>
 </AnchorPane>

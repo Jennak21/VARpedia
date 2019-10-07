@@ -10,6 +10,7 @@ import javax.sound.sampled.AudioSystem;
 
 import application.BashCommandClass;
 import application.Creation;
+import application.InformationAlert;
 import application.Main;
 import controllers.CreationProcess;
 import controllers.ImageDownloader;
@@ -50,15 +51,15 @@ public class CreatingVidBackgroundTask extends Task<Boolean>{
 			if (isCancelled()) {
 				return false;
 			}
-			makeTempDir();
-			if (isCancelled()) {
-				return false;
-			}
+//			makeTempDir();
+//			if (isCancelled()) {
+//				return false;
+//			}
 			
-			combineAudio();
-			if (isCancelled()) {
-				return false;
-			}
+//			combineAudio();
+//			if (isCancelled()) {
+//				return false;
+//			}
 			
 			createImageVideo();
 			if (isCancelled()) {
@@ -84,7 +85,7 @@ public class CreatingVidBackgroundTask extends Task<Boolean>{
 	}
 	
 	private void copyAudio() throws IOException, InterruptedException {
-		String command = "cp " + Main._FILEPATH + "/audio" + Creation.AUDIO_EXTENTION + " " +_audioFilePath;
+		String command = "cp " + Main._FILEPATH + "/newCreation/audio" + Creation.AUDIO_EXTENTION + " " +_audioFilePath;
 		BashCommandClass.runBashProcess(command);
 	}
 
@@ -106,8 +107,8 @@ public class CreatingVidBackgroundTask extends Task<Boolean>{
 
 		updateMessage("Fetching Images");
 
-		ImageDownloader.getImages(_searchTerm, _numImages);
-		
+//		ImageDownloader.getImages(_searchTerm, _numImages);
+//		
 		updateProgress(50,100);
 		
 		updateMessage("Compiling images");
@@ -122,7 +123,7 @@ public class CreatingVidBackgroundTask extends Task<Boolean>{
 		
 		
 		
-		File audioFile = new File(_tempFilePath + _creationProcess.getFileName() + "TempAudio"  + Creation.AUDIO_EXTENTION);
+		File audioFile = new File(_newAudioFilePath);
 		
 		
 		AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioFile);					
@@ -190,28 +191,28 @@ public class CreatingVidBackgroundTask extends Task<Boolean>{
 
 	}
 
-	private void combineAudio() throws IOException, InterruptedException {
-
-		updateMessage("Combining Audio");
-
-		ArrayList<String> audioSelectedList = _creationProcess.getAudioFiles();
-
-		//loop through audio on the selectedlist and add to bash command which will return length of audio
-		String combineAudioCommand = "sox ";
-		for (String audioName  : audioSelectedList)  {
-			combineAudioCommand = combineAudioCommand + _filePath  +  "\"" + audioName + "\"" + Creation.AUDIO_EXTENTION + " ";
-
-		}
-
-		combineAudioCommand = combineAudioCommand + _audioFilePath;
-	
-
-		BashCommandClass.runBashProcess(combineAudioCommand);
-		
-		//update user
-		updateProgress (30,100);
-
-	}
+//	private void combineAudio() throws IOException, InterruptedException {
+//
+//		updateMessage("Combining Audio");
+//
+//		ArrayList<String> audioSelectedList = _creationProcess.getAudioFiles();
+//
+//		//loop through audio on the selectedlist and add to bash command which will return length of audio
+//		String combineAudioCommand = "sox ";
+//		for (String audioName  : audioSelectedList)  {
+//			combineAudioCommand = combineAudioCommand + _filePath  +  "\"" + audioName + "\"" + Creation.AUDIO_EXTENTION + " ";
+//
+//		}
+//
+//		combineAudioCommand = combineAudioCommand + _audioFilePath;
+//	
+//
+//		BashCommandClass.runBashProcess(combineAudioCommand);
+//		
+//		//update user
+//		updateProgress (30,100);
+//
+//	}
 
 	
 }

@@ -100,6 +100,7 @@ public class CreatingVideoContoller extends SceneChanger implements Initializabl
 //				} catch (IOException e) {
 //					new ErrorAlert("Couldn't change scene");
 //				}
+				cancelCreation();
 			}
 			
 			CreationProcess.destroy();

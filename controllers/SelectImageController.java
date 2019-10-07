@@ -1,9 +1,11 @@
 package controllers;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import application.ErrorAlert;
 import application.Main;
 import background.DownloadImageBackgroundTask;
 import javafx.collections.FXCollections;
@@ -12,6 +14,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TableColumn;
@@ -22,7 +25,7 @@ import javafx.scene.image.ImageView;
 
 public class SelectImageController extends SceneChanger implements Initializable{
 	private CreationProcess _creationProcess;
-	private String _allImagesFilePath = Main._FILEPATH +"/newCreation/vidCreationTemp/allImages";
+	private String _allImagesFilePath = Main._FILEPATH +"/newCreation/allImages";
 	
 
 	@FXML
@@ -117,16 +120,17 @@ public class SelectImageController extends SceneChanger implements Initializable
 	}
 	
 	
-//	@FXML
-//	public void onNextHandler(ActionEvent event) {
-//		
-//		for (ImageTable image : _imageList) {
-//			if (image.getCheckBox().isSelected()) {
-//				fiimage.getImage()
-//			}
-//		}
-//		
-//		
-//	}
+	@FXML
+	public void onNextHandler(ActionEvent event) {
+		
+		try {
+			changeScene((Node)event.getSource(), "/fxml/FileNameScene.fxml") ;
+		} catch (IOException e) {
+			new ErrorAlert("Couldn't change scenes");
+		}
+
+		
+		
+	}
 	
 }
