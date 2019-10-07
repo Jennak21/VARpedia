@@ -19,22 +19,16 @@ import javafx.scene.layout.AnchorPane;
 import javafx.fxml.Initializable;
 
 
-public class CreatingVideoContoller extends SceneChanger implements Initializable{ 
+public class CreatingVideoContoller extends SceneChanger implements Initializable { 
 
 	private CreationProcess _creationProcess;
 	private String _searchTerm;
 	private int _numImages;
 	private String _fileName;
-	private String _filePath = Main._FILEPATH +"/newCreation/";
-	private String _tempFilePath = Main._FILEPATH +"/newCreation/vidCreationTemp/";
-	private String _tempAudioFilePath;
-	private String _tempSlidesFilePath;
-	private String _tempVidFilePath;
-	private String _creationFilePath;
+	
 	
 	@FXML
 	private ProgressIndicator _progressIndicator;
-
 	@FXML
 	private Label _creatingLabel;
 	@FXML
@@ -46,15 +40,7 @@ public class CreatingVideoContoller extends SceneChanger implements Initializabl
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		_creationProcess = CreationProcess.getInstance();
-		_searchTerm = _creationProcess.getSearchTerm();
-		_numImages = _creationProcess.getNumImages();
-		_fileName= "\"" + _creationProcess.getFileName() + "\"";
-
-		//setup paths
-		_tempAudioFilePath = _tempFilePath + _fileName + "TempAudio" + Creation.AUDIO_EXTENTION ;
-		_tempSlidesFilePath= _tempFilePath + _fileName + "TempSlide" + Creation.EXTENTION;
-		_tempVidFilePath = _tempFilePath  + _fileName + "TempVideo" + Creation.EXTENTION;
-		_creationFilePath = Main._FILEPATH + "/" + _fileName + Creation.EXTENTION;
+		_fileName = _creationProcess.getFileName();
 		
 		createVideo();
 
@@ -65,7 +51,7 @@ public class CreatingVideoContoller extends SceneChanger implements Initializabl
 
 
 		//create video on background thread
-		CreatingVidBackgroundTask createVidBG = new CreatingVidBackgroundTask(_searchTerm, _numImages, _filePath, _tempFilePath, _tempAudioFilePath, _tempSlidesFilePath, _tempVidFilePath, _creationFilePath);
+		CreatingVidBackgroundTask createVidBG = new CreatingVidBackgroundTask();
 		Thread createVidThread = new Thread(createVidBG );
 		createVidThread.start();
 
@@ -90,7 +76,7 @@ public class CreatingVideoContoller extends SceneChanger implements Initializabl
 
 		//If user has cancelled, go back to back to fileName screen
 		createVidBG.setOnCancelled(cancel -> {
-			quit();
+			cancelCreation();
 		});
 
 		//When creation has finished
@@ -100,29 +86,33 @@ public class CreatingVideoContoller extends SceneChanger implements Initializabl
 			
 			//Check for successful video creation
 			if (createVidBG.getValue()) {
-				try {
-					changeScene(_anchorPane, "/fxml/MainMenuPane.fxml");
-				} catch (IOException e) {
-					new ErrorAlert("Couldn't change scene");
-				}
+//				try {
+//					changeScene(_anchorPane, "/fxml/MainMenuPane.fxml");
+//				} catch (IOException e) {
+//					new ErrorAlert("Couldn't change scene");
+//				}
 
 			} else {
 				//Search failed, inform user and go back to search screen
 				new ErrorAlert("Could not could not create video");
-				try {
-					changeScene(_anchorPane, "/fxml/MainMenuPane.fxml");
-				} catch (IOException e) {
-					new ErrorAlert("Couldn't change scene");
-				}
+//				try {
+//					changeScene(_anchorPane, "/fxml/MainMenuPane.fxml");
+//				} catch (IOException e) {
+//					new ErrorAlert("Couldn't change scene");
+//				}
 			}
 			
 			CreationProcess.destroy();
 		});
 	}
 	
-	private void quit() {
+	private void cancelCreation() {
 		// remove files that had been created
-		String removeVidFiles = "rm -r " + _tempFilePath;
+		String audioFilePath = Main._AUDIOPATH + "/" + _fileName + Creation.AUDIO_EXTENTION;
+		String slidesFilePath= Main._VIDPATH + "/" + _fileName  + Creation.EXTENTION;
+		String tempVidFilePath = Main._FILEPATH + "/newCreation/" + "TempVideo" + Creation.EXTENTION;
+		String creationFilePath = Main._CREATIONPATH + "/" + _fileName + Creation.EXTENTION;
+		String removeVidFiles = "rm -f " + audioFilePath + " " + slidesFilePath + " " + tempVidFilePath + " " + creationFilePath;
 		try {
 			BashCommandClass.runBashProcess(removeVidFiles);
 		} catch (IOException | InterruptedException e1) {

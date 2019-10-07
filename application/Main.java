@@ -12,7 +12,10 @@ import javafx.scene.layout.BorderPane;
 
 
 public class Main extends Application {
-	public static String _FILEPATH;
+	public static final String _FILEPATH = System.getProperty("user.dir") + "/files";
+	public static final String _VIDPATH=_FILEPATH + "/videos";
+	public static final String _AUDIOPATH = _FILEPATH + "/audio";
+	public static final String _CREATIONPATH = _FILEPATH + "/creations";
 	
 	@Override
 	public void start(Stage primaryStage) {
@@ -41,8 +44,6 @@ public class Main extends Application {
 	 */
 	private void setup() {			
 		//Set files folder directory path based on current working path
-		String dir = System.getProperty("user.dir");
-		_FILEPATH = dir + "/files";
 		
 		//Create files folder if one doesn't exist
 		String cmd = "mkdir -p " + _FILEPATH;
