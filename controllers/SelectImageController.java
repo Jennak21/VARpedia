@@ -64,7 +64,7 @@ public class SelectImageController extends SceneChanger implements Initializable
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 
-
+		_nextButton.setDisable(true);
 
 		_creationProcess = CreationProcess.getInstance();
 

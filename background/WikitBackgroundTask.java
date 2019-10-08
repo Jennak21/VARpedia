@@ -23,7 +23,8 @@ public class WikitBackgroundTask extends Task<Boolean> {
 	@Override
 	protected Boolean call() {
 		//Command to run wikipedia search
-		String searchCommand = "echo \"\n\" | wikit " + _searchTerm;
+		String searchCommand = "echo \"\n\" | wikit " + _searchTerm + "; ";
+
 		try {
 			String searchResult = BashCommandClass.getOutputFromCommand(searchCommand);
 			
