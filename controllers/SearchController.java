@@ -14,7 +14,11 @@ import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
@@ -33,20 +37,28 @@ public class SearchController extends SceneChanger {
 	@FXML
 	private Label _searchingLabel;
 	
+	private String _searchTerm;
+	
+	@FXML
+	private ProgressBar _progressBar;
+	
 	@FXML
 	private void initialize() {
+		
+		_progressBar.setVisible(false);
+		
 		_searchButton.setDisable(true);
 		
-		_searchField.textProperty().addListener(new ChangeListener<String>() {
-			@Override
-			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-				if (_searchField.getText().isEmpty()) {
-					_searchButton.setDisable(true);
-				} else {
-					_searchButton.setDisable(false);
-				}
-			}
-		});
+//		_searchField.textProperty().addListener(new ChangeListener<String>() {
+//			@Override
+//			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+//				if (_searchField.getText().isEmpty()) {
+//					_searchButton.setDisable(true);
+//				} else {
+//					_searchButton.setDisable(false);
+//				}
+//			}
+//		});
 	}
 	
 	@FXML
@@ -55,27 +67,48 @@ public class SearchController extends SceneChanger {
 	}
 	
 	@FXML
-	private void SearchHandle() {
-		_searchButton.setDisable(true);
+	private void onTypeHandler(KeyEvent event) {
+		//check if field properties are empty or not, set create button to  be disabled or not accordingly
+		_searchTerm = _searchField.getText();
+		boolean isDisabled = ((_searchTerm.isEmpty())|| _searchTerm.trim().isEmpty());
+		_searchButton.setDisable(isDisabled);
 		
-		String searchTerm = _searchField.getText();
+		if ((event.getCode() == KeyCode.ENTER) && !_searchTerm.isEmpty() && !_searchTerm.trim().isEmpty()) {
+	        search();
+	    }
+
+	}
+	
+	
+	
+	@FXML
+	private void SearchHandle() {
+		search();
+	}
+	
+	public void search () {
+	_searchButton.setDisable(true);
+		
+//		String searchTerm = _searchField.getText();
 		
 		//Check for non-empty search term
-		if (searchTerm.isEmpty()) {
-			new WarningAlert("You can't search for nothing");
-			reset();
-			
-			return; 
-		} 
+//		if (searchTerm.isEmpty()) {
+//			new WarningAlert("You can't search for nothing");
+//			reset();
+//			
+//			return; 
+//		} 
 				
 		//Run search on background thread
-		WikitBackgroundTask wikitBG = new WikitBackgroundTask(searchTerm);
+		WikitBackgroundTask wikitBG = new WikitBackgroundTask(_searchTerm);
 		Thread wikitThread = new Thread(wikitBG);
 		wikitThread.start();
 		
 		//Update user that search is happening
 		wikitBG.setOnRunning(running -> {
-			_searchingLabel.setVisible(true);
+//			_searchingLabel.setVisible(true);
+			_progressBar.setProgress(-1.0);
+			_progressBar.setVisible(true);
 			
 			//Cancel search if user wants to quit
 			_backButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -103,16 +136,18 @@ public class SearchController extends SceneChanger {
 				
 			} else {
 				//Search failed, inform user and go back to search screen
-				new ErrorAlert("Could not complete search for '" + searchTerm + "'");
+				new ErrorAlert("Could not complete search for '" + _searchTerm + "'");
 				reset();
 			}
 		});
+		
 	}
 	
 	private void reset() {
 		_searchField.clear();
 		_searchButton.setDisable(false);
 		_searchingLabel.setVisible(false);
+		_progressBar.setVisible(false);
 		
 		_backButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override

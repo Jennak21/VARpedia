@@ -7,10 +7,12 @@ public class ImageTable {
 
 	ImageView _image;
 	CheckBox _checkBox;
+	String _filePath;
 
-	public ImageTable(ImageView image, CheckBox checkBox) {
+	public ImageTable(ImageView image, CheckBox checkBox, String filePath) {
 		_image = image;
 		_checkBox = checkBox;
+		_filePath = filePath;
 	}
 	
 	public ImageView getImage() {
@@ -27,5 +29,14 @@ public class ImageTable {
 
 	public void setCheckBox (CheckBox checkBox) {
 		_checkBox = checkBox;
+	}
+	
+	public void setFilePath (String filePath) {
+		_filePath = filePath;
+	}
+	
+	public String getFilePath() {
+		return _filePath;
+		
 	}
 }

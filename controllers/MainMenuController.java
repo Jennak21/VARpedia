@@ -132,8 +132,7 @@ public class MainMenuController extends SceneChanger {
 		try {
 			changeScene((Node)event.getSource(), "/fxml/QuizScene.fxml");
 		} catch (IOException e) {
-			e.printStackTrace();
-//			new ErrorAlert("Couldn't load quiz");
+			new ErrorAlert("Couldn't load quiz");
 		}
 	}
 }

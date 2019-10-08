@@ -137,7 +137,7 @@ public class CreatingVideoContoller extends SceneChanger implements Initializabl
 			new ErrorAlert("Could not quit");
 		}
 		try {
-			changeScene(_anchorPane, "/fxml/SelectAudioScene.fxml");
+			changeScene(_anchorPane, "/fxml/FileMameScene.fxml");
 		} catch (IOException e) {
 			new ErrorAlert("Couldn't change scene");
 		}

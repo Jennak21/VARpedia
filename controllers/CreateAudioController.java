@@ -122,6 +122,7 @@ public class CreateAudioController extends SceneChanger {
 					if (exitVal == 0) {
 						new InformationAlert("Audio reset");
 						_process.resetUserText();
+						_nextButton.setDisable(true);
 						_savedText.setText(_process.getUserText());
 					} else {
 						new ErrorAlert("Could not reset audio");

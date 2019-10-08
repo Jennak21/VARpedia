@@ -36,7 +36,6 @@ public class DeleteController extends SceneChanger {
 		String videoFile = Main._VIDPATH + "/" + _creation.getFilename() + Creation.EXTENTION;
 		String audioFile = Main._AUDIOPATH + "/" + _creation.getFilename() + Creation.EXTENTION;
 		String deleteFiles = "rm " + creationFile + " " + videoFile + " " + audioFile;
-		System.out.println(deleteFiles);
 		
 		try {
 			int exitVal;
