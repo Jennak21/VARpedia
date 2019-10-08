@@ -16,11 +16,17 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.GridPane;
 
 public class FileNameController extends SceneChanger implements Initializable{
 	
 	@FXML
 	private Button _noButton;
+	
+	@FXML
+	private GridPane _gridPane;
 
 	@FXML
 	private Button _yesButton;
@@ -40,7 +46,7 @@ public class FileNameController extends SceneChanger implements Initializable{
 	private CreationProcess _creationProcess;
 	
 	private String _fileName;
-	private String _filePath = Main._FILEPATH;
+	private String _filePath = Main._CREATIONPATH;
 
 
 	@Override
@@ -58,10 +64,10 @@ public class FileNameController extends SceneChanger implements Initializable{
 	@FXML
 	private void onYesButtonHandler(ActionEvent event) {
 		//if user wants to replace delete existing and store file name
-		deleteExistingFile(_fileName);
+//		deleteExistingFile(_fileName);
 		_creationProcess.setFileName(_fileName);
 		
-		changeToCreateVideoScene (event);
+		changeToCreateVideoScene();
 	}
 	
 	@FXML
@@ -82,7 +88,7 @@ public class FileNameController extends SceneChanger implements Initializable{
 	@FXML
 	private void onBackButtonHandler(ActionEvent event) {
 		try {
-			changeScene((Node)event.getSource(), "/fxml/SelectAudioScene.fxml") ;
+			changeScene((Node)event.getSource(), "/fxml/SelectImageScene.fxml") ;
 		} catch (IOException e) {
 			new ErrorAlert("Couldn't change scenes");
 		}
@@ -90,16 +96,26 @@ public class FileNameController extends SceneChanger implements Initializable{
 	}
 	
 	@FXML
-	private void onTypeHandler() {
+	private void onTypeHandler(KeyEvent event) {
 		//check if field properties are empty or not, set create button to  be disabled or not accordingly
 		_fileName = _fileNameEntry.getText();
 		boolean isDisabled = ((_fileName.isEmpty())|| _fileName.trim().isEmpty());
 		_nextButton.setDisable(isDisabled);
+		
+		if ((event.getCode() == KeyCode.ENTER) && !_fileName.isEmpty() && !_fileName.trim().isEmpty()) {
+	        saveFileName();
+	    }
 
 	}
+	
+	
 
 	@FXML
-	private void onNextButtonHandler(ActionEvent event) {
+	private void onNextButtonHandler(ActionEvent event) {	
+		saveFileName();
+	}
+	
+	public void saveFileName() {
 		if (fileExists(_fileName)) {
 			_overwriteLabel.setVisible(true);
 			_yesButton.setVisible(true);
@@ -107,10 +123,9 @@ public class FileNameController extends SceneChanger implements Initializable{
 			_nextButton.setVisible(false);
 		} else {		
 			_creationProcess.setFileName(_fileName);
-			changeToCreateVideoScene (event);
+			changeToCreateVideoScene();
 		}
-
-
+		
 	}
 	
 	public void deleteExistingFile (String fileName) {
@@ -144,9 +159,9 @@ public class FileNameController extends SceneChanger implements Initializable{
 
 	}
 	
-	public void changeToCreateVideoScene (ActionEvent event) {
+	public void changeToCreateVideoScene () {
 		try {
-			changeScene((Node)event.getSource(), "/fxml/CreatingVideoScene.fxml") ;
+			changeScene(_gridPane, "/fxml/CreatingVideoScene.fxml") ;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

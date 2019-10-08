@@ -57,7 +57,7 @@ public class MediaScreenController extends SceneChanger {
 		CreationStore process = CreationStore.getInstance();
 		Creation creation = process.getCreation();
 		String creationName = creation.getName();
-		String fullFilePath = Main._FILEPATH + "/" + creationName + Creation.getExtention();
+		String fullFilePath = Main._CREATIONPATH + "/" + creationName + Creation.getExtention();
 		Media media = new Media("file://" + fullFilePath);
 		_player = new MediaPlayer(media);
 		_view = new MediaView(_player);

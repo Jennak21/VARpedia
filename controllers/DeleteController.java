@@ -32,11 +32,15 @@ public class DeleteController extends SceneChanger {
 	
 	@FXML
 	private void yesHandle() {
-		String deleteFile = "rm " + Main._FILEPATH + "/" + _creation.getName() + Creation.EXTENTION;
+		String deleteCreation = "rm " + Main._CREATIONPATH + "/" + _creation.getName() + Creation.EXTENTION + "; ";
+		String deleteAudio = "rm " + Main._AUDIOPATH + "/" + _creation.getName() + Creation.AUDIO_EXTENTION + "; ";
+		String deleteVideo = "rm " + Main._VIDPATH + "/" + _creation.getName() + Creation.EXTENTION + "; ";
+		
+		String deleteFiles = deleteCreation + deleteAudio + deleteVideo;
 		
 		try {
 			int exitVal;
-			exitVal = BashCommandClass.runBashProcess(deleteFile);
+			exitVal = BashCommandClass.runBashProcess(deleteFiles);
 			
 			if (exitVal != 0) {
 				new ErrorAlert("Couldn't delete file");

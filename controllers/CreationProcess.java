@@ -19,11 +19,9 @@ public class CreationProcess {
 
 	private String _searchTerm = "apple";
 	private String _fullSearchText;
-	private String _fullUserText;
-	private String _selectedText;
 	public String _fileName;
-	public int _numImages;
 	public ArrayList<String> _audioFileList;
+	public ArrayList<String> _imageList;
 
 	public static CreationProcess getInstance() {
 		if (CREATION_INSTANCE == null) {
@@ -40,12 +38,14 @@ public class CreationProcess {
 		return _audioFileList;
 	}
 
-	public void setNumImages(int numImages) {
-		_numImages = numImages;
-	}
 
 	public int getNumImages() {
-		return _numImages;
+		if (_imageList != null) {
+			return _imageList.size();
+		} else {
+			return 0;
+		}
+		
 	}
 
 
@@ -73,9 +73,21 @@ public class CreationProcess {
 	public String getFileName() {
 		return _fileName;
 	}
+	
+	public void setImageList(ArrayList<String> imageList) {
+		_imageList= imageList;
+		
+	}
+	
+
+	public ArrayList<String> getImageList() {
+		return _imageList;	
+	}
 
 
-
+	public void clearSelectedImages() {
+		_imageList = null;
+	}
 
 
 

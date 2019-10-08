@@ -48,7 +48,7 @@ public class MainMenuController extends SceneChanger {
 		
 		try {
 			//Count number of creations
-			String countFiles = "ls -1 " + Main._FILEPATH + "/*" + Creation.getExtention() + " | wc -l";
+			String countFiles = "ls -1 " + Main._CREATIONPATH + "/*" + Creation.getExtention() + " | wc -l";
 			String numFilesOutput = BashCommandClass.getOutputFromCommand(countFiles);
 			
 			int numFiles = Integer.parseInt(numFilesOutput);
@@ -56,13 +56,14 @@ public class MainMenuController extends SceneChanger {
 			//Do stuff stuff based on how many files were found
 			if (numFiles != 0) {
 				//Get names of creations
-				String getCreations = "basename -s " + Creation.getExtention() + " " + Main._FILEPATH + "/*";
+				String getCreations = "basename -s " + Creation.getExtention() + " " + Main._CREATIONPATH + "/*";
 				List<String> nameList = BashCommandClass.getListOutput(getCreations);
 				
 				//For all stored creation names, get the lengths of the creation, and make a new creation object
 				for (String s : nameList) {
 					
-					String getCreationLength = "ffprobe -i " + Main._FILEPATH + "/" + s + Creation.getExtention() + " -show_entries format=duration -v quiet -of csv=\"p=0\"";
+					String getCreationLength = "ffprobe -i " + Main._CREATIONPATH + "/" + s + Creation.getExtention() + " -show_entries format=duration -v quiet -of csv=\"p=0\"";
+					System.out.println(getCreationLength);
 					String length = BashCommandClass.getOutputFromCommand(getCreationLength);
 					double numberLength = Double.parseDouble(length);		
 					String roundedLength = String.format("%.2f", numberLength);

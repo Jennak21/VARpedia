@@ -22,8 +22,6 @@ import javafx.fxml.Initializable;
 public class CreatingVideoContoller extends SceneChanger implements Initializable { 
 
 	private CreationProcess _creationProcess;
-	private String _searchTerm;
-	private int _numImages;
 	private String _fileName;
 	
 	
@@ -86,20 +84,20 @@ public class CreatingVideoContoller extends SceneChanger implements Initializabl
 			
 			//Check for successful video creation
 			if (createVidBG.getValue()) {
-//				try {
-//					changeScene(_anchorPane, "/fxml/MainMenuPane.fxml");
-//				} catch (IOException e) {
-//					new ErrorAlert("Couldn't change scene");
-//				}
+				try {
+					changeScene(_anchorPane, "/fxml/MainMenuPane.fxml");
+				} catch (IOException e) {
+					new ErrorAlert("Couldn't change scene");
+				}
 
 			} else {
 				//Search failed, inform user and go back to search screen
 				new ErrorAlert("Could not could not create video");
-//				try {
-//					changeScene(_anchorPane, "/fxml/MainMenuPane.fxml");
-//				} catch (IOException e) {
-//					new ErrorAlert("Couldn't change scene");
-//				}
+				try {
+					changeScene(_anchorPane, "/fxml/MainMenuPane.fxml");
+				} catch (IOException e) {
+					new ErrorAlert("Couldn't change scene");
+				}
 				cancelCreation();
 			}
 			
@@ -120,7 +118,7 @@ public class CreatingVideoContoller extends SceneChanger implements Initializabl
 			new ErrorAlert("Could not quit");
 		}
 		try {
-			changeScene(_anchorPane, "/fxml/SelectAudioScene.fxml");
+			changeScene(_anchorPane, "/fxml/FileMameScene.fxml");
 		} catch (IOException e) {
 			new ErrorAlert("Couldn't change scene");
 		}
