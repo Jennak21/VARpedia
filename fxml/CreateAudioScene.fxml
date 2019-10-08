@@ -33,13 +33,12 @@
       </HBox>
       <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="20.0" GridPane.rowIndex="1">
          <children>
-            <Button fx:id="_resetTextButton" mnemonicParsing="false" onAction="#ResetTextHandle" text="Reset Text" />
-            <Button fx:id="_resetAudioButton" mnemonicParsing="false" onAction="#ResetAudioHandle" text="Reset Audio" />
+            <Button fx:id="_resetButton" mnemonicParsing="false" onAction="#resetHandle" text="Reset Text" />
          </children>
       </HBox>
       <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" GridPane.columnSpan="2">
         <tabs>
-          <Tab text="Search Result">
+          <Tab onSelectionChanged="#resultTabHandle" text="Search Result">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
@@ -81,7 +80,7 @@
                   </AnchorPane>
             </content>
           </Tab>
-          <Tab text="Saved">
+          <Tab onSelectionChanged="#savedTabHandle" text="Saved">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="572.0" prefWidth="834.0">
                      <children>

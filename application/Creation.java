@@ -55,6 +55,11 @@ public class Creation {
 		return _testAcc.get();
 	}
 	
+	public int getAccuracyWeighting() {
+		int accuracyWeight = 100 - Integer.parseInt(_testAcc.get());
+		return accuracyWeight;
+	}
+	
 	@Override
 	public String toString() {
 		return (_filename.get() + ": " + _length.get());

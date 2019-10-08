@@ -42,9 +42,7 @@ public class CreateAudioController extends SceneChanger {
 	@FXML
 	private TextArea _searchResult;
 	@FXML
-	private Button _resetTextButton;
-	@FXML
-	private Button _resetAudioButton;
+	private Button _resetButton;
 	@FXML
 	private Button _nextButton;
 	@FXML
@@ -108,34 +106,33 @@ public class CreateAudioController extends SceneChanger {
 	}
 	
 	/**
-	 * Reset search text
+	 * Reset search text or audio file
 	 */
 	@FXML
-	private void ResetTextHandle() {
-		_searchResult.setText(_process.getSearchText());
-	}
-	
-	@FXML
-	private void ResetAudioHandle() {
-		try {
-			String searchCommand = "ls " + Main._FILEPATH + "/newCreation/audio" + Creation.AUDIO_EXTENTION;
-			int exitVal = BashCommandClass.runBashProcess(searchCommand);
-			
-			if (exitVal == 0) {
-				String resetCommand = "rm -f " + Main._FILEPATH + "/newCreation/audio" + Creation.AUDIO_EXTENTION;
-				exitVal = BashCommandClass.runBashProcess(resetCommand);
+	private void resetHandle() {
+		if (_resetButton.getText().equals("Reset Audio")) {
+			try {
+				String searchCommand = "ls " + Main._FILEPATH + "/newCreation/audio" + Creation.AUDIO_EXTENTION;
+				int exitVal = BashCommandClass.runBashProcess(searchCommand);
 				
 				if (exitVal == 0) {
-					new InformationAlert("Audio reset");
-					_process.resetUserText();
-					_savedText.setText(_process.getUserText());
-				} else {
-					new ErrorAlert("Could not reset audio");
+					String resetCommand = "rm -f " + Main._FILEPATH + "/newCreation/audio" + Creation.AUDIO_EXTENTION;
+					exitVal = BashCommandClass.runBashProcess(resetCommand);
+					
+					if (exitVal == 0) {
+						new InformationAlert("Audio reset");
+						_process.resetUserText();
+						_savedText.setText(_process.getUserText());
+					} else {
+						new ErrorAlert("Could not reset audio");
+					}
 				}
+			} catch (IOException | InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-		} catch (IOException | InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} else if (_resetButton.getText().equals("Reset Text")) {
+			_searchResult.setText(_process.getSearchText());
 		}
 	}
 	
@@ -405,5 +402,15 @@ public class CreateAudioController extends SceneChanger {
 				_preview.stopProcess();
 			}
 		}
+	}
+	
+	@FXML
+	private void resultTabHandle() {
+		_resetButton.setText("Reset Text");
+	}
+	
+	@FXML
+	private void savedTabHandle() {
+		_resetButton.setText("Reset Audio");
 	}
 }
