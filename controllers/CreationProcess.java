@@ -14,13 +14,13 @@ import javax.swing.JOptionPane;
 import javafx.concurrent.Task;
 
 public class CreationProcess {
-	private static CreationProcess CREATION_INSTANCE= null;
+	private static CreationProcess CREATION_INSTANCE = null;
 
 
 	private String _searchTerm = "apple";
-	private String _fullSearchText;
-	private String _fullUserText;
-	private String _selectedText;
+	private String _fullSearchText = "";
+	private String _fullUserText = "";
+	private String _selectedText = "";
 	public String _fileName;
 	public int _numImages;
 	public ArrayList<String> _audioFileList;
@@ -69,14 +69,21 @@ public class CreationProcess {
 		_fileName = name;	
 	}
 
-
 	public String getFileName() {
 		return _fileName;
 	}
+	
+	public void addToUserText(String s) {
+		_fullUserText = _fullUserText + s;
+	}
 
-
-
-
+	public void resetUserText() {
+		_fullUserText = "";
+	}
+	
+	public String getUserText() {
+		return _fullUserText;
+	}
 
 
 	public static void destroy() {

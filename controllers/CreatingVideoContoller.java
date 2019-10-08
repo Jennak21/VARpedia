@@ -86,25 +86,42 @@ public class CreatingVideoContoller extends SceneChanger implements Initializabl
 			
 			//Check for successful video creation
 			if (createVidBG.getValue()) {
-//				try {
-//					changeScene(_anchorPane, "/fxml/MainMenuPane.fxml");
-//				} catch (IOException e) {
-//					new ErrorAlert("Couldn't change scene");
-//				}
-
+				//Store new creation information;
+				storeInfo();
+				
 			} else {
 				//Search failed, inform user and go back to search screen
 				new ErrorAlert("Could not could not create video");
-//				try {
-//					changeScene(_anchorPane, "/fxml/MainMenuPane.fxml");
-//				} catch (IOException e) {
-//					new ErrorAlert("Couldn't change scene");
-//				}
-				cancelCreation();
+				
+				cancelCreation();	
 			}
 			
 			CreationProcess.destroy();
+			
+			try {
+				changeScene(_anchorPane, "/fxml/MainMenuPane.fxml");
+			} catch (IOException e) {
+				new ErrorAlert("Couldn't change scene");
+			}
 		});
+	}
+	
+	private void storeInfo() {
+		
+		try {
+			String lengthCommand = "echo `soxi -D " + Main._CREATIONPATH + "/" + _fileName + Creation.EXTENTION + "`";
+			String length = BashCommandClass.getOutputFromCommand(lengthCommand);
+			
+			String newCreationInfo = "\n" + _fileName + ";" + _searchTerm + ";" + length + ";" + "0";
+			
+			String addInfo = "echo \"$(cat " + Main._FILEPATH + "/creationInfo.txt) " + newCreationInfo + "\" > " + Main._FILEPATH + "/creationInfo.txt";
+			BashCommandClass.runBashProcess(addInfo);
+			
+			Main.getCreationList().add(new Creation(_fileName, _searchTerm, length));
+		} catch (IOException | InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	private void cancelCreation() {
