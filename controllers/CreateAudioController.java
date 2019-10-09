@@ -87,7 +87,7 @@ public class CreateAudioController extends SceneChanger {
 		}
 		
 		_voiceDropDown.setItems(voiceChoices);
-		_voiceDropDown.getSelectionModel().select(3);;
+		_voiceDropDown.getSelectionModel().selectFirst();
 		
 		//Check if any audio files exist, if not then disable 'next' button
 		try {
