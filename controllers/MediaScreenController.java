@@ -55,6 +55,8 @@ public class MediaScreenController extends SceneChanger {
 		_player = new VideoPlayer(_mediaStackPane, _controlsPane, _bottomControls);
 		_player.setMedia(fullFilePath);
 		_player.setAutoSize();
+		
+		_player.play();
 	}
 	
 	

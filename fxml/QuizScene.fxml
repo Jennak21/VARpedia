@@ -12,6 +12,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 <GridPane fx:id="_quizPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.QuizController">
@@ -118,6 +119,15 @@
                      <bottom>
                         <HBox fx:id="_videoControlsBar" maxHeight="30.0" minHeight="30.0" opacity="0.9" prefHeight="30.0" style="-fx-background-color: #efefef;" BorderPane.alignment="CENTER" />
                      </bottom>
+                  </BorderPane>
+               </children>
+            </StackPane>
+            <StackPane fx:id="_audioStackPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <children>
+                  <BorderPane fx:id="_audioControlsPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+                     <center>
+                        <VBox fx:id="_audioControlsBar" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER" />
+                     </center>
                   </BorderPane>
                </children>
             </StackPane>

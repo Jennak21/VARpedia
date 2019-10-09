@@ -23,6 +23,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 
 public class QuizController extends SceneChanger {
 	@FXML
@@ -62,6 +63,12 @@ public class QuizController extends SceneChanger {
 	private BorderPane _videoControlsPane;
 	@FXML
 	private HBox _videoControlsBar;
+	@FXML
+	private StackPane _audioStackPane;
+	@FXML
+	private BorderPane _audioControlsPane;
+	@FXML
+	private VBox _audioControlsBar;
 	
 	//Result pane
 	@FXML
@@ -73,6 +80,7 @@ public class QuizController extends SceneChanger {
 	
 	
 	private VideoPlayer _videoPlayer;
+	private AudioPlayer _audioPlayer;
 	private int _numQuestions;
 	private int _currentQuestion;
 	private int _numCorrect;
@@ -130,6 +138,8 @@ public class QuizController extends SceneChanger {
 		_videoPlayer.removeVolControls();
 		_videoPlayer.removeTimeLabels();
 		
+		_audioPlayer = new AudioPlayer(_audioStackPane, _audioControlsPane, _audioControlsBar);
+		
 		
 		//Get first question
 		loadQuestion();
@@ -152,6 +162,9 @@ public class QuizController extends SceneChanger {
 			
 			String videoPath = Main._CREATIONPATH + "/apple" + Creation.EXTENTION;
 			_videoPlayer.setMedia(videoPath);
+			
+			String audioPath = Main._AUDIOPATH + "/audio" + Creation.AUDIO_EXTENTION;
+			_audioPlayer.setMedia(audioPath);
 		}
 		
 		_guessField.requestFocus();

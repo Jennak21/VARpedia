@@ -261,8 +261,10 @@ public class VideoPlayer {
 		
     	//Adjust controls to fit new media
 		setupPlayer();
-		
-		_player.play();
+    }
+    
+    public void play() {
+    	_player.play();
     }
     
     public void setAutoSize() {
