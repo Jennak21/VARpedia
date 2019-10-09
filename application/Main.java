@@ -30,7 +30,7 @@ public class Main extends Application {
 		try {
 			layout = FXMLLoader.load(getClass().getResource("/fxml/MainMenuPane.fxml"));
 			Scene scene = new Scene(layout);
-			primaryStage.setResizable(false);
+			primaryStage.setResizable(true);
 			primaryStage.setScene(scene);
 			primaryStage.setTitle("VARpedia");
 			primaryStage.show();

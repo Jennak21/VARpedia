@@ -19,27 +19,33 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 
 public class QuizController extends SceneChanger {
 	@FXML
 	private GridPane _quizPane;
 	@FXML
-	private Button _submitButton;
-	@FXML
-	private Button _quitButton;
-	@FXML
 	private Label _progressLabel;
 	@FXML
-	private GridPane _optionsGrid;
+	private Button _quitButton;
+	
+	//Settings pane
 	@FXML
-	private GridPane _quizGrid;
+	private GridPane _optionsGrid;
 	@FXML
 	private Button _startButton;
 	@FXML
 	private Slider _questionsSlider;
+	
+	
+	//Quiz pane
 	@FXML
-	private GridPane _summaryGrid;
+	private GridPane _quizGrid;
+	@FXML
+	private Button _submitButton;
 	@FXML
 	private TextField _guessField;
 	@FXML
@@ -51,10 +57,22 @@ public class QuizController extends SceneChanger {
 	@FXML
 	private Label _correctLabel;
 	@FXML
+	private StackPane _videoStackPane;
+	@FXML
+	private BorderPane _videoControlsPane;
+	@FXML
+	private HBox _videoControlsBar;
+	
+	//Result pane
+	@FXML
+	private GridPane _summaryGrid;
+	@FXML
 	private Label _resultsTotalLabel;
 	@FXML
 	private ListView _resultsList;
 	
+	
+	private VideoPlayer _videoPlayer;
 	private int _numQuestions;
 	private int _currentQuestion;
 	private int _numCorrect;
@@ -107,6 +125,12 @@ public class QuizController extends SceneChanger {
 			}
 		});
 		
+		//Create video player with custom control set
+		_videoPlayer = new VideoPlayer(_videoStackPane, _videoControlsPane, _videoControlsBar);
+		_videoPlayer.removeVolControls();
+		_videoPlayer.removeTimeLabels();
+		
+		
 		//Get first question
 		loadQuestion();
 	}
@@ -126,7 +150,8 @@ public class QuizController extends SceneChanger {
 
 			randomCreation();
 			
-			System.out.println(_creation.getSearchTerm());
+			String videoPath = Main._CREATIONPATH + "/apple" + Creation.EXTENTION;
+			_videoPlayer.setMedia(videoPath);
 		}
 		
 		_guessField.requestFocus();
@@ -218,6 +243,10 @@ public class QuizController extends SceneChanger {
 	
 	@FXML
 	private void quitHandle() {
+		if (_videoPlayer != null) {
+			_videoPlayer.stopVideo();
+		}
+		
 		finishQuiz();
 	}
 	
