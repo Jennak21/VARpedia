@@ -1,6 +1,7 @@
 package controllers;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -126,10 +127,15 @@ public class CreatingVideoContoller extends SceneChanger implements Initializabl
 //
 //			long length = audioFile.length();
 			
-			String newCreationInfo = _fileName + ";" + _searchTerm + ";" + roundedLength + ";" + "0\n";
+			String infoFile = Main._FILEPATH + "/creationInfo.txt";
+			FileWriter fw = new FileWriter(infoFile, true);
 			
-			String addInfo = "echo \"$(cat " + Main._FILEPATH + "/creationInfo.txt)" + newCreationInfo + "\" > " + Main._FILEPATH + "/creationInfo.txt";
-			BashCommandClass.runBashProcess(addInfo);
+			String newCreationInfo = _fileName + ";" + _searchTerm + ";" + roundedLength + ";" + "0\n";
+			fw.write(newCreationInfo);
+			fw.close();
+			
+//			String addInfo = "echo \"$(cat " + Main._FILEPATH + "/creationInfo.txt)" + newCreationInfo + "\" > " + Main._FILEPATH + "/creationInfo.txt";
+//			BashCommandClass.runBashProcess(addInfo);
 			
 			Main.getCreationList().add(new Creation(_fileName, _searchTerm, roundedLength));
 		} catch (IOException | InterruptedException e) {
@@ -142,9 +148,9 @@ public class CreatingVideoContoller extends SceneChanger implements Initializabl
 		// remove files that had been created
 		String audioFilePath = Main._AUDIOPATH + "/" + _fileName + Creation.AUDIO_EXTENTION;
 		String slidesFilePath= Main._VIDPATH + "/" + _fileName  + Creation.EXTENTION;
-		String tempVidFilePath = Main._FILEPATH + "/newCreation/" + "TempVideo" + Creation.EXTENTION;
 		String creationFilePath = Main._CREATIONPATH + "/" + _fileName + Creation.EXTENTION;
-		String removeVidFiles = "rm -f " + audioFilePath + " " + slidesFilePath + " " + tempVidFilePath + " " + creationFilePath;
+		String removeVidFiles = "rm -f " + audioFilePath + " " + slidesFilePath + " " + creationFilePath;
+		
 		try {
 			BashCommandClass.runBashProcess(removeVidFiles);
 		} catch (IOException | InterruptedException e1) {
@@ -156,7 +162,4 @@ public class CreatingVideoContoller extends SceneChanger implements Initializabl
 			new ErrorAlert("Couldn't change scene");
 		}
 	}
-
-
-
 }

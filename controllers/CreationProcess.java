@@ -21,9 +21,10 @@ public class CreationProcess {
 	private String _fullSearchText = "";
 	private String _fullUserText = "";
 	private String _selectedText = "";
-	public String _fileName;
-	public ArrayList<String> _audioFileList;
-	public ArrayList<String> _imageList;
+	private String _fileName;
+	private String _bgMusic;
+	private ArrayList<String> _audioFileList;
+	private ArrayList<String> _imageList;
 
 	public static CreationProcess getInstance() {
 		if (CREATION_INSTANCE == null) {
@@ -95,7 +96,14 @@ public class CreationProcess {
 	public ArrayList<String> getImageList() {
 		return _imageList;	
 	}
-
+	
+	public void setBGMusic(String music) {
+		_bgMusic = music;
+	}
+	
+	public String getBGMusic() {
+		return _bgMusic;
+	}
 
 	public void clearSelectedImages() {
 		_imageList = null;
