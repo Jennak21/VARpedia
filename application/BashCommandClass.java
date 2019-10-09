@@ -101,7 +101,9 @@ public class BashCommandClass {
 		BufferedReader stdoutBuffered = new BufferedReader(new InputStreamReader(stdout));
 		String line = null;
 		while ((line = stdoutBuffered.readLine()) != null ) {
-			output.add(line);
+			if (!line.isEmpty()) {
+				output.add(line);
+			}
 		}
 		
 		return output;

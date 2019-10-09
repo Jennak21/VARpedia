@@ -112,7 +112,7 @@ public class CreatingVideoContoller extends SceneChanger implements Initializabl
 			String lengthCommand = "echo `soxi -D " + Main._CREATIONPATH + "/" + _fileName + Creation.EXTENTION + "`";
 			String length = BashCommandClass.getOutputFromCommand(lengthCommand);
 			
-			String newCreationInfo = "\n" + _fileName + ";" + _searchTerm + ";" + length + ";" + "0";
+			String newCreationInfo = _fileName + ";" + _searchTerm + ";" + length + ";" + "0\n";
 			
 			String addInfo = "echo \"$(cat " + Main._FILEPATH + "/creationInfo.txt) " + newCreationInfo + "\" > " + Main._FILEPATH + "/creationInfo.txt";
 			BashCommandClass.runBashProcess(addInfo);

@@ -21,7 +21,7 @@
     <RowConstraints maxHeight="20000.0" minHeight="0.0" prefHeight="90.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <Label fx:id="_titleLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="120.0" prefWidth="624.0" text="Varpedia" textAlignment="CENTER" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+      <Label fx:id="_titleLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="120.0" prefWidth="624.0" text="VARpedia" textAlignment="CENTER" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
          <font>
             <Font size="45.0" />
          </font>

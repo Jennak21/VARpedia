@@ -21,11 +21,23 @@ public class QuizResult {
 		}
 	}
 	
-	public String getResult() {
+	public String getResultString() {
 		return _creation.getSearchTerm() + ": " + _numCorrect + "/" + _totalNum;
+	}
+	
+	public double getResultStat() {
+		return _numCorrect/_totalNum;
+	}
+	
+	public Creation getCreation() {
+		return _creation;
 	}
 	
 	public boolean sameCreation(Creation creation) {
 		return _creation.getFilename().equals(creation.getFilename());
+	}
+	
+	public boolean sameFileCreation(String filename) {
+		return filename.equals(_creation.getFilename());
 	}
 }

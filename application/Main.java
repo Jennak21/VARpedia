@@ -32,7 +32,7 @@ public class Main extends Application {
 			Scene scene = new Scene(layout);
 			primaryStage.setResizable(false);
 			primaryStage.setScene(scene);
-			primaryStage.setTitle("WikiSpeak");
+			primaryStage.setTitle("VARpedia");
 			primaryStage.show();
 		} catch (IOException e) {
 			//new ErrorAlert("Can't load application");

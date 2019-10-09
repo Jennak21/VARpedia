@@ -4,11 +4,15 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import application.BashCommandClass;
 import application.Creation;
 import application.ErrorAlert;
 import application.Main;
+import background.QuizResultsBackgroundTask;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -60,7 +64,6 @@ public class QuizController extends SceneChanger {
 	@FXML
 	private void initialize() {
 		//Ensure correct components are visible
-		_quitButton.setDisable(true);
 		_submitButton.setDisable(true);
 		
 		_optionsGrid.setVisible(true);
@@ -68,6 +71,14 @@ public class QuizController extends SceneChanger {
 		_summaryGrid.setVisible(false);
 		
 		_quizResults = new ArrayList<QuizResult>();
+	
+		//Initially set quit button to go back to main menu
+		_quitButton.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				finishHandle();
+			}
+		});
 	}
 	
 	@FXML
@@ -86,8 +97,15 @@ public class QuizController extends SceneChanger {
 		_correctLabelTop.setVisible(false);
 		_guessField.setVisible(true);
 		
-		_quitButton.setDisable(false);
 		_submitButton.setDisable(false);
+		
+		//Change quit button action to load results
+		_quitButton.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				quitHandle();
+			}
+		});
 		
 		//Get first question
 		loadQuestion();
@@ -110,6 +128,8 @@ public class QuizController extends SceneChanger {
 			
 			System.out.println(_creation.getSearchTerm());
 		}
+		
+		_guessField.requestFocus();
 	}
 	
 	private void randomCreation() {
@@ -213,6 +233,9 @@ public class QuizController extends SceneChanger {
 		
 		//Load results into list
 		loadResults();
+		
+		//Save result statistics
+		saveResults();
 	}
 	
 	private void loadResults() {
@@ -222,11 +245,17 @@ public class QuizController extends SceneChanger {
 		//Get results for all creations that were tested
 		for (QuizResult q: _quizResults) {
 			//Store result in results list
-			results.add(q.getResult());
+			results.add(q.getResultString());
 		}
 		
 		//Set list
 		_resultsList.setItems(results);
+	}
+	
+	private void saveResults() {
+		QuizResultsBackgroundTask quizResultsTask = new QuizResultsBackgroundTask(_quizResults);
+		Thread resultsThread = new Thread(quizResultsTask);
+		resultsThread.start();
 	}
 	
 	@FXML

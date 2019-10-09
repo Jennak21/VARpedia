@@ -69,10 +69,12 @@ public class MainMenuController extends SceneChanger {
         
         TableColumn<Creation, String> nameCol = new TableColumn<>("Filename");
         nameCol.setCellValueFactory(new PropertyValueFactory<Creation, String>("filename"));
-        TableColumn<Creation, Double> lengthCol = new TableColumn<>("Length");
-        lengthCol.setCellValueFactory(new PropertyValueFactory<Creation, Double>("length"));
+        TableColumn<Creation, String> lengthCol = new TableColumn<>("Length");
+        lengthCol.setCellValueFactory(new PropertyValueFactory<Creation, String>("length"));
+        TableColumn<Creation, String> accCol = new TableColumn<>("Accuracy");
+        accCol.setCellValueFactory(new PropertyValueFactory<Creation, String>("testAcc"));
         
-        _creationTable.getColumns().setAll(nameCol, lengthCol);
+        _creationTable.getColumns().setAll(nameCol, lengthCol, accCol);
         _creationTable.setPrefWidth(450);
         _creationTable.setPrefHeight(300);
         _creationTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
