@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ProgressBar?>
@@ -8,35 +9,55 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<GridPane fx:id="_gridPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.SearchController">
+<GridPane fx:id="_gridPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.SearchController">
   <columnConstraints>
     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
   </columnConstraints>
   <rowConstraints>
-    <RowConstraints maxHeight="100.0" minHeight="100.0" prefHeight="100.0" vgrow="SOMETIMES" />
-    <RowConstraints maxHeight="100.0" minHeight="50.0" prefHeight="107.0" vgrow="SOMETIMES" />
-      <RowConstraints maxHeight="151.0" minHeight="0.0" prefHeight="123.0" vgrow="SOMETIMES" />
-    <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="30.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="182.0" minHeight="100.0" prefHeight="116.12619018554688" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="393.8738098144531" minHeight="50.0" prefHeight="393.8738098144531" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="138.5" minHeight="0.0" prefHeight="89.70181274414062" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <Label fx:id="_titleLabel" alignment="CENTER" contentDisplay="CENTER" text="Enter Search Term:" GridPane.halignment="CENTER">
+      <TextField fx:id="_searchField" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyReleased="#onTypeHandler" prefHeight="44.0" prefWidth="355.0" styleClass="text-field" stylesheets="@SearchStyle.css" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+      <ProgressBar fx:id="_progressBar" prefHeight="44.0" prefWidth="355.0" progress="0.0" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#414582" height="3.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="491.0" GridPane.valignment="BOTTOM">
+         <GridPane.margin>
+            <Insets bottom="30.0" top="20.0" />
+         </GridPane.margin>
+      </Rectangle>
+      <Label fx:id="_titleLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="58.0" prefWidth="454.0" text="Enter Search Term:" textFill="#414582" GridPane.halignment="LEFT" GridPane.valignment="TOP">
          <font>
             <Font size="40.0" />
          </font>
+         <GridPane.margin>
+            <Insets top="30.0" />
+         </GridPane.margin>
       </Label>
-      <TextField fx:id="_searchField" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyReleased="#onTypeHandler" prefHeight="31.0" prefWidth="253.0" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-      <Button fx:id="_backButton" mnemonicParsing="false" onAction="#BackHandle" text="Back" GridPane.rowIndex="3" GridPane.valignment="BOTTOM" />
-      <Button fx:id="_searchButton" mnemonicParsing="false" onAction="#SearchHandle" text="Search" GridPane.halignment="RIGHT" GridPane.rowIndex="3" GridPane.valignment="BOTTOM" />
-      <Label fx:id="_searchingLabel" text="Searching..." visible="false" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="TOP">
+      <Button fx:id="_backButton" maxWidth="112.0" minWidth="90.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#backHandle" prefHeight="45.0" prefWidth="112.0" style="-fx-background-color: #a8c6e5; -fx-background-radius: 30;" text="Back" textFill="WHITE" GridPane.rowIndex="2" GridPane.valignment="CENTER">
          <font>
-            <Font size="25.0" />
+            <Font size="18.0" />
          </font>
-      </Label>
-      <ProgressBar fx:id="_progressBar" prefHeight="33.0" prefWidth="251.0" progress="0.0" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <GridPane.margin>
+            <Insets left="20.0" />
+         </GridPane.margin>
+      </Button>
+      <Button fx:id="_searchButton" maxWidth="112.0" minWidth="90.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#searchHandle" prefHeight="45.0" prefWidth="112.0" style="-fx-background-color: #414582; -fx-background-radius: 30;" text="Search" textFill="WHITE" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+         <font>
+            <Font size="18.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <GridPane.margin>
+            <Insets right="30.0" />
+         </GridPane.margin>
+      </Button>
    </children>
-   <padding>
-      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-   </padding>
 </GridPane>

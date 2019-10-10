@@ -141,7 +141,7 @@ public class CreateAudioController extends SceneChanger {
 	 * Run for preview text
 	 */
 	@FXML
-	private synchronized void PreviewHandle() {
+	private synchronized void previewHandle() {
 		//Action dependent on whether there is a preview running or not
 		if (_previewButton.getText().equals("Preview Selected Text")) {
 			if (_preview != null) {
@@ -194,7 +194,7 @@ public class CreateAudioController extends SceneChanger {
 	}
 	
 	@FXML
-	private void SaveHandle() {		
+	private void saveHandle() {		
 		if (_saveButton.getText().equals("Save Audio")) {
 			if (createTextFile() && createSettingsFile()) {
 				_saveButton.setText("Saving...");
@@ -330,7 +330,7 @@ public class CreateAudioController extends SceneChanger {
 	}	
 	
 	@FXML
-	private void BackHandle() {		
+	private void backHandle() {		
 		try {
 			String removeFolder = "rm -r " + Main._FILEPATH + "/newCreation";
 			BashCommandClass.runBashProcess(removeFolder);
@@ -342,7 +342,7 @@ public class CreateAudioController extends SceneChanger {
 	}
 	
 	@FXML
-	private void NextHandle() {	
+	private void nextHandle() {	
 		
 		//Disable for testing
 //		storeInfo();

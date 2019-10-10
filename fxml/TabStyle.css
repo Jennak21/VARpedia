@@ -1,0 +1,35 @@
+.tab
+{
+    -fx-background-color: #ffffff;
+    -fx-border-width: 0 0 0 0;
+    -fx-border-color: #ffffff #ffffff #ffffff #ffffff;
+    -fx-cursor: hand;
+}
+.tab:selected 
+{
+    -fx-background-radius: 0;
+    -fx-background-insets: 0;
+    -fx-background-color: #ffffff;
+    -fx-border-width: 0 0 3 0;
+    -fx-border-color: #c2c2c2 #c2c2c2  #414582 #c2c2c2
+}
+.tab-pane *.tab-header-background 
+{
+    -fx-background-color: #ffffff, #ffffff, #ffffff;
+    -fx-border-width: 1 0 1 0;
+    -fx-border-color: #ffffff #ffffff #ffffff #ffffff;
+    -fx-padding: 0 -1 -1 -1
+}
+
+.tab {
+
+    -fx-pref-width: 260;
+    -fx-pref-height: 50;
+	
+} 
+
+.tab-label {
+    -fx-text-fill: #414582 ;
+    -fx-font-size: 20px;
+}
+
