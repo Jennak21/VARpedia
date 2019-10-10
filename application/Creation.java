@@ -52,7 +52,7 @@ public class Creation {
 	}
 	
 	public String getTestAcc() {
-		return _testAcc.get();
+		return _testAcc.get() + "%";
 	}
 	
 	public void setTestAcc(int newAcc) {

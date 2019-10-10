@@ -351,7 +351,7 @@ public class CreateAudioController extends SceneChanger {
 				String removeTempaudio = "rm -f " + Main._FILEPATH + "/newCreation/tempAudio" + Creation.AUDIO_EXTENTION;
 				BashCommandClass.runBashProcess(removeTempaudio);
 				
-				changeScene(_gridPane, "/fxml/SelectAudioScene.fxml");
+				changeScene(_gridPane, "/fxml/SelectImageScene.fxml");
 			} catch (IOException | InterruptedException e) {
 			new ErrorAlert("Couldn't change scene");
 		}
