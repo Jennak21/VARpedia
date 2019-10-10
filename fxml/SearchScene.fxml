@@ -26,15 +26,15 @@
       <ProgressBar fx:id="_progressBar" prefHeight="44.0" prefWidth="355.0" progress="0.0" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#414582" height="3.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="491.0" GridPane.valignment="BOTTOM">
          <GridPane.margin>
-            <Insets bottom="30.0" top="20.0" />
+            <Insets />
          </GridPane.margin>
       </Rectangle>
-      <Label fx:id="_titleLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="58.0" prefWidth="454.0" text="Enter Search Term:" textFill="#414582" GridPane.halignment="LEFT" GridPane.valignment="TOP">
+      <Label fx:id="_titleLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="58.0" prefWidth="454.0" text="Enter Search Term:" textFill="#414582" GridPane.halignment="LEFT" GridPane.valignment="BOTTOM">
          <font>
             <Font size="40.0" />
          </font>
          <GridPane.margin>
-            <Insets top="30.0" />
+            <Insets />
          </GridPane.margin>
       </Label>
       <Button fx:id="_backButton" maxWidth="112.0" minWidth="90.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#backHandle" prefHeight="45.0" prefWidth="112.0" style="-fx-background-color: #a8c6e5; -fx-background-radius: 30;" text="Back" textFill="WHITE" GridPane.rowIndex="2" GridPane.valignment="CENTER">

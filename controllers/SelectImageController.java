@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import application.BashCommandClass;
@@ -19,6 +20,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -35,7 +37,13 @@ public class SelectImageController extends SceneChanger implements Initializable
 	private ProgressIndicator _progressIndicator;
 
 	@FXML
-	private Text _userText;
+	private Text _imageText;
+	
+	@FXML
+	private Text _musicText;
+	
+	@FXML
+	private ChoiceBox _musicChoiceBox;
 
 	@FXML
 	private Button _nextButton;
@@ -68,6 +76,7 @@ public class SelectImageController extends SceneChanger implements Initializable
 		_creationProcess = CreationProcess.getInstance();
 
 		_creationProcess.clearSelectedImages();
+		
 
 
 		_downloadImage = new DownloadImageBackgroundTask();
@@ -77,13 +86,13 @@ public class SelectImageController extends SceneChanger implements Initializable
 		_downloadImage.setOnRunning(running -> {
 			//make label visible which will show progress updates
 			_progressIndicator.setProgress(-1.0);
-			_userText.setText("Fetching images for your creation"); 	
+			_imageText.setText("Fetching images for your creation"); 	
 
 		});
 
 
 		_downloadImage.setOnSucceeded(finish -> {
-			_userText.setText("Select images for your creation"); 	
+			_imageText.setText("Select images for your creation"); 	
 			loadDataToTable();
 			_progressIndicator.setVisible(false);
 		});
