@@ -1,8 +1,14 @@
 package controllers;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import javax.sound.sampled.AudioFormat;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.UnsupportedAudioFileException;
 
 import application.BashCommandClass;
 import application.Creation;
@@ -41,9 +47,9 @@ public class CreatingVideoContoller extends SceneChanger implements Initializabl
 	public void initialize(URL location, ResourceBundle resources) {
 		_creationProcess = CreationProcess.getInstance();
 		_fileName = _creationProcess.getFileName();
+		_searchTerm = _creationProcess.getSearchTerm();
 		
 		createVideo();
-
 	}
 
 
@@ -109,15 +115,23 @@ public class CreatingVideoContoller extends SceneChanger implements Initializabl
 	private void storeInfo() {
 		
 		try {
-			String lengthCommand = "echo `soxi -D " + Main._CREATIONPATH + "/" + _fileName + Creation.EXTENTION + "`";
-			String length = BashCommandClass.getOutputFromCommand(lengthCommand);
+			String lengthCommand = "ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 " + Main._CREATIONPATH + "/" + _fileName + Creation.EXTENTION;
+			String length = BashCommandClass.getOutputFromCommand(lengthCommand).trim();
+			double doubleLength = Double.parseDouble(length);
+			String roundedLength = String.format("%.2f", doubleLength);
+						
+//			File audioFile = new File(Main._AUDIOPATH + "/" + _fileName + Creation.AUDIO_EXTENTION);
+//			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioFile);					
+//			AudioFormat format = audioInputStream.getFormat();							
+//
+//			long length = audioFile.length();
 			
-			String newCreationInfo = _fileName + ";" + _searchTerm + ";" + length + ";" + "0\n";
+			String newCreationInfo = _fileName + ";" + _searchTerm + ";" + roundedLength + ";" + "0\n";
 			
-			String addInfo = "echo \"$(cat " + Main._FILEPATH + "/creationInfo.txt) " + newCreationInfo + "\" > " + Main._FILEPATH + "/creationInfo.txt";
+			String addInfo = "echo \"$(cat " + Main._FILEPATH + "/creationInfo.txt)" + newCreationInfo + "\" > " + Main._FILEPATH + "/creationInfo.txt";
 			BashCommandClass.runBashProcess(addInfo);
 			
-			Main.getCreationList().add(new Creation(_fileName, _searchTerm, length));
+			Main.getCreationList().add(new Creation(_fileName, _searchTerm, roundedLength));
 		} catch (IOException | InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

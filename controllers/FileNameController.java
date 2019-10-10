@@ -98,8 +98,8 @@ public class FileNameController extends SceneChanger implements Initializable{
 	@FXML
 	private void onTypeHandler(KeyEvent event) {
 		//check if field properties are empty or not, set create button to  be disabled or not accordingly
-		_fileName = _fileNameEntry.getText();
-		boolean isDisabled = ((_fileName.isEmpty())|| _fileName.trim().isEmpty());
+		_fileName = _fileNameEntry.getText().trim();
+		boolean isDisabled = (_fileName.isEmpty());
 		_nextButton.setDisable(isDisabled);
 		
 		if ((event.getCode() == KeyCode.ENTER) && !_fileName.isEmpty() && !_fileName.trim().isEmpty()) {

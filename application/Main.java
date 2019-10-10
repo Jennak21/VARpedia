@@ -81,10 +81,10 @@ public class Main extends Application {
 			for (String s : creationList) {
 				String[] info = s.split(";");
 				
-				String filename = info[0];
-				String searchTerm = info[1];
-				String length = info[2];
-				String testAcc = info[3];
+				String filename = info[0].trim();
+				String searchTerm = info[1].trim();
+				String length = info[2].trim();
+				String testAcc = info[3].trim();
 				
 				_creationList.add(new Creation(filename, searchTerm, length, testAcc));
 			}

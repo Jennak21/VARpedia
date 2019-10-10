@@ -160,10 +160,12 @@ public class QuizController extends SceneChanger {
 
 			randomCreation();
 			
-			String videoPath = Main._CREATIONPATH + "/apple" + Creation.EXTENTION;
+			String filename = _creation.getFilename();
+			
+			String videoPath = Main._VIDPATH + "/" + filename + Creation.EXTENTION;
 			_videoPlayer.setMedia(videoPath);
 			
-			String audioPath = Main._AUDIOPATH + "/audio" + Creation.AUDIO_EXTENTION;
+			String audioPath = Main._AUDIOPATH + "/" + filename + Creation.AUDIO_EXTENTION;
 			_audioPlayer.setMedia(audioPath);
 		}
 		

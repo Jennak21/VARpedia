@@ -91,7 +91,8 @@ public class MainMenuController extends SceneChanger {
 		try {
 			changeScene((Node)event.getSource(), "/fxml/MediaScreenPane.fxml");
 		} catch (IOException e) {
-			new ErrorAlert("Couldn't change scenes");
+			e.printStackTrace();
+//			new ErrorAlert("Couldn't change scenes");
 		}
 	}
 	

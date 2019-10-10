@@ -69,14 +69,13 @@ public class SearchController extends SceneChanger {
 	@FXML
 	private void onTypeHandler(KeyEvent event) {
 		//check if field properties are empty or not, set create button to  be disabled or not accordingly
-		_searchTerm = _searchField.getText();
-		boolean isDisabled = ((_searchTerm.isEmpty())|| _searchTerm.trim().isEmpty());
+		_searchTerm = _searchField.getText().trim();
+		boolean isDisabled = _searchTerm.isEmpty();
 		_searchButton.setDisable(isDisabled);
 		
 		if ((event.getCode() == KeyCode.ENTER) && !_searchTerm.isEmpty() && !_searchTerm.trim().isEmpty()) {
 	        search();
 	    }
-
 	}
 	
 	

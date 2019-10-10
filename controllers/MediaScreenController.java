@@ -50,7 +50,7 @@ public class MediaScreenController extends SceneChanger {
 		CreationStore process = CreationStore.getInstance();
 		Creation creation = process.getCreation();
 		String creationName = creation.getFilename();
-		String fullFilePath = Main._CREATIONPATH + "/apple" + Creation.EXTENTION;
+		String fullFilePath = Main._CREATIONPATH + "/" + creationName + Creation.EXTENTION;
 		
 		_player = new VideoPlayer(_mediaStackPane, _controlsPane, _bottomControls);
 		_player.setMedia(fullFilePath);
