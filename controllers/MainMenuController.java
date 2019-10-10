@@ -27,8 +27,8 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 public class MainMenuController extends SceneChanger {
-	@FXML
-	private GridPane _mainMenuGridPane;
+//	@FXML
+//	private GridPane _mainMenuGridPane;
 	@FXML
 	private TableView _creationTable;
 	@FXML

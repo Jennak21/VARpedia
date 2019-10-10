@@ -62,7 +62,7 @@ public class SearchController extends SceneChanger {
 	}
 	
 	@FXML
-	private void BackHandle(ActionEvent event) throws IOException {
+	private void backHandle(ActionEvent event) throws IOException {
 		quit();
 	}
 	
@@ -82,7 +82,7 @@ public class SearchController extends SceneChanger {
 	
 	
 	@FXML
-	private void SearchHandle() {
+	private void searchHandle() {
 		search();
 	}
 	

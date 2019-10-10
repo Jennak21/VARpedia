@@ -19,7 +19,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -168,8 +167,16 @@ public class SelectImageController extends SceneChanger implements Initializable
 			new ErrorAlert("Couldn't change scenes");
 		}
 
+	}
+	
+	@FXML
+	public void onBackHandler(ActionEvent event) {
 
-
+		try {
+			changeScene((Node)event.getSource(), "/fxml/CreateAudioScene.fxml") ;
+		} catch (IOException e) {
+			new ErrorAlert("Couldn't change scenes");
+		}
 
 	}
 

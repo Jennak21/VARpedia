@@ -6,6 +6,7 @@ import java.util.List;
 
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.css.Style;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
 import javafx.scene.Parent;
@@ -32,7 +33,7 @@ public class Main extends Application {
 			Scene scene = new Scene(layout);
 			primaryStage.setResizable(false);
 			primaryStage.setScene(scene);
-			primaryStage.setTitle("WikiSpeak");
+			primaryStage.setTitle("VARpedia");
 			primaryStage.show();
 		} catch (IOException e) {
 			//new ErrorAlert("Can't load application");

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
@@ -13,54 +14,92 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<GridPane fx:id="_gridPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.CreateAudioController">
+<GridPane fx:id="_gridPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.CreateAudioController">
   <columnConstraints>
-    <ColumnConstraints hgrow="SOMETIMES" maxWidth="356.5" minWidth="10.0" prefWidth="356.5" />
-    <ColumnConstraints hgrow="SOMETIMES" maxWidth="294.0" minWidth="10.0" prefWidth="243.5" />
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="640.5" minWidth="10.0" prefWidth="534.6116333007812" />
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="345.38836669921875" minWidth="10.0" prefWidth="345.38836669921875" />
   </columnConstraints>
   <rowConstraints>
-    <RowConstraints maxHeight="340.0" minHeight="10.0" prefHeight="339.5" vgrow="SOMETIMES" />
-    <RowConstraints maxHeight="195.0" minHeight="10.0" prefHeight="60.5" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="521.9168090820312" minHeight="10.0" prefHeight="521.9168090820312" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="195.0" minHeight="10.0" prefHeight="58.08319091796875" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="15.0" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+      <HBox alignment="BOTTOM_CENTER" prefHeight="85.0" prefWidth="253.0" spacing="80.0" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
          <children>
-            <Button fx:id="_backButton" mnemonicParsing="false" onAction="#BackHandle" text="Back" />
-            <Button fx:id="_nextButton" mnemonicParsing="false" onAction="#NextHandle" text="Next" />
+            <Button fx:id="_backButton" maxWidth="112.0" minWidth="100.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#backHandle" prefHeight="39.0" prefWidth="101.0" style="-fx-background-color: #a8c6e5; -fx-background-radius: 30;" text="Back" textFill="WHITE">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <Button fx:id="_nextButton" maxWidth="112.0" minWidth="90.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#nextHandle" prefHeight="39.0" prefWidth="101.0" style="-fx-background-color: #414582; -fx-background-radius: 30;" text="Next" textFill="WHITE">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
          </children>
       </HBox>
-      <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="20.0" GridPane.rowIndex="1">
+      <HBox alignment="BOTTOM_LEFT" prefHeight="96.0" prefWidth="641.0" spacing="20.0" GridPane.rowIndex="1">
          <children>
-            <Button fx:id="_resetButton" mnemonicParsing="false" onAction="#resetHandle" text="Reset Text" />
+            <Button fx:id="_resetButton" maxWidth="169.0" minWidth="90.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#resetHandle" prefHeight="39.0" prefWidth="169.0" style="-fx-background-color: #a8c6e5; -fx-background-radius: 30;" text="Reset" textFill="WHITE">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
          </children>
       </HBox>
-      <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" GridPane.columnSpan="2">
+      <TabPane prefHeight="200.0" prefWidth="200.0" styleClass="Tab" stylesheets="@TabStyle.css" tabClosingPolicy="UNAVAILABLE" GridPane.columnSpan="2">
         <tabs>
-          <Tab onSelectionChanged="#resultTabHandle" text="Search Result">
+          <Tab onSelectionChanged="#resultTabHandle" style="-fx-text-fill: #414582;" text="Search Result">
             <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="459.0" prefWidth="880.0">
                      <children>
-                        <GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="296.0" prefWidth="580.0">
+                        <GridPane layoutX="-7.0" layoutY="-7.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="481.0" prefWidth="894.0">
                           <columnConstraints>
-                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="347.0" prefWidth="364.0" />
-                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" prefWidth="200.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="347.0" prefWidth="511.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="354.0" minWidth="205.0" prefWidth="352.0" />
                           </columnConstraints>
                           <rowConstraints>
-                            <RowConstraints maxHeight="50.0" minHeight="30.0" prefHeight="50.0" vgrow="SOMETIMES" />
-                              <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="173.0" vgrow="SOMETIMES" />
+                            <RowConstraints maxHeight="40.0" minHeight="40.0" prefHeight="40.0" valignment="CENTER" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="169.52889251708984" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="204.8082275390625" minHeight="80.0" prefHeight="172.53590393066406" vgrow="SOMETIMES" />
                               <RowConstraints maxHeight="80.0" minHeight="80.0" prefHeight="80.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
-                              <VBox alignment="BOTTOM_CENTER" prefWidth="200.0" spacing="15.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+                              <VBox alignment="CENTER" prefHeight="149.0" prefWidth="354.0" spacing="40.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="CENTER">
                                  <children>
-                                    <Button fx:id="_previewButton" alignment="CENTER" maxWidth="180.0" minWidth="180.0" mnemonicParsing="false" onAction="#PreviewHandle" prefWidth="180.0" text="Preview Selected Text" />
-                                    <Button fx:id="_saveButton" alignment="CENTER" contentDisplay="CENTER" maxWidth="180.0" minWidth="180.0" mnemonicParsing="false" onAction="#SaveHandle" prefWidth="180.0" text="Save Audio" />
+                                    <Button fx:id="_previewButton" alignment="CENTER" maxWidth="180.0" minWidth="180.0" mnemonicParsing="false" onAction="#previewHandle" prefHeight="30.0" prefWidth="180.0" style="-fx-background-color: #d9d9dc;" text="Preview Selected Text">
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor></Button>
+                                    <Button fx:id="_saveButton" alignment="CENTER" contentDisplay="CENTER" maxWidth="180.0" minWidth="180.0" mnemonicParsing="false" onAction="#saveHandle" prefHeight="46.0" prefWidth="180.0" style="-fx-background-color: #414582;" text="Save Audio" textFill="WHITE">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor></Button>
                                  </children>
                               </VBox>
-                              <TextArea fx:id="_searchResult" prefHeight="200.0" prefWidth="200.0" wrapText="true" GridPane.rowSpan="3" />
-                              <Label text="Settings" GridPane.columnIndex="1" GridPane.halignment="CENTER">
+                              <TextArea fx:id="_searchResult" prefHeight="455.0" prefWidth="530.0" wrapText="true" GridPane.rowIndex="1" GridPane.rowSpan="3" GridPane.valignment="BOTTOM">
+                                 <opaqueInsets>
+                                    <Insets />
+                                 </opaqueInsets>
+                                 <GridPane.margin>
+                                    <Insets bottom="20.0" left="10.0" />
+                                 </GridPane.margin></TextArea>
+                              <Label text="Settings" textFill="#414582" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                                  <font>
                                     <Font size="30.0" />
                                  </font>
@@ -68,9 +107,13 @@
                               <VBox alignment="CENTER" prefHeight="101.0" prefWidth="212.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                  <children>
                                     <Label text="Voice:" />
-                                    <ChoiceBox fx:id="_voiceDropDown" prefWidth="150.0" />
+                                    <ChoiceBox fx:id="_voiceDropDown" maxWidth="180.0" minWidth="180.0" prefHeight="30.0" prefWidth="180.0" style="-fx-background-color: #d9d9dc;">
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor></ChoiceBox>
                                  </children>
                               </VBox>
+                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#414582" height="3.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="151.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM" />
                            </children>
                            <padding>
                               <Insets top="10.0" />
@@ -80,35 +123,40 @@
                   </AnchorPane>
             </content>
           </Tab>
-          <Tab onSelectionChanged="#savedTabHandle" text="Saved">
+          <Tab onSelectionChanged="#savedTabHandle" text="Saved Audio">
             <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="572.0" prefWidth="834.0">
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="459.0" prefWidth="880.0">
                      <children>
-                        <GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="296.0" prefWidth="580.0" AnchorPane.topAnchor="0.0">
+                        <GridPane layoutX="-7.0" layoutY="-7.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="481.0" prefWidth="894.0" AnchorPane.topAnchor="-5.0">
                            <columnConstraints>
-                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="347.0" prefWidth="364.0" />
-                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" prefWidth="200.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="347.0" prefWidth="511.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="354.0" minWidth="205.0" prefWidth="352.0" />
                            </columnConstraints>
                            <rowConstraints>
-                              <RowConstraints maxHeight="50.0" minHeight="30.0" prefHeight="50.0" vgrow="SOMETIMES" />
-                              <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="173.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="40.0" minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="174.0" minHeight="19.492111206054688" prefHeight="19.492111206054688" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="411.5078887939453" vgrow="SOMETIMES" />
                            </rowConstraints>
                            <children>
-                              <TextArea fx:id="_savedText" editable="false" prefHeight="200.0" prefWidth="200.0" wrapText="true" GridPane.rowSpan="2" />
-                              <Label text="Saved Audio" GridPane.columnIndex="1" GridPane.halignment="CENTER">
+                              <TextArea fx:id="_savedText" editable="false" prefHeight="455.0" prefWidth="530.0" wrapText="true" GridPane.rowIndex="1" GridPane.rowSpan="2">
+                                 <GridPane.margin>
+                                    <Insets bottom="20.0" left="10.0" />
+                                 </GridPane.margin></TextArea>
+                              <Label text="Saved Audio" textFill="#414582" GridPane.columnIndex="1" GridPane.halignment="CENTER">
                                  <font>
                                     <Font size="30.0" />
                                  </font>
                               </Label>
-                              <VBox alignment="CENTER" prefHeight="101.0" prefWidth="212.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                              <VBox alignment="CENTER" prefHeight="291.0" prefWidth="354.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                                  <children>
-                                    <Button fx:id="_listenButton" mnemonicParsing="false" onAction="#listenHandle" text="Listen">
-                                       <font>
-                                          <Font size="18.0" />
-                                       </font>
+                                    <Button fx:id="_listenButton" alignment="CENTER" contentDisplay="CENTER" maxWidth="204.0" minWidth="180.0" mnemonicParsing="false" onAction="#listenHandle" prefHeight="30.0" prefWidth="204.0" style="-fx-background-color: #d9d9dc;" text="Listen to your saved audio">
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
                                     </Button>
                                  </children>
                               </VBox>
+                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#414582" height="3.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="182.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM" />
                            </children>
                            <padding>
                               <Insets top="10.0" />
