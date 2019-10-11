@@ -13,7 +13,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MainMenuController">
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MainMenuController">
   <columnConstraints>
     <ColumnConstraints hgrow="SOMETIMES" maxWidth="723.5" minWidth="10.0" prefWidth="716.5" />
     <ColumnConstraints hgrow="SOMETIMES" maxWidth="445.5" minWidth="10.0" prefWidth="183.5" />
@@ -35,7 +35,7 @@
             <Insets top="20.0" />
          </GridPane.margin>
       </Rectangle>
-      <Label fx:id="_titleLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="38.0" prefWidth="332.0" text="VARpedia" textAlignment="CENTER" textFill="WHITE" GridPane.valignment="TOP">
+      <Label fx:id="_titleLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="110.0" prefWidth="332.0" text="VARpedia" textAlignment="CENTER" textFill="WHITE" GridPane.valignment="TOP">
          <font>
             <Font size="45.0" />
          </font>
@@ -59,7 +59,7 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button fx:id="_deleteButton" depthTest="ENABLE" maxWidth="112.0" minWidth="90.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#deleteHandle" prefHeight="45.0" prefWidth="112.0" style="-fx-background-color: #a8c6e5; -fx-background-radius: 30;" text="Delete" textFill="WHITE" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+            <Button fx:id="_deleteButton" depthTest="ENABLE" maxWidth="112.0" minWidth="90.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#deleteHandle" prefHeight="45.0" prefWidth="112.0" style="-fx-background-color: #41b9d2; -fx-background-radius: 30;" text="Delete" textFill="WHITE" GridPane.halignment="CENTER" GridPane.rowIndex="1">
                <font>
                   <Font size="18.0" />
                </font>
@@ -67,7 +67,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <Button fx:id="_playButton" maxWidth="112.0" minWidth="90.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#playHandle" prefHeight="45.0" prefWidth="112.0" style="-fx-background-color: #a8c6e5; -fx-background-radius: 30;" text=" Play" textFill="WHITE" GridPane.halignment="CENTER">
+            <Button fx:id="_playButton" maxWidth="112.0" minWidth="90.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#playHandle" prefHeight="45.0" prefWidth="112.0" style="-fx-background-color: #41b9d2; -fx-background-radius: 30;" text="Play" textFill="WHITE" GridPane.halignment="CENTER">
                <font>
                   <Font size="18.0" />
                </font>
@@ -78,7 +78,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <Button fx:id="_quizButton" maxWidth="112.0" minWidth="90.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#quizHandle" prefHeight="45.0" prefWidth="112.0" style="-fx-background-color: #414582; -fx-background-radius: 30;" text="Quiz" textFill="WHITE" GridPane.halignment="CENTER" GridPane.rowIndex="5">
+            <Button fx:id="_quizButton" maxWidth="112.0" minWidth="90.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#quizHandle" prefHeight="45.0" prefWidth="112.0" style="-fx-background-color: #414582; -fx-background-radius: 30;" text="Quiz" textFill="WHITE" GridPane.halignment="CENTER" GridPane.rowIndex="4">
                <font>
                   <Font size="18.0" />
                </font>
@@ -86,9 +86,9 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <Button fx:id="_createButton" maxWidth="112.0" minWidth="90.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#createHandle" prefHeight="45.0" prefWidth="112.0" style="-fx-background-color: #414582; -fx-background-radius: 30;" text="Create" textFill="WHITE" GridPane.halignment="CENTER" GridPane.rowIndex="4">
+            <Button fx:id="_createButton" maxWidth="112.0" minWidth="90.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#createHandle" prefHeight="45.0" prefWidth="112.0" style="-fx-background-color: #414582; -fx-background-radius: 30;" text="Create" textFill="WHITE" GridPane.halignment="CENTER" GridPane.rowIndex="5">
                <font>
-                  <Font size="18.0" />
+                  <Font name="System Bold" size="18.0" />
                </font>
                <cursor>
                   <Cursor fx:constant="HAND" />
@@ -124,7 +124,7 @@
             </Button>
          </children>
       </StackPane>
-      <TextArea fx:id="_helpText" editable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="450.0" style="-fx-background-color: white;" text="&#10;Welcome to wikispeak!&#10;&#10;Getting Started:&#10;&#10;Click Create to create your very own video of a &#10;search term!&#10;&#10;Then click play to help you learn these terms!&#10;&#10;Once you are ready, quiz yourself!" GridPane.halignment="RIGHT">
+      <TextArea fx:id="_helpText" editable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="450.0" style="-fx-background-color: white;" text="&#10;Welcome to VARpedia!&#10;&#10;Getting Started:&#10;&#10;Click Create to create your very own video of a &#10;search term!&#10;&#10;Then click play to help you learn these terms!&#10;&#10;Once you are ready, quiz yourself!" GridPane.halignment="RIGHT">
          <opaqueInsets>
             <Insets />
          </opaqueInsets>

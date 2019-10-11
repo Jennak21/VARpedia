@@ -9,6 +9,7 @@ import application.Creation;
 import application.ErrorAlert;
 import application.Main;
 import application.WarningAlert;
+import background.DeleteCreationBackgroundTask;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -20,7 +21,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 
-public class FileNameController extends SceneChanger implements Initializable{
+public class FileNameController extends SceneChanger {
 	
 	@FXML
 	private Button _noButton;
@@ -48,9 +49,8 @@ public class FileNameController extends SceneChanger implements Initializable{
 	private String _fileName;
 	private String _filePath = Main._CREATIONPATH;
 
-
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
+	@FXML
+	private void initialize() {
 		//make buttons used for future prompts invisible
 		_yesButton.setVisible(false);
 		_noButton.setVisible(false);
@@ -64,10 +64,27 @@ public class FileNameController extends SceneChanger implements Initializable{
 	@FXML
 	private void onYesButtonHandler(ActionEvent event) {
 		//if user wants to replace delete existing and store file name
-//		deleteExistingFile(_fileName);
-		_creationProcess.setFileName(_fileName);
+		DeleteCreationBackgroundTask deleteCreation = new DeleteCreationBackgroundTask(_fileName);
+		Thread deleteThread = new Thread(deleteCreation);
+		deleteThread.start();
 		
-		changeToCreateVideoScene();
+		deleteCreation.setOnRunning(start -> {
+			_yesButton.setDisable(true);
+			_noButton.setDisable(true);
+			_nextButton.setDisable(true);
+			_backButton.setDisable(true);
+		});
+		
+		deleteCreation.setOnSucceeded(finish -> {
+			if (deleteCreation.getValue()) {
+				_creationProcess.setFileName(_fileName);
+				
+				changeToCreateVideoScene();
+			} else {
+				new ErrorAlert("Could not delete files");
+				initialize();
+			}
+		});
 	}
 	
 	@FXML
@@ -128,15 +145,6 @@ public class FileNameController extends SceneChanger implements Initializable{
 			changeToCreateVideoScene();
 		}
 		
-	}
-	
-	public void deleteExistingFile (String fileName) {
-		String command = "rm " + _filePath + "/\"" + fileName + "\"" + Creation.EXTENTION;
-		try {
-			BashCommandClass.runBashProcess(command);
-		} catch (IOException | InterruptedException e) {
-			new WarningAlert("Could not delete existing file");
-		}
 	}
 
 	

@@ -36,8 +36,6 @@ public class SearchController extends SceneChanger {
 	private Button _searchButton;
 	@FXML
 	private Button _backButton;
-	@FXML
-	private Label _searchingLabel;
 
 	private String _searchTerm;
 
@@ -165,7 +163,6 @@ public class SearchController extends SceneChanger {
 	private void reset() {
 		_searchField.clear();
 		_searchButton.setDisable(false);
-		_searchingLabel.setVisible(false);
 		_progressBar.setVisible(false);
 
 		_backButton.setOnAction(new EventHandler<ActionEvent>() {

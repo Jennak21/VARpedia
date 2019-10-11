@@ -1,0 +1,3 @@
+apples;apples;1.54;12
+banana;bananas;1.96;50
+

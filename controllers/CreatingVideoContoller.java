@@ -55,15 +55,11 @@ public class CreatingVideoContoller extends SceneChanger implements Initializabl
 
 
 	private void createVideo() { 
-
-
 		//create video on background thread
 		CreatingVidBackgroundTask createVidBG = new CreatingVidBackgroundTask();
 		Thread createVidThread = new Thread(createVidBG );
 		createVidThread.start();
-
-
-
+		
 		createVidBG.setOnRunning(running -> {
 			//make label visible which will show progress updates
 			_creatingLabel.textProperty().bind( createVidBG.messageProperty());
@@ -84,6 +80,12 @@ public class CreatingVideoContoller extends SceneChanger implements Initializabl
 		//If user has cancelled, go back to back to fileName screen
 		createVidBG.setOnCancelled(cancel -> {
 			cancelCreation();
+			
+			try {
+				changeScene(_anchorPane, "/fxml/MainMenuPane.fxml");
+			} catch (IOException e) {
+				new ErrorAlert("Couldn't change scene");
+			}
 		});
 
 		//When creation has finished
@@ -97,14 +99,16 @@ public class CreatingVideoContoller extends SceneChanger implements Initializabl
 				storeInfo();
 				
 			} else {
-				//Search failed, inform user and go back to search screen
+				//Search failed, inform user and cancel process
 				new ErrorAlert("Could not could not create video");
 				
 				cancelCreation();	
 			}
 			
+			//Destroy instance
 			CreationProcess.destroy();
 			
+			//Change to main menu
 			try {
 				changeScene(_anchorPane, "/fxml/MainMenuPane.fxml");
 			} catch (IOException e) {
@@ -114,33 +118,30 @@ public class CreatingVideoContoller extends SceneChanger implements Initializabl
 	}
 	
 	private void storeInfo() {
-		
 		try {
+			//Get duration of new creation
 			String lengthCommand = "ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 " + Main._CREATIONPATH + "/" + _fileName + Creation.EXTENTION;
 			String length = BashCommandClass.getOutputFromCommand(lengthCommand).trim();
 			double doubleLength = Double.parseDouble(length);
 			String roundedLength = String.format("%.2f", doubleLength);
-						
-//			File audioFile = new File(Main._AUDIOPATH + "/" + _fileName + Creation.AUDIO_EXTENTION);
-//			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioFile);					
-//			AudioFormat format = audioInputStream.getFormat();							
-//
-//			long length = audioFile.length();
+			String accuracy = "0";
 			
+			//Open creation info file 
 			String infoFile = Main._FILEPATH + "/creationInfo.txt";
 			FileWriter fw = new FileWriter(infoFile, true);
 			
-			String newCreationInfo = _fileName + ";" + _searchTerm + ";" + roundedLength + ";" + "0\n";
+			//Write new info to it
+			String newCreationInfo = _fileName + ";" + _searchTerm + ";" + roundedLength + ";" + accuracy + "\n";
 			fw.write(newCreationInfo);
 			fw.close();
 			
-//			String addInfo = "echo \"$(cat " + Main._FILEPATH + "/creationInfo.txt)" + newCreationInfo + "\" > " + Main._FILEPATH + "/creationInfo.txt";
-//			BashCommandClass.runBashProcess(addInfo);
-			
+			//Add new object to creation list
 			Main.getCreationList().add(new Creation(_fileName, _searchTerm, roundedLength));
 		} catch (IOException | InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			//Something went wrong, inform user and abort
+			new ErrorAlert("Couldn't add new creation information");
+			
+			cancelCreation();
 		}
 	}
 	
@@ -155,11 +156,6 @@ public class CreatingVideoContoller extends SceneChanger implements Initializabl
 			BashCommandClass.runBashProcess(removeVidFiles);
 		} catch (IOException | InterruptedException e1) {
 			new ErrorAlert("Could not quit");
-		}
-		try {
-			changeScene(_anchorPane, "/fxml/FileMameScene.fxml");
-		} catch (IOException e) {
-			new ErrorAlert("Couldn't change scene");
 		}
 	}
 }
