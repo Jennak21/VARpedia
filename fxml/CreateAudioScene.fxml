@@ -112,7 +112,7 @@
                                        </cursor></Button>
                                  </children>
                               </VBox>
-                              <TextArea fx:id="_searchResult" onMouseClicked="#onTextClickHandle" prefHeight="455.0" prefWidth="530.0" wrapText="true" GridPane.rowIndex="1" GridPane.rowSpan="3" GridPane.valignment="BOTTOM">
+                              <TextArea fx:id="_searchResult" onMouseClicked="#onTextClickHandle" onMouseDragged="#onTextClickHandle" prefHeight="455.0" prefWidth="530.0" wrapText="true" GridPane.rowIndex="1" GridPane.rowSpan="3" GridPane.valignment="BOTTOM">
                                  <opaqueInsets>
                                     <Insets />
                                  </opaqueInsets>

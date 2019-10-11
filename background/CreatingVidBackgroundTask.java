@@ -169,14 +169,10 @@ public class CreatingVidBackgroundTask extends Task<Boolean>{
 		double frameRate = _numImages/durationInSeconds;
 		frameRate = Math.round(frameRate*1000.0)/1000.0;
 
-		System.out.println(frameRate);
-		String makeVideoCommand = "yes | ffmpeg -framerate " + frameRate + " -i \"" + Main._FILEPATH + "/newCreation/%01d.jpg\" -c:v libx264 -vf \"scale=-2:min(1080\\,trunc(ih/2)*2)\" -r 25 "+ _slidesFilePath 
-				+ " &> /dev/null";
 
-		//String makeVideoCommand =  " ffmpeg -y -framerate " + frameRate + " -i  " + _tempFilePath + "%01d.jpg -c:v libx264 -vf \"scale=-2:min(1080\\,trunc(ih/2)*2)\" -r 25 " + _tempSlidesFilePath + " > /dev/null";
-
-		System.out.println(makeVideoCommand);
-
+		String makeVideoCommand = "cat " + Main._FILEPATH + "/newCreation/*.jpg | ffmpeg -f image2pipe -framerate " + frameRate + " -i - -c:v libx264 -vf format=yuv420p -r 25 " + _slidesFilePath ;
+		
+	
 		BashCommandClass.runBashProcess(makeVideoCommand);
 	}
 
@@ -191,7 +187,7 @@ public class CreatingVidBackgroundTask extends Task<Boolean>{
 
 		//put text on video
 		String textOnVideoCommand = "yes | ffmpeg -i " + _tempVidFilePath + " -vf \"drawtext=fontfile=Montserrat-Regular.ttf:" + 
-				"text='" + _searchTerm +"':fontcolor=white:fontsize=24:" + 
+				"text='" + _searchTerm +"':fontcolor=white:shadowcolor=black:shadowx=4:shadowy=4:fontsize=30:" + 
 				"x=(w-text_w)/2:y=(h-text_h)/2\" -codec:a copy " + _finalVidFilePath + "; ";
 
 		//	String deleteFileCommand = "rm -r " + _filePath;
