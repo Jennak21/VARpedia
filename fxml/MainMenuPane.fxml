@@ -22,7 +22,7 @@
     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <Button fx:id="_helpButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#helpHandle" prefHeight="34.0" prefWidth="51.0" style="-fx-background-color: white; -fx-border-color: black; -fx-background-radius: 30;" text="?" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.valignment="TOP">
+      <Button fx:id="_helpButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#helpHandle" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-radius: 30;" text="?" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.valignment="TOP">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
