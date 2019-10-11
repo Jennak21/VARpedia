@@ -30,6 +30,8 @@ public class AudioPlayer {
 	private MediaView _view;
 	private Duration _duration;
 	
+	private Duration _playbackTime;
+	
 	private Button _playPauseButton;
 	private Slider _timeSlider;
 	
@@ -54,6 +56,8 @@ public class AudioPlayer {
 		_player = new MediaPlayer(_media);
 		_view = new MediaView(_player);
 		
+		_playbackTime = _playbackTime = _player.getStartTime();;
+		
     	//Play/pause button
 		//Display
 		_playPauseButton.setMinWidth(50);
@@ -71,8 +75,10 @@ public class AudioPlayer {
 				}
 
 				if ( status == Status.PAUSED || status == Status.READY || status == Status.STOPPED) {					
+					_player.seek(_playbackTime);
 					_player.play();
 				} else {
+					_playbackTime = _player.getCurrentTime();
 					_player.pause();
 				}
 			}
@@ -86,6 +92,7 @@ public class AudioPlayer {
 			public void invalidated(Observable ov) {
 				if (_timeSlider.isValueChanging()) {
 					// multiply duration by percentage calculated by slider position
+					_playbackTime = _duration.multiply(_timeSlider.getValue() / 100.0);
 					_player.seek(_duration.multiply(_timeSlider.getValue() / 100.0));
 				}
 			}
@@ -117,6 +124,7 @@ public class AudioPlayer {
 			public void run() {	
 				//Stop video playing, but set playback to beginning of video so user can repeat playback
 				_playPauseButton.setText(">");
+				_playbackTime = _player.getStartTime();
 				_player.seek(_player.getStartTime());
 				_player.pause();
 			}

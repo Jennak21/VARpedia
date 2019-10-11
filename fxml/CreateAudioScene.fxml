@@ -8,6 +8,8 @@
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextArea?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -30,21 +32,35 @@
    <children>
       <HBox alignment="BOTTOM_CENTER" prefHeight="85.0" prefWidth="253.0" spacing="80.0" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
          <children>
-            <Button fx:id="_backButton" maxWidth="112.0" minWidth="100.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#backHandle" prefHeight="39.0" prefWidth="101.0" style="-fx-background-color: #41b9d2; -fx-background-radius: 30;" text="Back" textFill="WHITE">
+            <Button fx:id="_backButton" maxWidth="112.0" minWidth="100.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#backHandle" prefHeight="39.0" prefWidth="101.0" style="-fx-background-color: #41b9d2; -fx-background-radius: 30;" textFill="WHITE">
                <font>
                   <Font size="18.0" />
                </font>
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
+               <graphic>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../resources/back-arrow.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
             </Button>
-            <Button fx:id="_nextButton" maxWidth="112.0" minWidth="90.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#nextHandle" prefHeight="39.0" prefWidth="101.0" style="-fx-background-color: #414582; -fx-background-radius: 30;" text="Next" textFill="WHITE">
+            <Button fx:id="_nextButton" maxWidth="112.0" minWidth="90.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#nextHandle" prefHeight="39.0" prefWidth="101.0" style="-fx-background-color: #414582; -fx-background-radius: 30;" textFill="WHITE">
                <font>
                   <Font size="18.0" />
                </font>
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
+               <graphic>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../resources/next-arrow.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
             </Button>
          </children>
       </HBox>

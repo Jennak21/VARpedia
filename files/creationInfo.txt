@@ -1,4 +1,0 @@
-apples;apples;1.54;12
-banana;bananas;1.96;50
-
-hi;dog;6.02;0

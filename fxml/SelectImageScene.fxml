@@ -8,6 +8,8 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
@@ -64,21 +66,35 @@
                   <Insets bottom="10.0" left="10.0" right="10.0" />
                </VBox.margin>
                <children>
-                  <Button fx:id="_backButton" maxHeight="-Infinity" maxWidth="112.0" minHeight="-Infinity" minWidth="90.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#onBackHandler" prefHeight="39.0" prefWidth="101.0" style="-fx-background-color: #41b9d2; -fx-background-radius: 30;" text="Back" textFill="WHITE">
+                  <Button fx:id="_backButton" maxWidth="112.0" minWidth="90.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#onBackHandler" prefHeight="45.0" prefWidth="112.0" style="-fx-background-color: #41b9d2; -fx-background-radius: 30;" textFill="WHITE">
                      <font>
                         <Font size="18.0" />
                      </font>
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
+                     <graphic>
+                        <ImageView fitHeight="35.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../resources/back-arrow.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
                   </Button>
-                  <Button fx:id="_nextButton" maxWidth="112.0" minWidth="90.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#onNextHandler" prefHeight="39.0" prefWidth="101.0" style="-fx-background-color: #414582; -fx-background-radius: 30;" text="Next" textFill="WHITE">
+                  <Button fx:id="_nextButton" maxWidth="112.0" minWidth="90.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#onNextHandler" prefHeight="45.0" prefWidth="112.0" style="-fx-background-color: #414582; -fx-background-radius: 30;" textFill="WHITE">
                      <font>
                         <Font size="18.0" />
                      </font>
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
+                     <graphic>
+                        <ImageView fitHeight="35.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../resources/next-arrow.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
                   </Button>
                </children>
             </HBox>
