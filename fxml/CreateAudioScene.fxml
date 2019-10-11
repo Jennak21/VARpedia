@@ -96,10 +96,13 @@
                            <children>
                               <VBox alignment="CENTER" prefHeight="149.0" prefWidth="354.0" spacing="40.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="CENTER">
                                  <children>
-                                    <Button fx:id="_previewButton" alignment="CENTER" maxWidth="180.0" minWidth="180.0" mnemonicParsing="false" onAction="#previewHandle" prefHeight="30.0" prefWidth="180.0" style="-fx-background-color: #d9d9dc;" text="Preview Selected Text">
+                                    <Button fx:id="_previewButton" alignment="CENTER" maxWidth="180.0" minWidth="180.0" mnemonicParsing="false" onAction="#previewHandle" prefHeight="30.0" prefWidth="180.0" style="-fx-background-color: #d9d9dc;" text="Preview Audio">
                                        <cursor>
                                           <Cursor fx:constant="HAND" />
-                                       </cursor></Button>
+                                       </cursor>
+                                       <font>
+                                          <Font size="15.0" />
+                                       </font></Button>
                                     <Button fx:id="_saveButton" alignment="CENTER" contentDisplay="CENTER" maxWidth="180.0" minWidth="180.0" mnemonicParsing="false" onAction="#saveHandle" prefHeight="46.0" prefWidth="180.0" style="-fx-background-color: #414582;" text="Save Audio" textFill="WHITE">
                                        <font>
                                           <Font size="18.0" />
@@ -123,7 +126,10 @@
                               </Label>
                               <VBox alignment="CENTER" prefHeight="101.0" prefWidth="212.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                  <children>
-                                    <Label text="Voice:" />
+                                    <Label text="Voice:">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font></Label>
                                     <ChoiceBox fx:id="_voiceDropDown" maxWidth="180.0" minWidth="180.0" prefHeight="30.0" prefWidth="180.0" style="-fx-background-color: #d9d9dc;">
                                        <cursor>
                                           <Cursor fx:constant="HAND" />
@@ -175,6 +181,9 @@
                                        <cursor>
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
+                                       <font>
+                                          <Font size="15.0" />
+                                       </font>
                                     </Button>
                                  </children>
                               </VBox>
@@ -208,7 +217,7 @@
             <Insets bottom="-10.0" left="-10.0" right="-10.0" top="-10.0" />
          </GridPane.margin>
       </StackPane>
-      <TextArea fx:id="_helpText" editable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="450.0" style="-fx-background-color: white;" text="&#10;Create:&#10;&#10;1. Highlight some text&#10;&#10;2. Choose a &quot;Voice:&quot;&#10;&#10;3. &quot;Preview Selected Text&quot; to hear how it will sound&#10;&#10;4. &quot;Save Audio&quot; to add to your creation&#10;&#10;5. Repeat as many times as you like&#10;&#10;&#10;Open &quot;Saved Audio&quot; to see what you have saved.&#10;If you want to start again, click Reset.&#10;&#10;When you are done, click &quot;Next&quot;" visible="false" GridPane.columnSpan="2" GridPane.halignment="CENTER">
+      <TextArea fx:id="_helpText" editable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="450.0" style="-fx-background-color: white;" text="&#10;Create:&#10;&#10;1. Highlight some text&#10;&#10;2. Choose a &quot;Voice:&quot;&#10;&#10;3. &quot;Preview Audio&quot; to hear how it will sound&#10;&#10;4. &quot;Save Audio&quot; to add to your creation&#10;&#10;5. Repeat as many times as you like&#10;&#10;&#10;Open &quot;Saved Audio&quot; to see what you have saved.&#10;If you want to start again, click Reset.&#10;&#10;" GridPane.columnSpan="2" GridPane.halignment="CENTER">
          <opaqueInsets>
             <Insets />
          </opaqueInsets>
