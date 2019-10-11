@@ -13,11 +13,12 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<GridPane fx:id="_gridPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.CreateAudioController">
+<GridPane fx:id="_gridPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: white;" stylesheets="@CreatingAudioStyle.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.CreateAudioController">
   <columnConstraints>
     <ColumnConstraints hgrow="SOMETIMES" maxWidth="640.5" minWidth="10.0" prefWidth="534.6116333007812" />
     <ColumnConstraints hgrow="SOMETIMES" maxWidth="345.38836669921875" minWidth="10.0" prefWidth="345.38836669921875" />
@@ -59,7 +60,7 @@
             </Button>
          </children>
       </HBox>
-      <TabPane prefHeight="200.0" prefWidth="200.0" styleClass="Tab" stylesheets="@TabStyle.css" tabClosingPolicy="UNAVAILABLE" GridPane.columnSpan="2">
+      <TabPane prefHeight="200.0" prefWidth="200.0" styleClass="Tab" tabClosingPolicy="UNAVAILABLE" GridPane.columnSpan="2">
         <tabs>
           <Tab onSelectionChanged="#resultTabHandle" style="-fx-text-fill: #414582;" text="Search Result">
             <content>
@@ -92,7 +93,7 @@
                                        </cursor></Button>
                                  </children>
                               </VBox>
-                              <TextArea fx:id="_searchResult" prefHeight="455.0" prefWidth="530.0" wrapText="true" GridPane.rowIndex="1" GridPane.rowSpan="3" GridPane.valignment="BOTTOM">
+                              <TextArea fx:id="_searchResult" onMouseClicked="#onTextClickHandle" prefHeight="455.0" prefWidth="530.0" wrapText="true" GridPane.rowIndex="1" GridPane.rowSpan="3" GridPane.valignment="BOTTOM">
                                  <opaqueInsets>
                                     <Insets />
                                  </opaqueInsets>
@@ -168,6 +169,36 @@
           </Tab>
         </tabs>
       </TabPane>
+      <StackPane fx:id="_helpPane" opacity="0.5" prefHeight="600.0" prefWidth="694.0" style="-fx-background-color: gray;" visible="false" GridPane.columnSpan="2" GridPane.rowSpan="2">
+         <children>
+            <Button fx:id="_exitHelp" mnemonicParsing="false" onAction="#exitHelpHandle" prefHeight="58.0" prefWidth="63.0" text="X" StackPane.alignment="TOP_RIGHT">
+               <StackPane.margin>
+                  <Insets right="10.0" top="10.0" />
+               </StackPane.margin>
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Button>
+         </children>
+      </StackPane>
+      <TextArea fx:id="_promptText" editable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="400.0" style="-fx-background-color: white;" styleClass="text-area" stylesheets="@CreatingAudioStyle.css" text="&#10;Highlight the text and press &quot;Save Audio&quot;&#10; to it to your creation" GridPane.halignment="CENTER">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </TextArea>
+      <TextArea fx:id="_helpText" editable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="450.0" style="-fx-background-color: white;" text="&#10;Create:&#10;&#10;Highlight the text in the pane you would like to include&#10; your video.&#10;&#10;Preview the selected text to hear how it will sound.&#10;If you wish to change the voice, open the drop down.&#10;&#10;Click Save audio to add it to your video.&#10;&#10;Do this as many times as you like.&#10;&#10;Open the Saved Audio to see the audio you have saved&#10; so far.&#10;&#10;If you would like to clear all the audio that you haved &#10;added, click Reset.&#10;&#10;Once you are happy with the audio you have saved,&#10;click Next" GridPane.halignment="RIGHT">
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <font>
+            <Font size="15.0" />
+         </font>
+      </TextArea>
+      <Button fx:id="_helpButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#helpHandle" prefHeight="34.0" prefWidth="51.0" style="-fx-background-color: white; -fx-border-color: black; -fx-background-radius: 30;" text="?" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.valignment="TOP">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
    </children>
    <opaqueInsets>
       <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />

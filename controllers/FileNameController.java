@@ -74,6 +74,7 @@ public class FileNameController extends SceneChanger implements Initializable{
 	private void onNoButtonHandler(ActionEvent event) {
 		//clear text input for filename
 		_fileNameEntry.clear();
+		_fileNameEntry.setDisable(false);
 		
 		//set overwriting buttons and text to invisible
 		_overwriteLabel.setVisible(false);
@@ -117,6 +118,7 @@ public class FileNameController extends SceneChanger implements Initializable{
 	
 	public void saveFileName() {
 		if (fileExists(_fileName)) {
+			_fileNameEntry.setDisable(true);
 			_overwriteLabel.setVisible(true);
 			_yesButton.setVisible(true);
 			_noButton.setVisible(true);

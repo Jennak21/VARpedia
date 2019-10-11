@@ -7,10 +7,12 @@
 <?import javafx.scene.control.ProgressIndicator?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
@@ -49,7 +51,11 @@
                   <Font size="20.0" />
                </font>
             </Text>
-            <ChoiceBox fx:id="_musicChoiceBox" prefWidth="150.0" />
+            <ChoiceBox fx:id="_musicChoiceBox" maxWidth="180.0" minWidth="180.0" prefHeight="30.0" prefWidth="180.0" style="-fx-background-color: #d9d9dc;">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </ChoiceBox>
             <HBox alignment="BOTTOM_CENTER" prefHeight="152.0" prefWidth="304.0" spacing="70.0">
                <opaqueInsets>
                   <Insets />
@@ -78,5 +84,33 @@
             </HBox>
          </children>
       </VBox>
+      <StackPane fx:id="_helpPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" opacity="0.5" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: gray;" visible="false" GridPane.halignment="LEFT">
+         <children>
+            <Button fx:id="_exitHelp" mnemonicParsing="false" onAction="#exitHelpHandle" prefHeight="58.0" prefWidth="63.0" text="X" StackPane.alignment="TOP_RIGHT">
+               <StackPane.margin>
+                  <Insets right="10.0" top="10.0" />
+               </StackPane.margin>
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Button>
+         </children>
+      </StackPane>
+      <TextArea fx:id="_helpText" editable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="450.0" style="-fx-background-color: white;" text="&#10;Create:&#10;&#10;Now that you have audio, you can select the&#10; images you would like to include!&#10;&#10;Checkout the drop down, to change or remove &#10;background music.&#10;&#10;Press next, where you will then save your file" GridPane.columnSpan="2" GridPane.halignment="CENTER">
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <font>
+            <Font size="15.0" />
+         </font>
+      </TextArea>
+      <Button fx:id="_helpButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#helpHandle" prefHeight="34.0" prefWidth="51.0" style="-fx-background-color: white; -fx-border-color: black; -fx-background-radius: 30;" text="?" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.valignment="TOP">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <GridPane.margin>
+            <Insets right="10.0" top="10.0" />
+         </GridPane.margin>
+      </Button>
    </children>
 </GridPane>

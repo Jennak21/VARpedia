@@ -24,9 +24,11 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 
 public class SelectImageController extends SceneChanger implements Initializable{
@@ -38,10 +40,10 @@ public class SelectImageController extends SceneChanger implements Initializable
 
 	@FXML
 	private Text _imageText;
-	
+
 	@FXML
 	private Text _musicText;
-	
+
 	@FXML
 	private ChoiceBox _musicChoiceBox;
 
@@ -59,11 +61,19 @@ public class SelectImageController extends SceneChanger implements Initializable
 
 	@FXML 
 	private TableColumn<ImageTable, CheckBox> _selectCol;
-
+	
+	@FXML
+	private Button _helpButton;	
+	@FXML
+	private StackPane _helpPane;
+	@FXML
+	private TextArea _helpText;
+	
 
 	private ObservableList<ImageTable> _imageList = FXCollections.observableArrayList();
 
 	private DownloadImageBackgroundTask _downloadImage;
+	
 
 
 
@@ -71,12 +81,16 @@ public class SelectImageController extends SceneChanger implements Initializable
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 
+		//set help components as not visible
+		_helpPane.setVisible(false);
+		_helpText.setVisible(false);
+
 		_nextButton.setDisable(true);
 
 		_creationProcess = CreationProcess.getInstance();
 
 		_creationProcess.clearSelectedImages();
-		
+
 
 
 		_downloadImage = new DownloadImageBackgroundTask();
@@ -99,6 +113,23 @@ public class SelectImageController extends SceneChanger implements Initializable
 
 
 	}
+
+	@FXML
+	private void helpHandle(ActionEvent event) {
+		_helpPane.setVisible(true);
+		_helpText.setVisible(true);
+		_helpButton.setVisible(false);
+
+	}
+
+	@FXML
+	private void exitHelpHandle(ActionEvent event) {
+		_helpPane.setVisible(false);
+		_helpText.setVisible(false);
+		_helpButton.setVisible(true);
+
+	}
+
 
 
 	public void loadDataToTable () {
@@ -177,7 +208,7 @@ public class SelectImageController extends SceneChanger implements Initializable
 		}
 
 	}
-	
+
 	@FXML
 	public void onBackHandler(ActionEvent event) {
 

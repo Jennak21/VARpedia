@@ -19,9 +19,12 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
@@ -41,6 +44,9 @@ public class QuizController extends SceneChanger {
 	@FXML
 	private Slider _questionsSlider;
 	
+	@FXML
+	private StackPane _answerPane;
+
 	
 	//Quiz pane
 	@FXML
@@ -93,8 +99,10 @@ public class QuizController extends SceneChanger {
 		_submitButton.setDisable(true);
 		
 		_optionsGrid.setVisible(true);
+		_answerPane.setVisible(false);
 		_quizGrid.setVisible(false);
 		_summaryGrid.setVisible(false);
+		_submitButton.setVisible(false);
 		
 		_quizResults = new ArrayList<QuizResult>();
 	
@@ -109,6 +117,9 @@ public class QuizController extends SceneChanger {
 	
 	@FXML
 	private void startHandle() {
+		//make submit button visible
+		_submitButton.setVisible(true);
+		
 		//Setup fields
 		_numQuestions = (int)_questionsSlider.getValue();
 		_currentQuestion = 0;
@@ -117,10 +128,12 @@ public class QuizController extends SceneChanger {
 		//Load correct components
 		_optionsGrid.setVisible(false);
 		_quizGrid.setVisible(true);
-		_guessLabel.setVisible(false);
-		_guessLabelTop.setVisible(false);
-		_correctLabel.setVisible(false);
-		_correctLabelTop.setVisible(false);
+		//set rows showing guess and correct answers to not visible
+		_answerPane.setVisible(false);
+//		_guessLabel.setVisible(false);
+//		_guessLabelTop.setVisible(false);
+//		_correctLabel.setVisible(false);
+//		_correctLabelTop.setVisible(false);
 		_guessField.setVisible(true);
 		
 		_submitButton.setDisable(false);
@@ -156,7 +169,7 @@ public class QuizController extends SceneChanger {
 			finishQuiz();
 		} else {
 			//More questions - update progress and load next question
-			_progressLabel.setText(_currentQuestion + " of " + _numQuestions);
+			_progressLabel.setText("Question " + _currentQuestion + " of " + _numQuestions);
 
 			randomCreation();
 			
@@ -198,59 +211,73 @@ public class QuizController extends SceneChanger {
 	}
 	
 	@FXML
+	private void onTypeHandler(KeyEvent event) {
+		//if key pressed is enter, submit answer
+		if (event.getCode() == KeyCode.ENTER) {
+			submitAnswer();
+	    }
+
+	}
+	
+	private void submitAnswer() {
+		//Display result labels with relevant info			
+		_guessField.setVisible(false);
+		_answerPane.setVisible(true);
+		
+		String guessTerm = _guessField.getText().toLowerCase().trim();
+		String correctTerm = _creation.getSearchTerm().toLowerCase().trim();
+		boolean correctAnswer = guessTerm.equals(correctTerm);
+		
+		_guessLabel.setText(guessTerm);
+		_correctLabel.setText(correctTerm);
+		
+		//Find whether current creation has been tested before
+		QuizResult currentResult = null;
+		for (QuizResult q: _quizResults) {
+			if (q.sameCreation(_creation)) {
+				currentResult = q;
+			}
+		}
+		//If current creation hasn't been tested before
+		if (currentResult == null) {
+			//Create new result instance and add to list
+			currentResult = new QuizResult(_creation);
+			_quizResults.add(currentResult);
+		}
+		
+		//Add result to result instance
+		currentResult.addResult(correctAnswer);
+		
+		//If correct answer, increment relevant var
+		if (guessTerm.equals(correctTerm)) {
+			_numCorrect++;
+		}
+		
+		//Set button text based on whether there is another question or not
+		if (_currentQuestion != _numQuestions) {
+			_submitButton.setText("Next");
+		} else {
+			_submitButton.setText("Finish");
+		}
+		
+	}
+	
+	@FXML
 	private void submitHandle() {
 		//Check whether user is coming from guessing pane or result pane
 		if (_submitButton.getText().equals("Submit")) {	//Coming from guessing pane
 			
-			//Display result labels with relevant info
-			_guessLabelTop.setVisible(true);
-			_guessLabel.setVisible(true);
-			_correctLabelTop.setVisible(true);
-			_correctLabel.setVisible(true);
-			_guessField.setVisible(false);
+			submitAnswer();
 			
-			String guessTerm = _guessField.getText().toLowerCase().trim();
-			String correctTerm = _creation.getSearchTerm().toLowerCase().trim();
-			boolean correctAnswer = guessTerm.equals(correctTerm);
-			
-			_guessLabel.setText(guessTerm);
-			_correctLabel.setText(correctTerm);
-			
-			//Find whether current creation has been tested before
-			QuizResult currentResult = null;
-			for (QuizResult q: _quizResults) {
-				if (q.sameCreation(_creation)) {
-					currentResult = q;
-				}
-			}
-			//If current creation hasn't been tested before
-			if (currentResult == null) {
-				//Create new result instance and add to list
-				currentResult = new QuizResult(_creation);
-				_quizResults.add(currentResult);
-			}
-			
-			//Add result to result instance
-			currentResult.addResult(correctAnswer);
-			
-			//If correct answer, increment relevant var
-			if (guessTerm.equals(correctTerm)) {
-				_numCorrect++;
-			}
-			
-			//Set button text based on whether there is another question or not
-			if (_currentQuestion != _numQuestions) {
-				_submitButton.setText("Next");
-			} else {
-				_submitButton.setText("Finish");
-			}
 		} else {	//Coming from result pane
-			_guessLabelTop.setVisible(false);
-			_guessLabel.setVisible(false);
-			_correctLabelTop.setVisible(false);
-			_correctLabel.setVisible(false);
+//			_guessLabelTop.setVisible(false);
+//			_guessLabel.setVisible(false);
+//			_correctLabelTop.setVisible(false);
+//			_correctLabel.setVisible(false);
 			_guessField.setVisible(true);
 			_submitButton.setText("Submit");
+			//Set answer pane to not visible
+			_answerPane.setVisible(false);
 			
 			loadQuestion();
 		}

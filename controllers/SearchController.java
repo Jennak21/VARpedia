@@ -16,11 +16,13 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.ProgressIndicator;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
 
 public class SearchController extends SceneChanger {
@@ -36,93 +38,111 @@ public class SearchController extends SceneChanger {
 	private Button _backButton;
 	@FXML
 	private Label _searchingLabel;
-	
+
 	private String _searchTerm;
-	
+
 	@FXML
 	private ProgressBar _progressBar;
-	
+
+	@FXML
+	private Button _helpButton;	
+	@FXML
+	private StackPane _helpPane;
+	@FXML
+	private TextArea _helpText;
+
 	@FXML
 	private void initialize() {
-		
+
 		_progressBar.setVisible(false);
-		
+
 		_searchButton.setDisable(true);
-		
-//		_searchField.textProperty().addListener(new ChangeListener<String>() {
-//			@Override
-//			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-//				if (_searchField.getText().isEmpty()) {
-//					_searchButton.setDisable(true);
-//				} else {
-//					_searchButton.setDisable(false);
-//				}
-//			}
-//		});
+
+		//set help components as not visible
+		_helpPane.setVisible(false);
+		_helpText.setVisible(false);
+
+
 	}
-	
+
 	@FXML
 	private void backHandle(ActionEvent event) throws IOException {
 		quit();
 	}
 	
 	@FXML
+	private void helpHandle(ActionEvent event) {
+		_helpPane.setVisible(true);
+		_helpText.setVisible(true);
+		_helpButton.setVisible(false);
+
+	}
+	
+	@FXML
+	private void exitHelpHandle(ActionEvent event) {
+		_helpPane.setVisible(false);
+		_helpText.setVisible(false);
+		_helpButton.setVisible(true);
+
+	}
+
+	@FXML
 	private void onTypeHandler(KeyEvent event) {
 		//check if field properties are empty or not, set create button to  be disabled or not accordingly
 		_searchTerm = _searchField.getText().trim();
 		boolean isDisabled = _searchTerm.isEmpty();
 		_searchButton.setDisable(isDisabled);
-		
+
 		if ((event.getCode() == KeyCode.ENTER) && !_searchTerm.isEmpty() && !_searchTerm.trim().isEmpty()) {
-	        search();
-	    }
+			search();
+		}
 	}
-	
-	
-	
+
+
+
 	@FXML
 	private void searchHandle() {
 		search();
 	}
-	
+
 	public void search () {
-	_searchButton.setDisable(true);
-		
-//		String searchTerm = _searchField.getText();
-		
+		_searchButton.setDisable(true);
+
+		//		String searchTerm = _searchField.getText();
+
 		//Check for non-empty search term
-//		if (searchTerm.isEmpty()) {
-//			new WarningAlert("You can't search for nothing");
-//			reset();
-//			
-//			return; 
-//		} 
-				
+		//		if (searchTerm.isEmpty()) {
+		//			new WarningAlert("You can't search for nothing");
+		//			reset();
+		//			
+		//			return; 
+		//		} 
+
 		//Run search on background thread
 		WikitBackgroundTask wikitBG = new WikitBackgroundTask(_searchTerm);
 		Thread wikitThread = new Thread(wikitBG);
 		wikitThread.start();
-		
+
 		//Update user that search is happening
 		wikitBG.setOnRunning(running -> {
-//			_searchingLabel.setVisible(true);
+			//			_searchingLabel.setVisible(true);
 			_progressBar.setProgress(-1.0);
 			_progressBar.setVisible(true);
-			
+
 			//Cancel search if user wants to quit
 			_backButton.setOnAction(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent event) {
 					wikitBG.cancel();	
 				}
-		    });
+			});
 		});
-		
+
 		//If user has cancelled, go back to main screen
 		wikitBG.setOnCancelled(cancel -> {
 			quit();
 		});
-		
+
 		//When search finishes
 		wikitBG.setOnSucceeded(succeeded -> {
 			//Check for successful search
@@ -132,30 +152,30 @@ public class SearchController extends SceneChanger {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-				
+
 			} else {
 				//Search failed, inform user and go back to search screen
 				new ErrorAlert("Could not complete search for '" + _searchTerm + "'");
 				reset();
 			}
 		});
-		
+
 	}
-	
+
 	private void reset() {
 		_searchField.clear();
 		_searchButton.setDisable(false);
 		_searchingLabel.setVisible(false);
 		_progressBar.setVisible(false);
-		
+
 		_backButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
 				quit();
 			}
-	    });
+		});
 	}
-	
+
 	private void quit() {
 		CreationProcess.destroy();
 		try {

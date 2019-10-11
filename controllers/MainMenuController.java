@@ -22,8 +22,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 public class MainMenuController extends SceneChanger {
@@ -38,12 +40,22 @@ public class MainMenuController extends SceneChanger {
 	@FXML
 	private Button _createButton;
 	@FXML
-	private Button _quizButton;
+	private Button _quizButton;	
+	@FXML
+	private Button _helpButton;	
+	@FXML
+	private StackPane _helpPane;
+	@FXML
+	private TextArea _helpText;
 	
 	
 	@FXML
 	private void initialize() {
 		cleanUp();
+		
+		//set help components as not visible
+		_helpPane.setVisible(false);
+		_helpText.setVisible(false);
 		
 		List<Creation> creationList = Main.getCreationList();
 		
@@ -83,6 +95,7 @@ public class MainMenuController extends SceneChanger {
 	
 	@FXML
 	private void playHandle(ActionEvent event) {
+		_playButton.setText("Playing");
 		CreationStore process = CreationStore.getInstance();
 		
 		Creation selected = (Creation) _creationTable.getSelectionModel().getSelectedItem();
@@ -98,7 +111,10 @@ public class MainMenuController extends SceneChanger {
 	
 	@FXML
 	private void deleteHandle(ActionEvent event) {
+		
 		CreationStore process = CreationStore.getInstance();
+		
+		//store filename of file being deleted
 		
 		Creation selected = (Creation) _creationTable.getSelectionModel().getSelectedItem();
 		process.setCreation(selected);
@@ -109,6 +125,22 @@ public class MainMenuController extends SceneChanger {
 			e.printStackTrace();
 //			new ErrorAlert("Couldn't change scenes");
 		}
+	}
+	
+	@FXML
+	private void helpHandle(ActionEvent event) {
+		_helpPane.setVisible(true);
+		_helpText.setVisible(true);
+		_helpButton.setVisible(false);
+
+	}
+	
+	@FXML
+	private void exitHelpHandle(ActionEvent event) {
+		_helpPane.setVisible(false);
+		_helpText.setVisible(false);
+		_helpButton.setVisible(true);
+
 	}
 	
 	@FXML

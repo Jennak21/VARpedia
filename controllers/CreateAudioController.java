@@ -30,7 +30,9 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
 
 public class CreateAudioController extends SceneChanger {
 	@FXML
@@ -57,6 +59,14 @@ public class CreateAudioController extends SceneChanger {
 	private TextArea _savedText;
 	@FXML
 	private Button _listenButton;
+	@FXML
+	private Button _helpButton;	
+	@FXML
+	private StackPane _helpPane;
+	@FXML
+	private TextArea _helpText;
+	@FXML
+	private TextArea _promptText;
 	
 	private CreationProcess _process;
 	private PlayAudioBackgroundTask _preview;
@@ -68,6 +78,11 @@ public class CreateAudioController extends SceneChanger {
 	 */
 	@FXML
 	public void initialize() {
+		
+		//set help components as not visible
+		_helpPane.setVisible(false);
+		_helpText.setVisible(false);
+		
 		//Set search text
 		_process = CreationProcess.getInstance();
 		_searchResult.setText(_process.getSearchText());
@@ -104,6 +119,29 @@ public class CreateAudioController extends SceneChanger {
 
 		_savedText.setText(_process.getUserText());;
 	}
+	
+	@FXML
+	private void helpHandle(ActionEvent event) {
+		_helpPane.setVisible(true);
+		_helpText.setVisible(true);
+		_helpButton.setVisible(false);
+
+	}
+	
+	@FXML
+	private void exitHelpHandle(ActionEvent event) {
+		_helpPane.setVisible(false);
+		_helpText.setVisible(false);
+		_helpButton.setVisible(true);
+
+	}
+	
+	@FXML
+	private void onTextClickHandle(MouseEvent event) {
+		//remove prompt text
+		_promptText.setVisible(false);
+	}
+	
 	
 	/**
 	 * Reset search text or audio file
