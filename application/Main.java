@@ -13,7 +13,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 
 public class Main extends Application {
-	public static final String _FILEPATH = System.getProperty("user.dir") + "/files";
+	private static final String _USERDIR = System.getProperty("user.dir");
+	public static final String _FILEPATH =  _USERDIR + "/files";
+	public static final String _RESOURCEPATH = _USERDIR + "/resources";
 	public static final String _VIDPATH=_FILEPATH + "/videos";
 	public static final String _AUDIOPATH = _FILEPATH + "/audio";
 	public static final String _CREATIONPATH = _FILEPATH + "/creations";
@@ -95,5 +97,14 @@ public class Main extends Application {
 	
 	public static List<Creation> getCreationList() {
 		return _creationList;
+	}
+	
+	public static void deleteCreation(String filename) {
+		for (Creation c: _creationList) {
+			if (c.getFilename().equals(filename)) {
+				_creationList.remove(c);
+				return;
+			}
+		}
 	}
 }
