@@ -1,5 +1,8 @@
 package controllers;
 
+import java.io.File;
+
+import application.Main;
 import javafx.application.Platform;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
@@ -12,6 +15,8 @@ import javafx.geometry.Bounds;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -20,6 +25,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
+import javafx.scene.text.Font;
 import javafx.scene.media.MediaPlayer.Status;
 import javafx.util.Duration;
 
@@ -41,6 +47,7 @@ public class VideoPlayer {
 	private Duration _duration;
 	
     private boolean _atEndOfMedia = false;
+    private Duration _playbackTime;
     
     public VideoPlayer(StackPane stackPane, BorderPane controlsPane, HBox bottomControls) {
     	_stackPane = stackPane;
@@ -87,6 +94,8 @@ public class VideoPlayer {
 		_player = new MediaPlayer(_media);
 		_view = new MediaView(_player);
 		
+		_playbackTime = _player.getStartTime();
+		
     	//Play/pause button
 		//Display
 		
@@ -105,8 +114,10 @@ public class VideoPlayer {
 				}
 
 				if ( status == Status.PAUSED || status == Status.READY || status == Status.STOPPED) {					
+					_player.seek(_playbackTime);
 					_player.play();
 				} else {
+					_playbackTime = _player.getCurrentTime();
 					_player.pause();
 				}
 			}
@@ -120,6 +131,7 @@ public class VideoPlayer {
 			public void invalidated(Observable ov) {
 				if (_timeSlider.isValueChanging()) {
 					// multiply duration by percentage calculated by slider position
+					_playbackTime = _duration.multiply(_timeSlider.getValue() / 100.0);
 					_player.seek(_duration.multiply(_timeSlider.getValue() / 100.0));
 				}
 			}
@@ -167,6 +179,7 @@ public class VideoPlayer {
 			public void run() {	
 				//Stop video playing, but set playback to beginning of video so user can repeat playback
 				_playPauseButton.setText(">");
+				_playbackTime = _player.getStartTime();
 				_player.seek(_player.getStartTime());
 				_player.pause();
 			}

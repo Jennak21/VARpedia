@@ -186,10 +186,10 @@ public class CreateAudioController extends SceneChanger {
 				_preview.stopProcess();
 			}
 			
-			_previewButton.setDisable(true);
-			
 			//Create files for preview text and settings
 			if (createTextFile() && createSettingsFile()) {
+				_previewButton.setDisable(true);
+				
 				//Background task for making audio file
 				AudioBackgroundTask createAudio = new AudioBackgroundTask("tempAudio");
 				Thread audioThread = new Thread(createAudio);

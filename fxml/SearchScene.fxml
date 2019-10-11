@@ -7,6 +7,8 @@
 <?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
@@ -47,7 +49,7 @@
             <Insets />
          </GridPane.margin>
       </Label>
-      <Button fx:id="_backButton" maxWidth="112.0" minWidth="90.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#backHandle" prefHeight="45.0" prefWidth="112.0" style="-fx-background-color: #41b9d2; -fx-background-radius: 30;" text="Back" textFill="WHITE" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+      <Button fx:id="_backButton" maxWidth="112.0" minWidth="90.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#backHandle" prefHeight="45.0" prefWidth="112.0" style="-fx-background-color: #41b9d2; -fx-background-radius: 30;" textFill="WHITE" GridPane.rowIndex="2" GridPane.valignment="CENTER">
          <font>
             <Font size="18.0" />
          </font>
@@ -57,8 +59,15 @@
          <GridPane.margin>
             <Insets left="20.0" />
          </GridPane.margin>
+         <graphic>
+            <ImageView fitHeight="35.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../resources/back-arrow.png" />
+               </image>
+            </ImageView>
+         </graphic>
       </Button>
-      <Button fx:id="_searchButton" maxWidth="112.0" minWidth="90.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#searchHandle" prefHeight="45.0" prefWidth="112.0" style="-fx-background-color: #414582; -fx-background-radius: 30;" text="Search" textFill="WHITE" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+      <Button fx:id="_searchButton" maxWidth="112.0" minWidth="90.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#searchHandle" prefHeight="45.0" prefWidth="112.0" style="-fx-background-color: #414582; -fx-background-radius: 30;" textFill="WHITE" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="CENTER">
          <font>
             <Font size="18.0" />
          </font>
@@ -68,6 +77,13 @@
          <GridPane.margin>
             <Insets right="30.0" />
          </GridPane.margin>
+         <graphic>
+            <ImageView fitHeight="73.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../resources/zoom-48.png" />
+               </image>
+            </ImageView>
+         </graphic>
       </Button>
       <StackPane fx:id="_helpPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" opacity="0.5" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: gray;" visible="false" GridPane.halignment="CENTER" GridPane.rowSpan="3" GridPane.valignment="CENTER">
          <children>

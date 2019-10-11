@@ -4,6 +4,8 @@
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
@@ -21,26 +23,40 @@
    <children>
       <Label fx:id="_deleteLabel" text="Are you sure you want to delete?" GridPane.halignment="CENTER">
          <font>
-            <Font size="20.0" />
+            <Font size="25.0" />
          </font>
       </Label>
       <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" spacing="100.0" GridPane.halignment="CENTER" GridPane.rowIndex="1">
          <children>
-            <Button fx:id="_noButton" maxWidth="112.0" minWidth="90.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#noHandle" prefHeight="45.0" prefWidth="112.0" style="-fx-background-color: #41b9d2; -fx-background-radius: 30;" text="No" textFill="WHITE">
+            <Button fx:id="_noButton" maxWidth="112.0" minWidth="90.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#noHandle" prefHeight="45.0" prefWidth="112.0" style="-fx-background-color: #41b9d2; -fx-background-radius: 30;" textFill="WHITE">
                <font>
                   <Font size="18.0" />
                </font>
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
+               <graphic>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../resources/cross.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
             </Button>
-            <Button fx:id="_yesButton" maxWidth="112.0" minWidth="90.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#yesHandle" prefHeight="45.0" prefWidth="112.0" style="-fx-background-color: #414582; -fx-background-radius: 30;" text="Yes" textFill="WHITE">
+            <Button fx:id="_yesButton" maxWidth="112.0" minWidth="90.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#yesHandle" prefHeight="45.0" prefWidth="112.0" style="-fx-background-color: #414582; -fx-background-radius: 30;" textFill="WHITE">
                <font>
                   <Font size="18.0" />
                </font>
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
+               <graphic>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../resources/tick.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
             </Button>
          </children>
       </HBox>
