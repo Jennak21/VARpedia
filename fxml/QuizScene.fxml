@@ -6,6 +6,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -222,6 +223,34 @@
          <font>
             <Font size="18.0" />
          </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+      <StackPane fx:id="_helpPane" opacity="0.5" prefHeight="491.0" prefWidth="880.0" style="-fx-background-color: gray;" visible="false" GridPane.columnSpan="2" GridPane.halignment="LEFT" GridPane.rowSpan="3" GridPane.valignment="BOTTOM">
+         <children>
+            <Button fx:id="_exitHelp" mnemonicParsing="false" onAction="#exitHelpHandle" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-radius: 40; -fx-background-radius: 40;" text="X" StackPane.alignment="TOP_RIGHT">
+               <font>
+                  <Font size="20.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+         </children>
+         <GridPane.margin>
+            <Insets bottom="-10.0" left="-10.0" right="-10.0" top="-10.0" />
+         </GridPane.margin>
+      </StackPane>
+      <TextArea fx:id="_helpText" editable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="450.0" style="-fx-background-color: white;" text="&#10;Quiz Settings:&#10;&#10;Select the number of questions you would like.&#10;&#10;&#10;&#10;&#10;&#10;&#10;&#10;&#10;Quiz Questions:&#10;&#10;1) Play the video and listen to the audio&#10;&#10;2) Guess what creation is being displayed&#10;&#10;3) &quot;Submit&quot; to see whether you were right!&#10;&#10;4) Click &quot;Next&quot; to move on to the next question&#10;" GridPane.halignment="CENTER" GridPane.rowSpan="3" GridPane.valignment="CENTER">
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <font>
+            <Font size="15.0" />
+         </font>
+      </TextArea>
+      <Button fx:id="_helpButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#helpHandle" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-radius: 30;" text="?" GridPane.halignment="RIGHT" GridPane.valignment="TOP">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>

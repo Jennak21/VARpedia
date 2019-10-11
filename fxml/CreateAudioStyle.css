@@ -1,15 +1,16 @@
 .tab
 {
-    -fx-background-color: #ffffff;
+    -fx-background-color: #f4f4f5;
+    -fx-background-radius: 15 15 0 0;
     -fx-border-width: 0 0 0 0;
     -fx-border-color: #ffffff #ffffff #ffffff #ffffff;
     -fx-cursor: hand;
 }
 .tab:selected 
 {
-    -fx-background-radius: 0;
+    -fx-background-radius: 15 15 0 0;
     -fx-background-insets: 0;
-    -fx-background-color: #ffffff;
+    -fx-background-color:  #d9d9dc;
     -fx-border-width: 0 0 3 0;
     -fx-border-color: #c2c2c2 #c2c2c2  #414582 #c2c2c2
 }

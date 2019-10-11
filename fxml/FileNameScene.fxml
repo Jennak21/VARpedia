@@ -30,7 +30,10 @@
             <Font size="40.0" />
          </font>
       </Label>
-      <TextField fx:id="_fileNameEntry" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyReleased="#onTypeHandler" prefHeight="32.0" prefWidth="369.0" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM" />
+      <TextField fx:id="_fileNameEntry" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyReleased="#onTypeHandler" prefHeight="32.0" prefWidth="369.0" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+         <font>
+            <Font size="18.0" />
+         </font></TextField>
       <HBox alignment="CENTER" prefHeight="54.0" prefWidth="580.0" spacing="40.0" GridPane.rowIndex="3">
          <children>
             <Button fx:id="_noButton" maxWidth="112.0" minWidth="90.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#onNoButtonHandler" prefHeight="45.0" prefWidth="112.0" style="-fx-background-color: #41b9d2 #41b9d2; -fx-background-radius: 30;" text="No" textFill="WHITE">

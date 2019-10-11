@@ -114,13 +114,16 @@
       </GridPane>
       <StackPane fx:id="_helpPane" opacity="0.5" prefHeight="600.0" prefWidth="694.0" style="-fx-background-color: gray;" visible="false" GridPane.columnSpan="2">
          <children>
-            <Button fx:id="_exitHelp" mnemonicParsing="false" onAction="#exitHelpHandle" prefHeight="58.0" prefWidth="63.0" text="X" StackPane.alignment="TOP_RIGHT">
-               <StackPane.margin>
-                  <Insets right="10.0" top="10.0" />
-               </StackPane.margin>
+            <Button fx:id="_exitHelp" mnemonicParsing="false" onAction="#exitHelpHandle" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-radius: 40; -fx-background-radius: 40;" text="X" StackPane.alignment="TOP_RIGHT">
                <font>
                   <Font size="20.0" />
                </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <StackPane.margin>
+                  <Insets right="10.0" top="10.0" />
+               </StackPane.margin>
             </Button>
          </children>
       </StackPane>
@@ -132,5 +135,6 @@
             <Font size="15.0" />
          </font>
       </TextArea>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#414582" height="605.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="3.0" GridPane.columnIndex="1" />
    </children>
 </GridPane>

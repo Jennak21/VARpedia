@@ -24,7 +24,7 @@
     <RowConstraints maxHeight="138.5" minHeight="0.0" prefHeight="89.70181274414062" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <Button fx:id="_helpButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#helpHandle" prefHeight="34.0" prefWidth="51.0" style="-fx-background-color: white; -fx-border-color: black; -fx-background-radius: 30;" text="?" GridPane.halignment="RIGHT" GridPane.valignment="TOP">
+      <Button fx:id="_helpButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#helpHandle" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-radius: 40;" text="?" GridPane.halignment="RIGHT" GridPane.valignment="TOP">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
@@ -32,7 +32,10 @@
             <Insets right="10.0" top="10.0" />
          </GridPane.margin>
       </Button>
-      <TextField fx:id="_searchField" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyReleased="#onTypeHandler" prefHeight="44.0" prefWidth="355.0" promptText="Enter your search term" styleClass="text-field" stylesheets="@SearchStyle.css" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+      <TextField fx:id="_searchField" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyReleased="#onTypeHandler" prefHeight="44.0" prefWidth="355.0" promptText="Enter your search term" styleClass="text-field" stylesheets="@SearchStyle.css" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+         <font>
+            <Font size="18.0" />
+         </font></TextField>
       <ProgressBar fx:id="_progressBar" prefHeight="44.0" prefWidth="355.0" progress="0.0" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#414582" height="3.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="218.0" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
          <GridPane.margin>
@@ -71,13 +74,16 @@
       </Button>
       <StackPane fx:id="_helpPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" opacity="0.5" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: gray;" visible="false" GridPane.halignment="CENTER" GridPane.rowSpan="3" GridPane.valignment="CENTER">
          <children>
-            <Button fx:id="_exitHelp" mnemonicParsing="false" onAction="#exitHelpHandle" prefHeight="58.0" prefWidth="63.0" text="X" StackPane.alignment="TOP_RIGHT">
+            <Button fx:id="_exitHelp" mnemonicParsing="false" onAction="#exitHelpHandle" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-radius: 40; -fx-background-radius: 40;" text="X" StackPane.alignment="TOP_RIGHT">
                <StackPane.margin>
                   <Insets right="10.0" top="10.0" />
                </StackPane.margin>
                <font>
                   <Font size="20.0" />
                </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </Button>
          </children>
       </StackPane>

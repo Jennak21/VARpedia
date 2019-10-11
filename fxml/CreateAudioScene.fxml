@@ -115,7 +115,7 @@
                                  </children>
                               </VBox>
                               <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#414582" height="3.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="151.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM" />
-                              <TextArea fx:id="_promptText" editable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="400.0" style="-fx-background-color: white;" styleClass="text-area" stylesheets="@CreatingAudioStyle.css" text="&#10;Highlight the text and press &quot;Save Audio&quot;&#10;to add it to your creation" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+                              <TextArea fx:id="_promptText" editable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#onTextClickHandle" prefHeight="100.0" prefWidth="400.0" style="-fx-background-color: white;" styleClass="text-area" stylesheets="@CreatingAudioStyle.css" text="&#10;Highlight the text and press &quot;Save Audio&quot;&#10;to add it to your creation" GridPane.halignment="CENTER" GridPane.rowIndex="1">
                                  <font>
                                     <Font size="15.0" />
                                  </font>
@@ -176,17 +176,23 @@
       </TabPane>
       <StackPane fx:id="_helpPane" opacity="0.5" prefHeight="600.0" prefWidth="694.0" style="-fx-background-color: gray;" visible="false" GridPane.columnSpan="2" GridPane.rowSpan="2">
          <children>
-            <Button fx:id="_exitHelp" mnemonicParsing="false" onAction="#exitHelpHandle" prefHeight="58.0" prefWidth="63.0" text="X" StackPane.alignment="TOP_RIGHT">
-               <StackPane.margin>
-                  <Insets right="10.0" top="10.0" />
-               </StackPane.margin>
+            <Button fx:id="_exitHelp" mnemonicParsing="false" onAction="#exitHelpHandle" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-radius: 40; -fx-background-radius: 40;" text="X" StackPane.alignment="TOP_RIGHT">
                <font>
                   <Font size="20.0" />
                </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <StackPane.margin>
+                  <Insets />
+               </StackPane.margin>
             </Button>
          </children>
+         <GridPane.margin>
+            <Insets bottom="-10.0" left="-10.0" right="-10.0" top="-10.0" />
+         </GridPane.margin>
       </StackPane>
-      <TextArea fx:id="_helpText" editable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="450.0" style="-fx-background-color: white;" text="&#10;Create:&#10;&#10;1. Highlight some text&#10;&#10;2. Choose a &quot;Voice:&quot;&#10;&#10;3. &quot;Preview Selected Text&quot; to hear how it will sound&#10;&#10;4. &quot;Save Audio&quot; to add to your creation&#10;&#10;5. Repeat as many times as you like&#10;&#10;&#10;Open &quot;Saved Audio&quot; to see what you have saved.&#10;If you want to start again, click Reset.&#10;&#10;When you are done, click &quot;Next&quot;" visible="false" GridPane.halignment="RIGHT">
+      <TextArea fx:id="_helpText" editable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="450.0" style="-fx-background-color: white;" text="&#10;Create:&#10;&#10;1. Highlight some text&#10;&#10;2. Choose a &quot;Voice:&quot;&#10;&#10;3. &quot;Preview Selected Text&quot; to hear how it will sound&#10;&#10;4. &quot;Save Audio&quot; to add to your creation&#10;&#10;5. Repeat as many times as you like&#10;&#10;&#10;Open &quot;Saved Audio&quot; to see what you have saved.&#10;If you want to start again, click Reset.&#10;&#10;When you are done, click &quot;Next&quot;" visible="false" GridPane.columnSpan="2" GridPane.halignment="CENTER">
          <opaqueInsets>
             <Insets />
          </opaqueInsets>
@@ -194,7 +200,7 @@
             <Font size="15.0" />
          </font>
       </TextArea>
-      <Button fx:id="_helpButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#helpHandle" prefHeight="34.0" prefWidth="51.0" style="-fx-background-color: white; -fx-border-color: black; -fx-background-radius: 30;" text="?" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.valignment="TOP">
+      <Button fx:id="_helpButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#helpHandle" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-radius: 40;" text="?" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.valignment="TOP">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
