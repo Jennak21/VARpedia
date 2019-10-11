@@ -45,7 +45,7 @@ public class SelectImageController extends SceneChanger implements Initializable
 	private Text _musicText;
 
 	@FXML
-	private ChoiceBox _musicChoiceBox;
+	private ChoiceBox<String> _musicChoiceBox;
 
 	@FXML
 	private Button _nextButton;
@@ -111,7 +111,24 @@ public class SelectImageController extends SceneChanger implements Initializable
 			_progressIndicator.setVisible(false);
 		});
 
-
+		
+		//Get available background music and set in dropdown
+		List<String> music = new ArrayList<String>();
+		ObservableList<String> musicChoices = FXCollections.observableArrayList();
+		musicChoices.add("None");
+		
+		try {
+			String getMusic = "basename -s .mp3 -a $(ls " + Main._RESOURCEPATH + "/*.mp3)";
+			music = BashCommandClass.getListOutput(getMusic);
+			for (String s: music) {
+				musicChoices.add(s);
+			}
+		} catch (IOException | InterruptedException e) {
+			new ErrorAlert("Couldn't get voices");
+		}
+		
+		_musicChoiceBox.setItems(musicChoices);
+		_musicChoiceBox.getSelectionModel().selectFirst();
 	}
 
 	@FXML
@@ -200,7 +217,9 @@ public class SelectImageController extends SceneChanger implements Initializable
 
 		_creationProcess.setImageList(imageList);
 
-
+		String bgMusic = _musicChoiceBox.getSelectionModel().getSelectedItem();
+		_creationProcess.setBGMusic(bgMusic);
+		
 		try {
 			changeScene((Node)event.getSource(), "/fxml/FileNameScene.fxml") ;
 		} catch (IOException e) {
