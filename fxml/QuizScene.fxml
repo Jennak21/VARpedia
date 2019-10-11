@@ -17,9 +17,10 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<GridPane fx:id="_quizPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="925.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.QuizController">
+<GridPane fx:id="_quizPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.QuizController">
   <columnConstraints>
-    <ColumnConstraints hgrow="SOMETIMES" maxWidth="900.0" minWidth="900.0" prefWidth="900.0" />
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" />
+      <ColumnConstraints />
   </columnConstraints>
   <rowConstraints>
     <RowConstraints maxHeight="82.5" minHeight="47.5" prefHeight="63.5" vgrow="SOMETIMES" />
@@ -32,7 +33,7 @@
             <Font size="30.0" />
          </font>
       </Label>
-      <Button fx:id="_quitButton" maxWidth="112.0" minWidth="90.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#quitHandle" prefHeight="45.0" prefWidth="112.0" style="-fx-background-color: #a8c6e5; -fx-background-radius: 30;" text="Quit" textFill="WHITE" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
+      <Button fx:id="_quitButton" maxWidth="112.0" minWidth="90.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#quitHandle" prefHeight="45.0" prefWidth="112.0" style="-fx-background-color: #41b9d2; -fx-background-radius: 30;" text="Quit" textFill="WHITE" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
          <font>
             <Font size="18.0" />
          </font>
@@ -72,7 +73,7 @@
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
          </padding>
       </GridPane>
-      <GridPane fx:id="_quizGrid" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="502.0" prefWidth="900.0" visible="false" GridPane.columnSpan="2" GridPane.rowIndex="1">
+      <GridPane fx:id="_quizGrid" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="502.0" prefWidth="900.0" GridPane.columnSpan="2" GridPane.rowIndex="1">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="450.0" minWidth="10.0" prefWidth="100.0" />
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="450.0" minWidth="-Infinity" />
@@ -100,8 +101,14 @@
                      <bottom>
                         <HBox fx:id="_videoControlsBar" maxHeight="30.0" minHeight="30.0" opacity="0.9" prefHeight="30.0" style="-fx-background-color: #efefef;" BorderPane.alignment="CENTER" />
                      </bottom>
+                     <StackPane.margin>
+                        <Insets />
+                     </StackPane.margin>
                   </BorderPane>
                </children>
+               <GridPane.margin>
+                  <Insets right="10.0" />
+               </GridPane.margin>
             </StackPane>
             <StackPane fx:id="_audioStackPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <children>
@@ -111,6 +118,9 @@
                      </center>
                   </BorderPane>
                </children>
+               <GridPane.margin>
+                  <Insets left="10.0" />
+               </GridPane.margin>
             </StackPane>
             <StackPane fx:id="_answerPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" prefHeight="130.0" prefWidth="593.0" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
                <children>
@@ -168,6 +178,7 @@
         <rowConstraints>
           <RowConstraints maxHeight="395.0" minHeight="10.0" prefHeight="211.5" vgrow="SOMETIMES" />
           <RowConstraints maxHeight="271.5" minHeight="50.0" prefHeight="241.5" vgrow="SOMETIMES" />
+            <RowConstraints />
         </rowConstraints>
          <children>
             <Button fx:id="_finishButton" maxWidth="112.0" minWidth="90.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#finishHandle" prefHeight="45.0" prefWidth="112.0" style="-fx-background-color: #414582; -fx-background-radius: 30;" text="Finish" textFill="WHITE" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2">

@@ -7,6 +7,7 @@ import application.BashCommandClass;
 import application.Creation;
 import application.ErrorAlert;
 import application.Main;
+import background.DeleteCreationBackgroundTask;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -35,57 +36,22 @@ public class DeleteController extends SceneChanger {
 	
 	@FXML
 	private void yesHandle() {
-		deleteFiles();
-		deleteCreationInfo();
+		DeleteCreationBackgroundTask deleteCreation = new DeleteCreationBackgroundTask(_filename);
+		Thread deleteThread = new Thread(deleteCreation);
+		deleteThread.start();
 		
-		quit();
-	}
-	
-	private void deleteFiles() {
-		try {
-			String creationFile = Main._CREATIONPATH + "/" + _filename + Creation.EXTENTION;
-			String videoFile = Main._VIDPATH + "/" + _filename + Creation.EXTENTION;
-			String audioFile = Main._AUDIOPATH + "/" + _filename + Creation.AUDIO_EXTENTION;
-			String deleteFiles = "rm " + creationFile + " " + videoFile + " " + audioFile;
-			
-			int exitVal;
-			exitVal = BashCommandClass.runBashProcess(deleteFiles);
-			
-			if (exitVal != 0) {
-				new ErrorAlert("Couldn't delete file");
-			}
-		} catch (IOException | InterruptedException e) {
-			new ErrorAlert("Couldn't delete file");
-		}
-	}
-	
-	private void deleteCreationInfo() {
-		try {
-			String getCreationInfoFromFile = "cat " + Main._CREATIONINFO;
-			List<String> creationInfo = BashCommandClass.getListOutput(getCreationInfoFromFile);
-			
-			String newFileInformation = "";
-			
-			for (String s: creationInfo) {
-				String[] info = s.split(";");
-				
-				String filename = info[0];
-				String searchTerm = info[1];
-				String length = info[2];
-				String testAcc = info[3];
-				
-				if (!_filename.equals(filename)) {
-					newFileInformation = newFileInformation + s + "\n";
-				}
+		deleteCreation.setOnRunning(start -> {
+			_yesButton.setDisable(true);
+			_noButton.setDisable(true);
+		});
+		
+		deleteCreation.setOnSucceeded(finish -> {
+			if (!deleteCreation.getValue()) {
+				new ErrorAlert("Could not delete files");
 			}
 			
-			String writeResultsToFile = "echo \"" + newFileInformation + "\" > " + Main._CREATIONINFO;
-			BashCommandClass.runBashProcess(writeResultsToFile);
-			
-			Main.deleteCreation(_filename);
-		} catch (IOException | InterruptedException e) {
-			new ErrorAlert("Couldn't delete file");
-		}
+			quit();
+		});
 	}
 	
 	@FXML

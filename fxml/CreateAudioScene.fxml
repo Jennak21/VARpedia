@@ -18,7 +18,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<GridPane fx:id="_gridPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: white;" stylesheets="@CreatingAudioStyle.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.CreateAudioController">
+<GridPane fx:id="_gridPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: white;" stylesheets="@CreateAudioStyle.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.CreateAudioController">
   <columnConstraints>
     <ColumnConstraints hgrow="SOMETIMES" maxWidth="640.5" minWidth="10.0" prefWidth="534.6116333007812" />
     <ColumnConstraints hgrow="SOMETIMES" maxWidth="345.38836669921875" minWidth="10.0" prefWidth="345.38836669921875" />
@@ -30,7 +30,7 @@
    <children>
       <HBox alignment="BOTTOM_CENTER" prefHeight="85.0" prefWidth="253.0" spacing="80.0" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
          <children>
-            <Button fx:id="_backButton" maxWidth="112.0" minWidth="100.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#backHandle" prefHeight="39.0" prefWidth="101.0" style="-fx-background-color: #a8c6e5; -fx-background-radius: 30;" text="Back" textFill="WHITE">
+            <Button fx:id="_backButton" maxWidth="112.0" minWidth="100.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#backHandle" prefHeight="39.0" prefWidth="101.0" style="-fx-background-color: #41b9d2; -fx-background-radius: 30;" text="Back" textFill="WHITE">
                <font>
                   <Font size="18.0" />
                </font>
@@ -50,7 +50,7 @@
       </HBox>
       <HBox alignment="BOTTOM_LEFT" prefHeight="96.0" prefWidth="641.0" spacing="20.0" GridPane.rowIndex="1">
          <children>
-            <Button fx:id="_resetButton" maxWidth="169.0" minWidth="90.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#resetHandle" prefHeight="39.0" prefWidth="169.0" style="-fx-background-color: #a8c6e5; -fx-background-radius: 30;" text="Reset" textFill="WHITE">
+            <Button fx:id="_resetButton" maxWidth="169.0" minWidth="90.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#resetHandle" prefHeight="39.0" prefWidth="169.0" style="-fx-background-color: #41b9d2; -fx-background-radius: 30;" text="Reset" textFill="WHITE">
                <font>
                   <Font size="18.0" />
                </font>
@@ -115,6 +115,11 @@
                                  </children>
                               </VBox>
                               <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#414582" height="3.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="151.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM" />
+                              <TextArea fx:id="_promptText" editable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="400.0" style="-fx-background-color: white;" styleClass="text-area" stylesheets="@CreatingAudioStyle.css" text="&#10;Highlight the text and press &quot;Save Audio&quot;&#10;to add it to your creation" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                              </TextArea>
                            </children>
                            <padding>
                               <Insets top="10.0" />
@@ -150,7 +155,7 @@
                               </Label>
                               <VBox alignment="CENTER" prefHeight="291.0" prefWidth="354.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                                  <children>
-                                    <Button fx:id="_listenButton" alignment="CENTER" contentDisplay="CENTER" maxWidth="204.0" minWidth="180.0" mnemonicParsing="false" onAction="#listenHandle" prefHeight="30.0" prefWidth="204.0" style="-fx-background-color: #d9d9dc;" text="Listen to your saved audio">
+                                    <Button fx:id="_listenButton" alignment="CENTER" contentDisplay="CENTER" maxWidth="204.0" minWidth="180.0" mnemonicParsing="false" onAction="#listenHandle" prefHeight="30.0" prefWidth="204.0" style="-fx-background-color: #d9d9dc;" text="Listen">
                                        <cursor>
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
@@ -181,12 +186,7 @@
             </Button>
          </children>
       </StackPane>
-      <TextArea fx:id="_promptText" editable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="400.0" style="-fx-background-color: white;" styleClass="text-area" stylesheets="@CreatingAudioStyle.css" text="&#10;Highlight the text and press &quot;Save Audio&quot;&#10; to it to your creation" GridPane.halignment="CENTER">
-         <font>
-            <Font size="15.0" />
-         </font>
-      </TextArea>
-      <TextArea fx:id="_helpText" editable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="450.0" style="-fx-background-color: white;" text="&#10;Create:&#10;&#10;Highlight the text in the pane you would like to include&#10; your video.&#10;&#10;Preview the selected text to hear how it will sound.&#10;If you wish to change the voice, open the drop down.&#10;&#10;Click Save audio to add it to your video.&#10;&#10;Do this as many times as you like.&#10;&#10;Open the Saved Audio to see the audio you have saved&#10; so far.&#10;&#10;If you would like to clear all the audio that you haved &#10;added, click Reset.&#10;&#10;Once you are happy with the audio you have saved,&#10;click Next" GridPane.halignment="RIGHT">
+      <TextArea fx:id="_helpText" editable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="450.0" style="-fx-background-color: white;" text="&#10;Create:&#10;&#10;1. Highlight some text&#10;&#10;2. Choose a &quot;Voice:&quot;&#10;&#10;3. &quot;Preview Selected Text&quot; to hear how it will sound&#10;&#10;4. &quot;Save Audio&quot; to add to your creation&#10;&#10;5. Repeat as many times as you like&#10;&#10;&#10;Open &quot;Saved Audio&quot; to see what you have saved.&#10;If you want to start again, click Reset.&#10;&#10;When you are done, click &quot;Next&quot;" visible="false" GridPane.halignment="RIGHT">
          <opaqueInsets>
             <Insets />
          </opaqueInsets>
