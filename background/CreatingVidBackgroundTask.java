@@ -138,18 +138,6 @@ public class CreatingVidBackgroundTask extends Task<Boolean>{
 	private void createImageVideo() throws Exception {
 
 
-		//		ImageDownloader.getImages(_searchTerm, _numImages);
-
-		//		//run bash command that gets length of audio
-		//		String lengthOfAudioCommand = "echo `soxi -D " + _tempAudioFilePath + "`";
-		//		
-		//		String lengthOfAudio = BashCommandClass.getOutputFromCommand(lengthOfAudioCommand);
-		//
-		//		//calculate duration to use in bash command that will create a slideshow
-		//		float lengthOfImage = Float.valueOf(1)/ (Float.valueOf(lengthOfAudio) / _numImages);
-
-
-
 		File audioFile = new File(Main._AUDIOPATH + "/" + _creationProcess.getFileName() + Creation.AUDIO_EXTENTION);
 
 		AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioFile);					

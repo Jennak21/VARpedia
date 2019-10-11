@@ -1,4 +1,0 @@
-dog;dog;10.32;0
-elephant;elephant;10.30;0
-
-apple;apple;9.28;0
