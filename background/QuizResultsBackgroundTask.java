@@ -35,10 +35,13 @@ public class QuizResultsBackgroundTask extends Task<Void> {
 				
 				int creationIndex = getCreationIndex(filename);
 				
+				
 				if (creationIndex != -1) {
 					int oldTestAcc = Integer.parseInt(testAcc);
 					double quizTestAcc = _quizResults.get(creationIndex).getResultStat() * 100;
 					int newTestAcc = (int)((oldTestAcc + quizTestAcc)/2);
+					
+					System.out.println(oldTestAcc + "    " + quizTestAcc + "    " + newTestAcc);
 										
 					newFileInformation = newFileInformation + filename + ";" + searchTerm + ";" + length + ";" + newTestAcc + "\n";
 					

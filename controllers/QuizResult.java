@@ -26,7 +26,7 @@ public class QuizResult {
 	}
 	
 	public double getResultStat() {
-		return _numCorrect/_totalNum;
+		return (double)(_numCorrect) / (double)(_totalNum);
 	}
 	
 	public Creation getCreation() {
