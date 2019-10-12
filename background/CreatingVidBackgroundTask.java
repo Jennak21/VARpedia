@@ -107,7 +107,6 @@ public class CreatingVidBackgroundTask extends Task<Boolean>{
 
 	private void copyAudio() throws IOException, InterruptedException {
 		String removeExistingAudio = "rm -f" + " " +_audioFilePath ;
-		System.out.println(removeExistingAudio);
 		BashCommandClass.runBashProcess(removeExistingAudio);
 
 		File audioFile = new File(_newAudioFilePath);
@@ -125,7 +124,6 @@ public class CreatingVidBackgroundTask extends Task<Boolean>{
 		//move selected images to another directory and resize the images 
 		for (String imagePath : selectedImagePaths) {
 			storeSelectedImageCommand = storeSelectedImageCommand + "ffmpeg -i " + imagePath + " -vf scale=600:400 " + Main._FILEPATH + "/newCreation/" + i + ".jpg; " ;
-			System.out.println(storeSelectedImageCommand);
 			i++;
 
 		}	
@@ -145,7 +143,6 @@ public class CreatingVidBackgroundTask extends Task<Boolean>{
 
 		audioLength = audioFile.length();
 
-		System.out.println(audioLength);
 
 		int frameSize = format.getFrameSize();
 
