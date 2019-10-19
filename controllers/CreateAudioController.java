@@ -222,7 +222,7 @@ public class CreateAudioController extends SceneChanger {
 		previewThread.start();
 		
 		_preview.setOnSucceeded(finish -> {
-			_previewButton.setText("Preview Selected Text");
+			_previewButton.setText("Preview Audio");
 			try {			
 				String removeFile = "rm -f " + Main._FILEPATH + "/newCreation/tempAudio" + Creation.AUDIO_EXTENTION;
 				BashCommandClass.runBashProcess(removeFile);

@@ -103,7 +103,7 @@
             </Button>
          </children>
       </StackPane>
-      <TextArea fx:id="_helpText" editable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="450.0" style="-fx-background-color: white;" text="&#10;Create:&#10;&#10;Type a term you would like to learn more about!&#10;Press search to see the returned wikipedia search of &#10;your term!" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+      <TextArea fx:id="_helpText" editable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="450.0" style="-fx-background-color: white;" text="&#10;Create:&#10;&#10;Type a term you would like to learn more about!&#10;Press search to get results from wikipedia." GridPane.halignment="CENTER" GridPane.rowIndex="1">
          <opaqueInsets>
             <Insets />
          </opaqueInsets>
