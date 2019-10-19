@@ -181,7 +181,7 @@ public class CreateAudioController extends SceneChanger {
 	@FXML
 	private synchronized void previewHandle() {
 		//Action dependent on whether there is a preview running or not
-		if (_previewButton.getText().equals("Preview Selected Text")) {
+		if (_previewButton.getText().equals("Preview Audio")) {
 			if (_preview != null) {
 				_preview.stopProcess();
 			}
