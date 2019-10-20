@@ -167,8 +167,7 @@ public class CreateAudioController extends SceneChanger {
 					}
 				}
 			} catch (IOException | InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				new ErrorAlert("Couldn't reset audio");
 			}
 		} else if (_resetButton.getText().equals("Reset Text")) {
 			_searchResult.setText(_process.getSearchText());
@@ -182,9 +181,7 @@ public class CreateAudioController extends SceneChanger {
 	private synchronized void previewHandle() {
 		//Action dependent on whether there is a preview running or not
 		if (_previewButton.getText().equals("Preview Audio")) {
-			if (_preview != null) {
-				_preview.stopProcess();
-			}
+			stopAudio();
 			
 			//Create files for preview text and settings
 			if (createTextFile() && createSettingsFile()) {
@@ -202,13 +199,12 @@ public class CreateAudioController extends SceneChanger {
 						playAudio();
 					} else {
 						new ErrorAlert("Couldn't play audio");
+						_previewButton.setDisable(false);
 					}
 				});
 			}
 		} else {
-			if (_preview != null) {
-				_preview.stopProcess();
-			}
+			stopAudio();
 		}			
 
 	}
@@ -371,8 +367,12 @@ public class CreateAudioController extends SceneChanger {
 	@FXML
 	private void backHandle() {		
 		try {
+			stopAudio();
+			
 			String removeFolder = "rm -r " + Main._FILEPATH + "/newCreation";
 			BashCommandClass.runBashProcess(removeFolder);
+			
+			_process.destroy();
 			
 			changeScene(_gridPane, "/fxml/SearchScene.fxml");
 		} catch (IOException | InterruptedException e) {
@@ -389,6 +389,8 @@ public class CreateAudioController extends SceneChanger {
 			try {
 				String removeTempaudio = "rm -f " + Main._FILEPATH + "/newCreation/tempAudio" + Creation.AUDIO_EXTENTION;
 				BashCommandClass.runBashProcess(removeTempaudio);
+				
+				stopAudio();
 				
 				changeScene(_gridPane, "/fxml/SelectImageScene.fxml");
 			} catch (IOException | InterruptedException e) {
@@ -436,9 +438,13 @@ public class CreateAudioController extends SceneChanger {
 				_listenButton.setText("Listen");
 			});
 		} else {
-			if (_preview != null) {
-				_preview.stopProcess();
-			}
+			stopAudio();
+		}
+	}
+	
+	private void stopAudio() {
+		if (_preview != null) {
+			_preview.stopProcess();
 		}
 	}
 	

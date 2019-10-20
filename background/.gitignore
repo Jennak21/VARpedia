@@ -1,9 +1,7 @@
-/WikitBackgroundTask.class
 /AudioBackgroundTask.class
-/PreviewBackgroundTask.class
-/PlayBackgroundTask.class
-/PlayAudioBackgroundTask.class
 /CreatingVidBackgroundTask.class
-/DownloadImageBackgroundTask.class
-/QuizResultsBackgroundTask.class
 /DeleteCreationBackgroundTask.class
+/DownloadImageBackgroundTask.class
+/PlayAudioBackgroundTask.class
+/QuizResultsBackgroundTask.class
+/WikitBackgroundTask.class

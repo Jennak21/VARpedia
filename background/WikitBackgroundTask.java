@@ -32,7 +32,14 @@ public class WikitBackgroundTask extends Task<Boolean> {
 			String ambiguous = "Ambiguous results";
 			
 			//If search wasn't successful, quit
-			if (searchResult.contains(notFound) || searchResult.contains(ambiguous) || searchResult.isEmpty()) {
+			if (searchResult.contains(notFound)) {
+				updateMessage("No results");
+				return false;
+			} else if (searchResult.contains(ambiguous)) {
+				updateMessage("Ambiguous");
+				return false;
+			} else if (searchResult.isEmpty()) {
+				updateMessage("Empty");
 				return false; 
 			} else {
 				CreationProcess creationProcess = CreationProcess.getInstance();
