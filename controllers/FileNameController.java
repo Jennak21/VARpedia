@@ -75,6 +75,7 @@ public class FileNameController extends SceneChanger {
 			_backButton.setDisable(true);
 		});
 		
+		//If deletion is successful change scene, otherwise show alert
 		deleteCreation.setOnSucceeded(finish -> {
 			if (deleteCreation.getValue()) {
 				_creationProcess.setFileName(_fileName);
@@ -115,12 +116,16 @@ public class FileNameController extends SceneChanger {
 	
 	@FXML
 	private void onTypeHandler(KeyEvent event) {
-		//check if field properties are empty or not, set create button to  be disabled or not accordingly
-		_fileName = _fileNameEntry.getText().trim();
+		
+		//remove trailing white spaces and replace other white spaces with underscore
+		_fileName = _fileNameEntry.getText().trim().replaceAll(" ", "_");
+		
+		//check if the fileName is empty or not, then set create button to  be disabled or not accordingly
 		boolean isDisabled = (_fileName.isEmpty());
 		_nextButton.setDisable(isDisabled);
 		
-		if ((event.getCode() == KeyCode.ENTER) && !_fileName.isEmpty() && !_fileName.trim().isEmpty()) {
+		//if user presses enter, and fileName is not empty  then save file
+		if ((event.getCode() == KeyCode.ENTER) && !_fileName.isEmpty()) {
 	        saveFileName();
 	    }
 
@@ -134,6 +139,7 @@ public class FileNameController extends SceneChanger {
 	}
 	
 	public void saveFileName() {
+		//if file exists show the confirm overwrite label and buttons
 		if (fileExists(_fileName)) {
 			_fileNameEntry.setDisable(true);
 			_overwriteLabel.setVisible(true);
