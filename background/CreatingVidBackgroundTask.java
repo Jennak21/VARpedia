@@ -192,7 +192,7 @@ public class CreatingVidBackgroundTask extends Task<Boolean>{
 			BashCommandClass.runBashProcess(copyVideo);
 			
 		} else {
-			String bgMusicPath = Main._RESOURCEPATH + "/" + bgMusic + ".mp3";
+			String bgMusicPath = Main._RESOURCEPATH + "/" + bgMusic + ".wav";
 			
 			//Get length of bg music
 			String musicLengthCommand = "ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 " + bgMusicPath;

@@ -11,6 +11,7 @@ import application.BashCommandClass;
 import application.ErrorAlert;
 import application.Main;
 import background.DownloadImageBackgroundTask;
+import background.PlayAudioBackgroundTask;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -68,6 +69,11 @@ public class SelectImageController extends SceneChanger implements Initializable
 	private StackPane _helpPane;
 	@FXML
 	private TextArea _helpText;
+	
+	@FXML
+	private Button _musicButton;
+	
+	private PlayAudioBackgroundTask _musicTask;
 	
 
 	private ObservableList<ImageTable> _imageList = FXCollections.observableArrayList();
@@ -196,15 +202,35 @@ public class SelectImageController extends SceneChanger implements Initializable
 		_imageCol.setCellValueFactory(new PropertyValueFactory<ImageTable, ImageView>("Image"));
 		_selectCol.setCellValueFactory(new PropertyValueFactory<ImageTable, CheckBox>("CheckBox"));
 		_imageTable.setItems(_imageList);
-
-
 	}
 
+	
+	@FXML
+	private void musicHandle() {
+		if (_musicTask != null && _musicTask.isAlive()) {
+			stopMusic();
+		} else {
+			String bgMusic = _musicChoiceBox.getSelectionModel().getSelectedItem();
+			if (!bgMusic.equals("None")) {	
+				_musicTask = new PlayAudioBackgroundTask(bgMusic + ".wav", Main._RESOURCEPATH + "/");
+				
+				Thread musicThread = new Thread(_musicTask);
+				musicThread.start();
+			}
+		}
+	}
+	
+	private void stopMusic() {
+		if (_musicTask != null) {
+			_musicTask.stopProcess();
+		}
+	}
+	
 
 	@FXML
 	public void onNextHandler(ActionEvent event) {
-
-
+		stopMusic();
+		
 		ArrayList<String> imageList = new ArrayList<String>();
 
 		for (ImageTable image : _imageList) {
@@ -230,7 +256,8 @@ public class SelectImageController extends SceneChanger implements Initializable
 
 	@FXML
 	public void onBackHandler(ActionEvent event) {
-
+		stopMusic();
+		
 		try {
 			changeScene((Node)event.getSource(), "/fxml/CreateAudioScene.fxml") ;
 		} catch (IOException e) {

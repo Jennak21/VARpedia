@@ -213,7 +213,7 @@ public class CreateAudioController extends SceneChanger {
 		_previewButton.setDisable(false);
 		_previewButton.setText("Stop preview");
 		
-		_preview = new PlayAudioBackgroundTask("tempAudio", Main._FILEPATH + "/newCreation/");
+		_preview = new PlayAudioBackgroundTask("tempAudio" + Creation.AUDIO_EXTENTION, Main._FILEPATH + "/newCreation/");
 		Thread previewThread = new Thread(_preview);
 		previewThread.start();
 		
@@ -430,7 +430,7 @@ public class CreateAudioController extends SceneChanger {
 			
 			_listenButton.setText("Stop");
 			
-			_preview = new PlayAudioBackgroundTask("audio", Main._FILEPATH + "/newCreation/");
+			_preview = new PlayAudioBackgroundTask("audio" + Creation.AUDIO_EXTENTION, Main._FILEPATH + "/newCreation/");
 			Thread previewThread = new Thread(_preview);
 			previewThread.start();
 			

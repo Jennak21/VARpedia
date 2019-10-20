@@ -22,7 +22,7 @@ public class PlayAudioBackgroundTask extends Task<Void> {
 	@Override
 	protected Void call() throws Exception {
 		try {
-			String playAudio = "aplay " + _filePath + "\""+ _audioName + "\""+ Creation.AUDIO_EXTENTION;
+			String playAudio = "aplay " + _filePath + "\""+ _audioName + "\"";
 			ProcessBuilder processBuilder = new ProcessBuilder("bash", "-c", playAudio);
 			_process = processBuilder.start();
 			_process.waitFor();
@@ -37,6 +37,13 @@ public class PlayAudioBackgroundTask extends Task<Void> {
 		if (_process != null) {
 			_process.destroy();
 		}
+	}
+	
+	public boolean isAlive() {
+		if (_process != null) {
+			return _process.isAlive();
+		}
+		return false;
 	}
 }
 
