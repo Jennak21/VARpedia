@@ -18,6 +18,7 @@ import application.Main;
 import application.WarningAlert;
 import background.AudioBackgroundTask;
 import background.PlayAudioBackgroundTask;
+import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -78,6 +79,10 @@ public class CreateAudioController extends SceneChanger {
 	 */
 	@FXML
 	public void initialize() {
+		
+		//make mouse focus on search saveButton
+		Platform.runLater(()-> _saveButton.requestFocus());
+
 		
 		//set help components as not visible
 		_helpPane.setVisible(false);

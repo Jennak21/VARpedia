@@ -10,6 +10,7 @@ import application.ErrorAlert;
 import application.Main;
 import application.WarningAlert;
 import background.DeleteCreationBackgroundTask;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -56,6 +57,10 @@ public class FileNameController extends SceneChanger {
 		_noButton.setVisible(false);
 		
 		_nextButton.setDisable(true);
+		
+		//make mouse focus on search text area
+		Platform.runLater(()->_fileNameEntry.requestFocus());
+
 		
 		_creationProcess = CreationProcess.getInstance();
 		

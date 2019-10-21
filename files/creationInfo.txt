@@ -1,2 +1,4 @@
-choc_2;chocolate;10.83;0
+choc_2;chocolate;10.83;6
 h_i;hello;16.83;0
+hhh;a;7.26;0
+

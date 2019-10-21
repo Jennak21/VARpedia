@@ -91,20 +91,19 @@ public class SelectImageController extends SceneChanger implements Initializable
 
 		_creationProcess.clearSelectedImages();
 
-
-
+		//create thread to downloads images
 		_downloadImage = new DownloadImageBackgroundTask();
 		Thread downloadImageThread = new Thread(_downloadImage);
 		downloadImageThread.start();
 
 		_downloadImage.setOnRunning(running -> {
-			//make label visible which will show progress updates
+			//Change text to inform the user and have the progressIndicator running
 			_progressIndicator.setProgress(-1.0);
 			_imageText.setText("Fetching images for your creation"); 	
 
 		});
 
-
+		//once images have been downloaded, load the images to the table and change the label
 		_downloadImage.setOnSucceeded(finish -> {
 			_imageText.setText("Select images for your creation"); 	
 			loadDataToTable();
@@ -156,15 +155,19 @@ public class SelectImageController extends SceneChanger implements Initializable
 			for (final File file : dir.listFiles()){
 
 				CheckBox checkBox = new CheckBox();
-				//checkBox.addEventHandler(Event<ActionEvent>, eventHandler);
-
+				
+				//add event handler to checkbox where if the checkbox is selected, the next button is enabled
 				EventHandler<ActionEvent> checkedHandler = new EventHandler<ActionEvent>() {
 					@Override
 					public void handle(ActionEvent event) {
 						if (event.getSource() instanceof CheckBox) {
 							CheckBox chk = (CheckBox) event.getSource();
 							if (chk.isSelected()) {
+								//make the mouse focus on the next button
 								_nextButton.setDisable(false);
+								_nextButton.requestFocus();
+								
+							//if checkbox is not selected, then if all checkboxes are unselected disable next button	
 							} else {
 								for (ImageTable image : _imageList) {
 									if (image.getCheckBox().isSelected()) {
@@ -173,9 +176,7 @@ public class SelectImageController extends SceneChanger implements Initializable
 										break;		
 									}
 									_nextButton.setDisable(true); 
-
 								}
-
 							}
 						}
 					}
@@ -183,11 +184,12 @@ public class SelectImageController extends SceneChanger implements Initializable
 
 				checkBox.setOnAction(checkedHandler);
 
-
+				//create image and then image view
 				Image image = new Image(file.toURI().toString(), 150, 100, false, false);
 				ImageView iv = new ImageView(image);
 
-
+				//create new image object which will store the image, checkbox and filepath and then
+				//add it to the observable list
 				_imageList.add(new ImageTable(iv, checkBox, file.getAbsolutePath()));
 			}
 		}
@@ -204,19 +206,19 @@ public class SelectImageController extends SceneChanger implements Initializable
 	@FXML
 	public void onNextHandler(ActionEvent event) {
 
-
 		ArrayList<String> imageList = new ArrayList<String>();
 
+		//Iterate through images in the observable list and if it is selected, add the filepath of the image to a list
 		for (ImageTable image : _imageList) {
 			if (image.getCheckBox().isSelected()) {
 				imageList.add(image.getFilePath());	
-				System.out.println(image.getFilePath());
-
 			}	
 		}
 
+		//store the list of image filepaths
 		_creationProcess.setImageList(imageList);
 
+		//store selected music
 		String bgMusic = _musicChoiceBox.getSelectionModel().getSelectedItem();
 		_creationProcess.setBGMusic(bgMusic);
 		

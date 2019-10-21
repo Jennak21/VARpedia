@@ -5,6 +5,7 @@ import java.io.IOException;
 import application.ErrorAlert;
 import application.WarningAlert;
 import background.WikitBackgroundTask;
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -59,6 +60,9 @@ public class SearchController extends SceneChanger {
 		//set help components as not visible
 		_helpPane.setVisible(false);
 		_helpText.setVisible(false);
+		
+		//make mouse focus on search text area
+		Platform.runLater(()->_searchField.requestFocus());
 
 
 	}
