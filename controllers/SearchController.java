@@ -5,6 +5,7 @@ import java.io.IOException;
 import application.ErrorAlert;
 import application.WarningAlert;
 import background.WikitBackgroundTask;
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -59,6 +60,9 @@ public class SearchController extends SceneChanger {
 		//set help components as not visible
 		_helpPane.setVisible(false);
 		_helpText.setVisible(false);
+		
+		//make mouse focus on search text area
+		Platform.runLater(()->_searchField.requestFocus());
 
 
 	}
@@ -106,15 +110,6 @@ public class SearchController extends SceneChanger {
 	public void search () {
 		_searchButton.setDisable(true);
 
-		//		String searchTerm = _searchField.getText();
-
-		//Check for non-empty search term
-		//		if (searchTerm.isEmpty()) {
-		//			new WarningAlert("You can't search for nothing");
-		//			reset();
-		//			
-		//			return; 
-		//		} 
 
 		//Run search on background thread
 		WikitBackgroundTask wikitBG = new WikitBackgroundTask(_searchTerm);
@@ -123,9 +118,12 @@ public class SearchController extends SceneChanger {
 
 		//Update user that search is happening
 		wikitBG.setOnRunning(running -> {
-			//			_searchingLabel.setVisible(true);
+			
+			//have progress bar running 
 			_progressBar.setProgress(-1.0);
 			_progressBar.setVisible(true);
+			
+			_searchField.setVisible(false);
 
 			//Cancel search if user wants to quit
 			_backButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -153,6 +151,7 @@ public class SearchController extends SceneChanger {
 
 			} else {
 				//Search failed, inform user and go back to search screen
+				_progressBar.setProgress(0.8);
 				new ErrorAlert("Could not complete search for '" + _searchTerm + "'");
 				reset();
 			}
@@ -161,9 +160,13 @@ public class SearchController extends SceneChanger {
 	}
 
 	private void reset() {
+		
+		//set search field to visible and clear it
+		_searchField.setVisible(true);
 		_searchField.clear();
 		_searchButton.setDisable(false);
 		_progressBar.setVisible(false);
+		
 
 		_backButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override

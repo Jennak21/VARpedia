@@ -90,6 +90,8 @@ public class QuizController extends SceneChanger {
 	private StackPane _helpPane;
 	@FXML
 	private TextArea _helpText;
+	@FXML
+	private Button _finishButton;
 
 
 	private VideoPlayer _videoPlayer;
@@ -272,6 +274,9 @@ public class QuizController extends SceneChanger {
 		} else {
 			_submitButton.setText("Finish");
 		}
+		
+		//set mouse focus to the submit/nextButton
+		_submitButton.requestFocus();
 
 	}
 
@@ -334,6 +339,9 @@ public class QuizController extends SceneChanger {
 
 		//Set list
 		_resultsList.setItems(results);
+		
+		//set mouse focus to the finish button
+		_finishButton.requestFocus();
 	}
 
 	private void saveResults() {

@@ -28,10 +28,10 @@
     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <TableView fx:id="_imageTable" prefHeight="405.0" prefWidth="408.0" stylesheets="@TableStyle.css">
+      <TableView fx:id="_imageTable" prefHeight="584.0" prefWidth="496.0" stylesheets="@TableStyle.css">
          <columns>
-            <TableColumn fx:id="_imageCol" prefWidth="477.5" text="Images" />
-            <TableColumn fx:id="_selectCol" minWidth="0.0" prefWidth="79.5" text="Select" />
+            <TableColumn fx:id="_imageCol" prefWidth="446.0" text="Images" />
+            <TableColumn fx:id="_selectCol" minWidth="0.0" prefWidth="78.0" text="Select" />
          </columns>
          <opaqueInsets>
             <Insets />
