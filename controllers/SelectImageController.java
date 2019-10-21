@@ -185,7 +185,7 @@ public class SelectImageController extends SceneChanger implements Initializable
 				checkBox.setOnAction(checkedHandler);
 
 				//create image and then image view
-				Image image = new Image(file.toURI().toString(), 150, 100, false, false);
+				Image image = new Image(file.toURI().toString(), 300, 250, false, false);
 				ImageView iv = new ImageView(image);
 
 				//create new image object which will store the image, checkbox and filepath and then
@@ -200,6 +200,7 @@ public class SelectImageController extends SceneChanger implements Initializable
 		_imageTable.setItems(_imageList);
 
 
+		_imageTable.setSelectionModel(null);
 	}
 
 

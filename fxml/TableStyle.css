@@ -1,4 +1,48 @@
 
+.scroll-bar:vertical .track{
+    -fx-background-color :transparent;
+    -fx-border-color :transparent;
+    -fx-background-radius : 0.0em;
+    -fx-border-radius :2.0em;
+}
+
+
+
+.scroll-bar:vertical .increment-button ,
+.scroll-bar:vertical .decrement-button {
+    -fx-background-color :transparent;
+    -fx-background-radius : 0.0em;
+    -fx-padding :0.0 10.0 0.0 0.0;
+
+}
+
+ .scroll-bar .increment-arrow,
+ .scroll-bar .decrement-arrow{
+    -fx-shape : " ";    
+    -fx-padding :0.15em 0.0;
+}
+
+ .scroll-bar:vertical .increment-arrow,
+ .scroll-bar:vertical .decrement-arrow{
+    -fx-shape : " ";    
+    -fx-padding :0.0 0.15em;
+}
+
+
+.scroll-bar:vertical .thumb {
+    -fx-background-color : #d9d9dc;
+    -fx-background-insets : 2.0, 0.0, 0.0;
+    -fx-background-radius : 2.0em;
+}
+
+
+.scroll-bar:vertical .thumb:hover {
+    -fx-background-color :#414582;
+    -fx-background-insets : 2.0, 0.0, 0.0;
+    -fx-background-radius : 2.0em;
+}
+
+
 .table-view {
     -fx-base: #ffffff;
     -fx-control-inner-background: #ffffff;
@@ -8,19 +52,20 @@
     -fx-padding: 5;
 }
 
+.table-view .table-row-cell {
+    -fx-control-inner-background: white;
+    -fx-control-inner-background-alt: white; 
+}
+
 .table-view .column-header-background {
     -fx-background-color: transparent;
+   
 }
 
 .table-view .column-header, .table-view .filler {
     -fx-size: 35;
     -fx-border-width: 0 0 1 0;
     -fx-background-color: transparent;
-    -fx-border-color: 
-        transparent
-        transparent
-         #414582 
-        transparent;
     -fx-border-insets: 0 10 1 0;
 }
 
@@ -29,9 +74,20 @@
     -fx-text-fill:  #414582;
     -fx-alignment: center-left;
     -fx-opacity: 1;
+    -fx-border-color: 
+        transparent
+        transparent
+         #414582 
+        transparent;
 }
 
 .table-view:focused .table-row-cell:filled:focused:selected {
-    -fx-background-color: -fx-focus-color;
+    -fx-background-color:  #d9d9dc;
+  -fx-border-color: #d9d9dc;
+ -fx-background-insets: 0;
+    -fx-background-radius: 1;
+ -fx-table-cell-border-color: transparent;
 }
+
+
 
