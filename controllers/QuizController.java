@@ -337,6 +337,8 @@ public class QuizController extends SceneChanger {
 			results.add(q.getResultString());
 		}
 
+		_resultsList.setStyle("-fx-font-size: 16px;");
+		
 		//Set list
 		_resultsList.setItems(results);
 		
