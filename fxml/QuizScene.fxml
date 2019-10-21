@@ -236,6 +236,9 @@
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
+               <StackPane.margin>
+                  <Insets right="10.0" top="10.0" />
+               </StackPane.margin>
             </Button>
          </children>
          <GridPane.margin>
