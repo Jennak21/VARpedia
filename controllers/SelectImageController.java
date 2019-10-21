@@ -19,6 +19,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
@@ -29,13 +30,14 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 
 public class SelectImageController extends SceneChanger implements Initializable{
 	private CreationProcess _creationProcess;
 	private String _allImagesFilePath = Main._FILEPATH +"/newCreation/allImages";
-
+	
 	@FXML
 	private ProgressIndicator _progressIndicator;
 
@@ -86,6 +88,7 @@ public class SelectImageController extends SceneChanger implements Initializable
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+
 
 		//set help components as not visible
 		_helpPane.setVisible(false);
@@ -161,6 +164,8 @@ public class SelectImageController extends SceneChanger implements Initializable
 			for (final File file : dir.listFiles()){
 
 				CheckBox checkBox = new CheckBox();
+				checkBox.setPrefSize(150, 250);
+				
 				
 				//add event handler to checkbox where if the checkbox is selected, the next button is enabled
 				EventHandler<ActionEvent> checkedHandler = new EventHandler<ActionEvent>() {

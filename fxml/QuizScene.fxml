@@ -18,7 +18,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<GridPane fx:id="_quizPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.QuizController">
+<GridPane fx:id="_quizPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: white;" stylesheets="@Button.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.QuizController">
   <columnConstraints>
     <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" />
       <ColumnConstraints />
@@ -34,7 +34,7 @@
             <Font size="30.0" />
          </font>
       </Label>
-      <Button fx:id="_quitButton" maxWidth="112.0" minWidth="90.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#quitHandle" prefHeight="45.0" prefWidth="112.0" style="-fx-background-color: #41b9d2; -fx-background-radius: 30;" text="Quit" textFill="WHITE" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
+      <Button fx:id="_quitButton" maxWidth="112.0" minWidth="90.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#quitHandle" prefHeight="45.0" prefWidth="112.0" styleClass="blueButton" text="Quit" textFill="WHITE" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
@@ -61,7 +61,7 @@
                </padding>
             </Label>
             <Slider fx:id="_questionsSlider" majorTickUnit="1.0" max="20.0" min="1.0" minorTickCount="0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="10.0" GridPane.rowIndex="1" />
-            <Button fx:id="_startButton" maxWidth="112.0" minWidth="90.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#startHandle" prefHeight="45.0" prefWidth="112.0" style="-fx-background-color: #414582; -fx-background-radius: 30;" text="Start" textFill="WHITE" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+            <Button fx:id="_startButton" maxWidth="112.0" minWidth="90.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#startHandle" prefHeight="45.0" prefWidth="112.0" styleClass="purpleButton" text="Start" textFill="WHITE" GridPane.halignment="CENTER" GridPane.rowIndex="2">
                <font>
                   <Font size="18.0" />
                </font>
@@ -182,7 +182,7 @@
             <RowConstraints />
         </rowConstraints>
          <children>
-            <Button fx:id="_finishButton" maxWidth="112.0" minWidth="90.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#finishHandle" prefHeight="45.0" prefWidth="112.0" style="-fx-background-color: #414582; -fx-background-radius: 30;" text="Finish" textFill="WHITE" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
+            <Button fx:id="_finishButton" maxWidth="112.0" minWidth="90.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#finishHandle" prefHeight="45.0" prefWidth="112.0" styleClass="purpleButton" text="Finish" textFill="WHITE" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
                <font>
                   <Font size="18.0" />
                </font>
@@ -219,7 +219,7 @@
          </GridPane.margin>
       </GridPane>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#414582" height="3.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="265.0" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM" />
-      <Button fx:id="_submitButton" maxWidth="112.0" minWidth="90.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#submitHandle" prefHeight="45.0" prefWidth="112.0" style="-fx-background-color: #414582; -fx-background-radius: 30;" text="Submit" textFill="WHITE" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
+      <Button fx:id="_submitButton" maxWidth="112.0" minWidth="90.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#submitHandle" prefHeight="45.0" prefWidth="112.0" styleClass="purpleButton" text="Submit" textFill="WHITE" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
