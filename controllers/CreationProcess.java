@@ -11,6 +11,7 @@ import java.util.List;
 
 import javax.swing.JOptionPane;
 
+import application.AudioChunk;
 import javafx.concurrent.Task;
 
 public class CreationProcess {
@@ -23,7 +24,8 @@ public class CreationProcess {
 	private String _selectedText = "";
 	private String _fileName;
 	private String _bgMusic;
-	private ArrayList<String> _audioFileList;
+	private List<AudioChunk> _audioChunkList = new ArrayList<AudioChunk>();
+	private int _numChunks = 0;
 	private ArrayList<String> _imageList;
 
 	public static CreationProcess getInstance() {
@@ -33,14 +35,22 @@ public class CreationProcess {
 		return CREATION_INSTANCE; 
 	}
 
-	public void setAudioFiles(ArrayList<String> audioFileList) {
-		_audioFileList = audioFileList;
+	public void addAudioChunk(AudioChunk newChunk) {
+		_audioChunkList.add(newChunk);
+		_numChunks++;
+	}
+	
+	public void deleteAudioChunk(AudioChunk chunk) {
+		_audioChunkList.remove(chunk);
 	}
 
-	public ArrayList<String> getAudioFiles() {
-		return _audioFileList;
+	public List<AudioChunk> getAudioChunks() {
+		return _audioChunkList;
 	}
 
+	public int getNumChunks() {
+		return _numChunks;
+	}
 
 	public int getNumImages() {
 		if (_imageList != null) {

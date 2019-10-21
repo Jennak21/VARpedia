@@ -3,12 +3,14 @@ package background;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
+import application.AudioChunk;
 import application.BashCommandClass;
 import application.Creation;
 import application.InformationAlert;
@@ -62,14 +64,14 @@ public class CreatingVidBackgroundTask extends Task<Boolean>{
 			}
 			updateProgress(20,100);
 
-			updateMessage("Copying audio");
-			copyAudio();
+			updateMessage("Combining audio");
+			combineAudio();
 			if (isCancelled()) {
 				return false;
 			}
 			updateProgress(30,100);
 
-			updateMessage("Compiling Audio");
+			updateMessage("Adding images");
 			createImageVideo();
 			if (isCancelled()) {
 				return false;
@@ -104,13 +106,20 @@ public class CreatingVidBackgroundTask extends Task<Boolean>{
 			return false;
 		}
 	}
+	
+	private void combineAudio() throws IOException, InterruptedException {
+		List<AudioChunk> audioChunks = _creationProcess.getAudioChunks();
+		
+		//loop through audio chunks and add to combine command
+		String audioChunkPath = Main._FILEPATH + "/newCreation/audioChunks/";
+		String combineAudioCommand = "sox ";
+		for (AudioChunk chunk  : audioChunks)  {
+			combineAudioCommand = combineAudioCommand + audioChunkPath  +  "\"" + chunk.getNum() + "\"" + Creation.AUDIO_EXTENTION + " ";
+		}
 
-	private void copyAudio() throws IOException, InterruptedException {
-		String removeExistingAudio = "rm -f" + " " +_audioFilePath ;
-		BashCommandClass.runBashProcess(removeExistingAudio);
+		combineAudioCommand = combineAudioCommand + _audioFilePath;
 
-		File audioFile = new File(_newAudioFilePath);
-		audioFile.renameTo(new File(Main._AUDIOPATH + "/" + _creationProcess.getFileName() + Creation.AUDIO_EXTENTION));
+		BashCommandClass.runBashProcess(combineAudioCommand);
 	}
 
 	private void getSelectedImages() throws IOException, InterruptedException {
@@ -125,17 +134,13 @@ public class CreatingVidBackgroundTask extends Task<Boolean>{
 		for (String imagePath : selectedImagePaths) {
 			storeSelectedImageCommand = storeSelectedImageCommand + "ffmpeg -i " + imagePath + " -vf scale=600:400 " + Main._FILEPATH + "/newCreation/" + i + ".jpg; " ;
 			i++;
-
 		}	
 
-		BashCommandClass.runBashProcess(storeSelectedImageCommand );
-
+		BashCommandClass.runBashProcess(storeSelectedImageCommand);
 	}
 
 
 	private void createImageVideo() throws Exception {
-
-
 		File audioFile = new File(Main._AUDIOPATH + "/" + _creationProcess.getFileName() + Creation.AUDIO_EXTENTION);
 
 		AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(audioFile);					
@@ -143,21 +148,16 @@ public class CreatingVidBackgroundTask extends Task<Boolean>{
 
 		audioLength = audioFile.length();
 
-
 		int frameSize = format.getFrameSize();
-
 		float audioframeRate = format.getFrameRate();
-
 		float durationInSeconds = (audioLength / (frameSize * audioframeRate));
 
 		//calculate the image duration and round it to something ffmpeg will tolerate. 3dp accuracy is sufficient for matching the audio length to the slideshow length.
 		double frameRate = _numImages/durationInSeconds;
 		frameRate = Math.round(frameRate*1000.0)/1000.0;
 
-
 		String makeVideoCommand = "cat " + Main._FILEPATH + "/newCreation/*.jpg | ffmpeg -f image2pipe -framerate " + frameRate + " -i - -c:v libx264 -vf format=yuv420p -r 25 " + _slidesFilePath ;
 		
-	
 		BashCommandClass.runBashProcess(makeVideoCommand);
 	}
 
@@ -165,18 +165,13 @@ public class CreatingVidBackgroundTask extends Task<Boolean>{
 	private void createVideo() throws IOException, InterruptedException {
 
 		//combine video and audio
-		String creationVideoCommand = "yes | ffmpeg -i " + _slidesFilePath + " -i " + _audioFilePath + " -c:v copy -c:a aac -strict" +
-				" experimental " + _tempVidFilePath + " &> /dev/null; ";
-
-
+		String creationVideoCommand = "yes | ffmpeg -i " + _slidesFilePath + " -i " + _audioFilePath + " -c:v copy -c:a aac -strict" + " experimental " + _tempVidFilePath + " &> /dev/null; ";
 
 		//put text on video
-		String textOnVideoCommand = "yes | ffmpeg -i " + _tempVidFilePath + " -vf \"drawtext=fontfile=Montserrat-Regular.ttf:" + 
-				"text='" + _searchTerm +"':fontcolor=white:shadowcolor=black:shadowx=4:shadowy=4:fontsize=30:" + 
-				"x=(w-text_w)/2:y=(h-text_h)/2\" -codec:a copy " + _finalVidFilePath + "; ";
+		String textOnVideoCommand = "yes | ffmpeg -i " + _tempVidFilePath + " -vf \"drawtext=fontfile=Montserrat-Regular.ttf:" + "text='" + _searchTerm +"':fontcolor=white:shadowcolor=black:shadowx=4:shadowy=4:fontsize=30:" + "x=(w-text_w)/2:y=(h-text_h)/2\" -codec:a copy " + _finalVidFilePath + "; ";
 
-		//	String deleteFileCommand = "rm -r " + _filePath;
-		//		String command = creationVideoCommand + textOnVideoCommand + deleteFileCommand ;
+		//String deleteFileCommand = "rm -r " + _filePath;
+		//String command = creationVideoCommand + textOnVideoCommand + deleteFileCommand ;
 		String command = creationVideoCommand + textOnVideoCommand ;
 
 		BashCommandClass.runBashProcess(command);

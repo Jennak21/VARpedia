@@ -11,16 +11,18 @@ import javafx.concurrent.Task;
 
 public class AudioBackgroundTask extends Task<Boolean> {
 	private String _filename;
+	private String _filepath;
 	
-	public AudioBackgroundTask(String filename) {
+	public AudioBackgroundTask(String filename, String filepath) {
 		_filename = filename;
+		_filepath = filepath;
 	}
 
 	@Override
 	protected Boolean call() {
 		//Convert text to audio
 		try {
-			String makeAudio = "text2wave -o " + Main._FILEPATH + "/newCreation/" + _filename + Creation.AUDIO_EXTENTION + " " + Main._FILEPATH + "/newCreation/text.txt -eval " + Main._FILEPATH + "/newCreation/settings.scm";
+			String makeAudio = "text2wave -o " + _filepath + _filename + Creation.AUDIO_EXTENTION + " " + Main._FILEPATH + "/newCreation/text.txt -eval " + Main._FILEPATH + "/newCreation/settings.scm";
 			int exitVal = BashCommandClass.runBashProcess(makeAudio);
 			
 			//Read exit value of command and return relevant boolean
@@ -29,7 +31,7 @@ public class AudioBackgroundTask extends Task<Boolean> {
 			}
 			
 			
-			String checkLength = "stat -c%s " + Main._FILEPATH + "/newCreation/" + _filename + Creation.AUDIO_EXTENTION;
+			String checkLength = "stat -c%s " + _filepath + _filename + Creation.AUDIO_EXTENTION;
 			String stringLength = BashCommandClass.getOutputFromCommand(checkLength);
 			int intLength = Integer.parseInt(stringLength);
 			if (intLength == 0) {
