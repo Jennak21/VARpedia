@@ -3,6 +3,7 @@ package controllers;
 import java.io.IOException;
 
 import application.ErrorAlert;
+import application.InformationAlert;
 import application.WarningAlert;
 import background.WikitBackgroundTask;
 import javafx.application.Platform;
@@ -150,9 +151,21 @@ public class SearchController extends SceneChanger {
 				}
 
 			} else {
-				//Search failed, inform user and go back to search screen
-				_progressBar.setProgress(0.8);
-				new ErrorAlert("Could not complete search for '" + _searchTerm + "'");
+				//Search failed, get fail message
+				String returnMessage = wikitBG.getMessage();
+				String errorMessage;
+				if (returnMessage.equals("Empty")) {
+					errorMessage = "Could not retrieve information for '" + _searchTerm + "'";
+				} else if (returnMessage.equals("Ambiguous")) {
+					errorMessage = "Please enter a more specific term";
+				} else if (returnMessage.equals("No results")) {
+					errorMessage = "No results found for '" + _searchTerm + "'";
+				} else {
+					errorMessage = "Unknown error";
+				}
+				
+				new ErrorAlert("Error: " + errorMessage);
+				
 				reset();
 			}
 		});
@@ -164,7 +177,7 @@ public class SearchController extends SceneChanger {
 		//set search field to visible and clear it
 		_searchField.setVisible(true);
 		_searchField.clear();
-		_searchButton.setDisable(false);
+		_searchButton.setDisable(true);
 		_progressBar.setVisible(false);
 		
 
@@ -178,6 +191,7 @@ public class SearchController extends SceneChanger {
 
 	private void quit() {
 		CreationProcess.destroy();
+		
 		try {
 			changeScene(_gridPane, "/fxml/MainMenuPane.fxml");
 		} catch (IOException e) {

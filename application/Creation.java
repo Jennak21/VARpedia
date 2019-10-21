@@ -48,7 +48,7 @@ public class Creation {
 	}
 	
 	public String getLength() {
-		return _length.get();
+		return _length.get() + "s";
 	}
 	
 	public String getTestAcc() {

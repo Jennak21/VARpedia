@@ -137,7 +137,7 @@
                                  </children>
                               </VBox>
                               <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#414582" height="3.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="151.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM" />
-                              <TextArea fx:id="_promptText" editable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#onTextClickHandle" onMouseDragged="#onTextClickHandle" onMouseMoved="#onTextClickHandle" onMousePressed="#onTextClickHandle" onMouseReleased="#onTextClickHandle" prefHeight="100.0" prefWidth="400.0" style="-fx-background-color: white;" styleClass="text-area" stylesheets="@CreatingAudioStyle.css" text="&#10;Highlight the text and press &quot;Save Audio&quot;&#10;to add it to your creation" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+                              <TextArea fx:id="_promptText" editable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#onTextClickHandle" onMouseDragged="#onTextClickHandle" onMouseMoved="#onTextClickHandle" onMousePressed="#onTextClickHandle" onMouseReleased="#onTextClickHandle" prefHeight="100.0" prefWidth="400.0" style="-fx-background-color: white;" styleClass="text-area" stylesheets="@CreateAudioStyle.css" text="&#10;Highlight the text and press &quot;Save Audio&quot;&#10;to add it to your creation" GridPane.halignment="CENTER" GridPane.rowIndex="1">
                                  <font>
                                     <Font size="15.0" />
                                  </font>

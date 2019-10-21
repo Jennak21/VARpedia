@@ -59,14 +59,24 @@
                   <Insets top="20.0" />
                </VBox.margin>
             </Text>
-            <ChoiceBox fx:id="_musicChoiceBox" maxWidth="180.0" minWidth="180.0" prefHeight="30.0" prefWidth="180.0" style="-fx-background-color: #d9d9dc;">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-               <VBox.margin>
-                  <Insets />
-               </VBox.margin>
-            </ChoiceBox>
+            <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <ChoiceBox fx:id="_musicChoiceBox" maxWidth="180.0" minWidth="180.0" prefHeight="30.0" prefWidth="180.0" style="-fx-background-color: #d9d9dc;">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ChoiceBox>
+                  <Button fx:id="_musicButton" mnemonicParsing="false" onAction="#musicHandle">
+                     <graphic>
+                        <ImageView fitHeight="150.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../resources/speaker.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+               </children>
+            </HBox>
             <HBox alignment="BOTTOM_CENTER" prefHeight="152.0" prefWidth="304.0" spacing="70.0">
                <opaqueInsets>
                   <Insets />
