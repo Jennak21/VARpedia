@@ -60,7 +60,7 @@ public class Creation {
 	}
 	
 	public int getAccuracyWeighting() {
-		int accuracyWeight = 125 - Integer.parseInt(_testAcc.get());
+		int accuracyWeight = 115 - Integer.parseInt(_testAcc.get());
 		return accuracyWeight;
 	}
 	

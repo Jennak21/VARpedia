@@ -134,7 +134,7 @@ public class SelectImageController extends SceneChanger implements Initializable
 		} catch (IOException | InterruptedException e) {
 			new ErrorAlert("Couldn't get voices");
 		}
-		
+
 		_musicChoiceBox.setItems(musicChoices);
 		_musicChoiceBox.getSelectionModel().selectFirst();
 	}
