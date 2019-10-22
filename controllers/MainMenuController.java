@@ -11,6 +11,7 @@ import application.Main;
 import application.BashCommandClass;
 import application.Creation;
 import application.ErrorAlert;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -52,6 +53,9 @@ public class MainMenuController extends SceneChanger {
 	@FXML
 	private void initialize() {
 		cleanUp();
+		
+		//focus on table
+		Platform.runLater(()->_creationTable.requestFocus());
 		
 		//set help components as not visible
 		_helpPane.setVisible(false);

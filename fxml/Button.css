@@ -1,0 +1,37 @@
+
+.blueButton:pressed {
+    -fx-background-color: #80d0e1;
+
+}
+
+
+
+.blueButton:hover { 
+    -fx-background-color: linear-gradient( #80d0e1, #41b9d2);  
+}
+
+.blueButton{ 
+ -fx-background-color:  #41b9d2;
+-fx-background-radius: 30;
+-fx-focus-color: #414582;
+
+}
+
+.purpleButton:pressed{
+ -fx-background-color:#6368b1
+}
+
+
+.purpleButton:hover { 
+ -fx-background-color: linear-gradient( #6368b1, #414582); 
+
+}
+
+
+.purpleButton{ 
+ -fx-background-color:  #414582;
+-fx-background-radius: 30
+}
+
+
+

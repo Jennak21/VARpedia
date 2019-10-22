@@ -89,11 +89,22 @@
         transparent;
 }
 
-.table-view:focused .table-row-cell:filled:focused:selected {
+.table-view .table-row-cell {
+    -fx-control-inner-background: white;
+    -fx-control-inner-background-alt: #f4f4f5;
+}
+
+.table-row-cell:selected:focused {
+	
     -fx-background-color:  #d9d9dc;
  	-fx-background-insets: 0;
     -fx-background-radius: 1;
  	-fx-table-cell-border-color: transparent;
+
+}
+
+.table-row-cell:selected:focused .text {
+       -fx-fill: black ;
 }
 
 

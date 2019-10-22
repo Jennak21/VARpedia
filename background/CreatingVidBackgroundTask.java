@@ -57,7 +57,7 @@ public class CreatingVidBackgroundTask extends Task<Boolean>{
 	protected Boolean call() {
 
 		try {
-			updateMessage("Fetching images");
+			updateMessage("Combining images");
 			getSelectedImages();
 			if (isCancelled()) {
 				return false;

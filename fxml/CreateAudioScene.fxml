@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
@@ -21,7 +22,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<GridPane fx:id="_gridPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: white;" stylesheets="@CreateAudioStyle.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.CreateAudioController">
+<GridPane fx:id="_gridPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.CreateAudioController">
   <columnConstraints>
     <ColumnConstraints hgrow="SOMETIMES" maxWidth="640.5" minWidth="10.0" prefWidth="534.6116333007812" />
     <ColumnConstraints hgrow="SOMETIMES" maxWidth="345.38836669921875" minWidth="10.0" prefWidth="345.38836669921875" />
@@ -31,7 +32,7 @@
     <RowConstraints maxHeight="195.0" minHeight="10.0" prefHeight="58.08319091796875" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <Button fx:id="_nextButton" maxWidth="112.0" minWidth="90.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#nextHandle" prefHeight="39.0" prefWidth="101.0" style="-fx-background-color: #414582; -fx-background-radius: 30;" textFill="WHITE" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+      <Button fx:id="_nextButton" maxWidth="112.0" minWidth="90.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#nextHandle" prefHeight="39.0" prefWidth="101.0" styleClass="purpleButton" textFill="WHITE" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
          <font>
             <Font size="18.0" />
          </font>
@@ -48,7 +49,7 @@
       </Button>
       <HBox alignment="BOTTOM_LEFT" prefHeight="96.0" prefWidth="641.0" spacing="20.0" GridPane.rowIndex="1">
          <children>
-            <Button fx:id="_backButton" maxWidth="112.0" minWidth="100.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#backHandle" prefHeight="39.0" prefWidth="101.0" style="-fx-background-color: #41b9d2; -fx-background-radius: 30;" textFill="WHITE">
+            <Button fx:id="_backButton" maxWidth="112.0" minWidth="100.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#backHandle" prefHeight="39.0" prefWidth="101.0" styleClass="blueButton" textFill="WHITE">
                <font>
                   <Font size="18.0" />
                </font>
@@ -92,7 +93,7 @@
                                        <font>
                                           <Font size="15.0" />
                                        </font></Button>
-                                    <Button fx:id="_saveButton" alignment="CENTER" contentDisplay="CENTER" maxWidth="180.0" minWidth="180.0" mnemonicParsing="false" onAction="#saveHandle" prefHeight="46.0" prefWidth="180.0" style="-fx-background-color: #414582;" text="Save Audio" textFill="WHITE">
+                                    <Button fx:id="_saveButton" alignment="CENTER" contentDisplay="CENTER" maxWidth="180.0" minWidth="180.0" mnemonicParsing="false" onAction="#saveHandle" prefHeight="46.0" prefWidth="180.0" styleClass="purpleButton" text="Save Audio" textFill="WHITE">
                                        <font>
                                           <Font size="18.0" />
                                        </font>
@@ -207,7 +208,7 @@
                                                 <Font size="18.0" />
                                              </font>
                                           </Label>
-                                          <Button fx:id="_noDeleteButton" maxWidth="50.0" minWidth="50.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#noDeleteHandle" prefWidth="50.0" style="-fx-background-color: #41b9d2; -fx-background-radius: 30;" textFill="WHITE" GridPane.rowIndex="1">
+                                          <Button fx:id="_noDeleteButton" maxWidth="50.0" minWidth="50.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#noDeleteHandle" prefWidth="50.0" styleClass="blueButton" textFill="WHITE" GridPane.rowIndex="1">
                                              <font>
                                                 <Font size="18.0" />
                                              </font>
@@ -222,7 +223,7 @@
                                                 </ImageView>
                                              </graphic>
                                           </Button>
-                                          <Button fx:id="_yesDeleteHandle" maxWidth="50.0" minWidth="50.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#yesDeleteHandle" prefWidth="50.0" style="-fx-background-color: #414582; -fx-background-radius: 30;" textFill="WHITE" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
+                                          <Button fx:id="_yesDeleteHandle" maxWidth="50.0" minWidth="50.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#yesDeleteHandle" prefWidth="50.0" styleClass="purpleButton" textFill="WHITE" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
                                              <font>
                                                 <Font size="18.0" />
                                              </font>
@@ -327,4 +328,8 @@
    <padding>
       <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
    </padding>
+   <stylesheets>
+      <URL value="@CreateAudioStyle.css" />
+      <URL value="@Button.css" />
+   </stylesheets>
 </GridPane>
