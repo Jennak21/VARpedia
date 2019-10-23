@@ -115,6 +115,8 @@ public class QuizController extends SceneChanger {
 	private ComboBox<Language> _languageChoicebox;
 	@FXML
 	private Label _connectingLabel;
+	@FXML
+	private Label _languageLabel;
 	
 	private Language _language;
 	private String _correctTerm;
@@ -192,6 +194,7 @@ public class QuizController extends SceneChanger {
 		_submitButton.setVisible(false);
 		_connectingLabel.setVisible(false);
 		_startButton.setVisible(true);
+		_languageLabel.setVisible(false);
 	}
 
 	@FXML
@@ -227,6 +230,10 @@ public class QuizController extends SceneChanger {
 	}
 	
 	private void startQuiz() {
+		//Set language label to chosen language
+		_languageLabel.setText("Language: " + _language);
+		_languageLabel.setVisible(true);
+		
 		//make submit button visible
 		_submitButton.setVisible(true);
 
@@ -481,12 +488,16 @@ public class QuizController extends SceneChanger {
         
         TableColumn<QuizResult, String> nameCol = new TableColumn<>("Creation");
         nameCol.setCellValueFactory(new PropertyValueFactory<QuizResult, String>("creationName"));
+        nameCol.setSortable(false);
         TableColumn<QuizResult, String> termCol = new TableColumn<>("Term");
         termCol.setCellValueFactory(new PropertyValueFactory<QuizResult, String>("term"));
+        termCol.setSortable(false);
         TableColumn<QuizResult, String> scoreCol = new TableColumn<>("Score");
         scoreCol.setCellValueFactory(new PropertyValueFactory<QuizResult, String>("resultString"));
+        scoreCol.setSortable(false);
         TableColumn<QuizResult, String> learningCol = new TableColumn<>("Learning %");
         learningCol.setCellValueFactory(new PropertyValueFactory<QuizResult, String>("learning"));
+        learningCol.setSortable(false);
         
         _resultsTable.getColumns().setAll(nameCol, termCol, scoreCol, learningCol);
 //        _resultsTable.setPrefWidth(450);
