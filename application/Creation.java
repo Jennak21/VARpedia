@@ -55,12 +55,16 @@ public class Creation {
 		return _testAcc.get() + "%";
 	}
 	
+	public int getIntAcc() {
+		return Integer.parseInt(_testAcc.get());
+	}
+	
 	public void setTestAcc(int newAcc) {
 		_testAcc = new SimpleStringProperty("" + newAcc);
 	}
 	
 	public int getAccuracyWeighting() {
-		int accuracyWeight = 125 - Integer.parseInt(_testAcc.get());
+		int accuracyWeight = 115 - Integer.parseInt(_testAcc.get());
 		return accuracyWeight;
 	}
 	

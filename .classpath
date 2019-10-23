@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path=""/>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JavaFX13"/>
 	<classpathentry kind="lib" path="libs/flickr4java-3.0.1.jar"/>
 	<classpathentry kind="lib" path="libs/jackson-annotations-2.9.0.jar"/>
 	<classpathentry kind="lib" path="libs/jackson-core-2.9.9.jar"/>
@@ -17,5 +16,12 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="libs/fontawesomefx-8.9.jar"/>
 	<classpathentry kind="lib" path="/home/student/git/206Assignment3/libs/controlsfx-11.0.0.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JavaFX13"/>
+	<classpathentry kind="con" path="com.google.cloud.tools.eclipse.appengine.libraries/master-container">
+		<attributes>
+			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/home/student/Downloads/jsoup-1.12.1.jar"/>
 	<classpathentry kind="output" path=""/>
 </classpath>

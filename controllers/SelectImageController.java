@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import application.BashCommandClass;
+import application.Creation;
 import application.ErrorAlert;
 import application.Main;
 import background.DownloadImageBackgroundTask;
@@ -126,15 +127,17 @@ public class SelectImageController extends SceneChanger implements Initializable
 		musicChoices.add("None");
 		
 		try {
-			String getMusic = "basename -s .mp3 -a $(ls " + Main._RESOURCEPATH + "/*.mp3)";
+			String getMusic = "basename -s " + Creation.AUDIO_EXTENTION + " -a $(ls " + Main._RESOURCEPATH + "/*" + Creation.AUDIO_EXTENTION + ")";
 			music = BashCommandClass.getListOutput(getMusic);
-			for (String s: music) {
-				musicChoices.add(s);
+			if (music != null) {
+				for (String s: music) {
+					musicChoices.add(s);
+				}
 			}
 		} catch (IOException | InterruptedException e) {
 			new ErrorAlert("Couldn't get voices");
 		}
-		
+
 		_musicChoiceBox.setItems(musicChoices);
 		_musicChoiceBox.getSelectionModel().selectFirst();
 	}

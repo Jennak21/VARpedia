@@ -499,16 +499,16 @@ public class CreateAudioController extends SceneChanger {
 	
 	@FXML
 	private void nextHandle() {
-		
-			try {
-				String removeTempaudio = "rm -f " + Main._FILEPATH + "/newCreation/tempAudio" + Creation.AUDIO_EXTENTION;
-				BashCommandClass.runBashProcess(removeTempaudio);
-				
-				stopAudio();
-				
-				changeScene(_gridPane, "/fxml/SelectImageScene.fxml");
-			} catch (IOException | InterruptedException e) {
+		try {
+			String removeTempaudio = "rm -f " + Main._FILEPATH + "/newCreation/tempAudio" + Creation.AUDIO_EXTENTION;
+			BashCommandClass.runBashProcess(removeTempaudio);
+			
+			stopAudio();
+			
+			changeScene(_gridPane, "/fxml/SelectImageScene.fxml");
+		} catch (IOException | InterruptedException e) {
 			new ErrorAlert("Couldn't change scene");
+			e.printStackTrace();
 		}
 	}
 	
