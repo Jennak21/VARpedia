@@ -8,27 +8,21 @@ public class QuizResult {
 	private int _numCorrect;
 	private int _totalNum;
 	private int _deltaTestAcc;
-	private String _searchTerm;
-	private String _translatedTerm;
+	private String _term;
 	
 	public QuizResult(Creation creation) {
 		_creation = creation;
 		_creationName = _creation.getFilename();
-		_searchTerm = _creation.getSearchTerm();
 		_numCorrect = 0;
 		_totalNum = 0;
 	}
 	
-	public void setTranslatedTerm(String term) {
-		_translatedTerm = term;
+	public void setTerm(String term) {
+		_term = term;
 	}
 	
-	public String getSearchTerm() {
-		return _searchTerm;
-	}
-	
-	public String getTranslatedTerm() {
-		return _translatedTerm;
+	public String getTerm() {
+		return _term;
 	}
 	
 	public void addResult(boolean correct) {

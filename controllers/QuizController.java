@@ -298,7 +298,7 @@ public class QuizController extends SceneChanger {
 				for (QuizResult q: _quizResults) {
 					if (q.sameCreation(_creation)) {
 						//Previous question found for same creation, get translated term
-						_correctTerm = q.getTranslatedTerm();
+						_correctTerm = q.getTerm();
 						existingQuizResult = true;
 					}
 				}
@@ -391,9 +391,7 @@ public class QuizController extends SceneChanger {
 			currentResult = new QuizResult(_creation);
 			_quizResults.add(currentResult);
 			
-			if (_language != Language.ENGLISH) {
-				currentResult.setTranslatedTerm(_correctTerm);
-			}
+			currentResult.setTerm(_correctTerm);
 		}
 		
 		String guessTerm = _guessField.getText().toLowerCase().trim();
@@ -475,9 +473,6 @@ public class QuizController extends SceneChanger {
 			q.calculateDeltaTestAcc();
 		}
 				
-				
-				
-				
 		//Set tableview data to list of creation objects
 		ObservableList<QuizResult> resultsData = FXCollections.observableList(_quizResults);
 		
@@ -487,7 +482,7 @@ public class QuizController extends SceneChanger {
         TableColumn<QuizResult, String> nameCol = new TableColumn<>("Creation");
         nameCol.setCellValueFactory(new PropertyValueFactory<QuizResult, String>("creationName"));
         TableColumn<QuizResult, String> termCol = new TableColumn<>("Term");
-        termCol.setCellValueFactory(new PropertyValueFactory<QuizResult, String>("searchTerm"));
+        termCol.setCellValueFactory(new PropertyValueFactory<QuizResult, String>("term"));
         TableColumn<QuizResult, String> scoreCol = new TableColumn<>("Score");
         scoreCol.setCellValueFactory(new PropertyValueFactory<QuizResult, String>("resultString"));
         TableColumn<QuizResult, String> learningCol = new TableColumn<>("Learning %");
@@ -499,7 +494,6 @@ public class QuizController extends SceneChanger {
         _resultsTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         _resultsTable.getSelectionModel().selectFirst();
         
-		        
 
 		//set mouse focus to the finish button
 		_finishButton.requestFocus();
