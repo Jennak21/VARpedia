@@ -103,6 +103,7 @@
 
 }
 
+
 .table-row-cell:selected:focused .text {
        -fx-fill: black ;
 }
