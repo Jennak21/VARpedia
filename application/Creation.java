@@ -55,6 +55,10 @@ public class Creation {
 		return _testAcc.get() + "%";
 	}
 	
+	public int getIntAcc() {
+		return Integer.parseInt(_testAcc.get());
+	}
+	
 	public void setTestAcc(int newAcc) {
 		_testAcc = new SimpleStringProperty("" + newAcc);
 	}

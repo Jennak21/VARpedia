@@ -23,8 +23,11 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Slider;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
@@ -88,7 +91,7 @@ public class QuizController extends SceneChanger {
 	@FXML
 	private Label _resultsTotalLabel;
 	@FXML
-	private ListView _resultsList;
+	private TableView _resultsTable;
 	@FXML
 	private Button _helpButton;	
 	@FXML
@@ -127,7 +130,6 @@ public class QuizController extends SceneChanger {
 		HINDI("Hindi", "hi"),
 		ITALIAN("Italian", "it"),
 		JAPANESE("Japanese", "ja"),
-		KOREAN("Korean", "ko"),
 		MAORI("Maori", "mi"),
 		RUSSIAN("Russian", "ru"),
 		SPANISH("Spanish", "es"),
@@ -189,6 +191,7 @@ public class QuizController extends SceneChanger {
 		_summaryGrid.setVisible(false);
 		_submitButton.setVisible(false);
 		_connectingLabel.setVisible(false);
+		_startButton.setVisible(true);
 	}
 
 	@FXML
@@ -290,29 +293,44 @@ public class QuizController extends SceneChanger {
 			
 			//If desired language is not english, translate creation term
 			if (_language != Language.ENGLISH) {
-				TranslatorBackgroundTask translationTask = new TranslatorBackgroundTask(_language.getCode(), _creation.getSearchTerm());
-				Thread translationThread = new Thread(translationTask);
-				translationThread.start();
-				
-				//Disable 'submit' button while getting translation
-				translationTask.setOnRunning(start -> {
-					_submitButton.setDisable(true);
-				});
-				
-				translationTask.setOnSucceeded(finish -> {
-					//Set correct guess term
-					if (translationTask.getValue()) {
-						//Get result of translation and convert html text codes
-						String translationResult = Jsoup.parse(translationTask.getMessage()).text();
-
-						_correctTerm = translationResult;
-					} else {
-						_correctTerm = _creation.getSearchTerm().toLowerCase().trim();
+				//Find out whether question has been presented before (so translation already done)
+				boolean existingQuizResult = false;
+				for (QuizResult q: _quizResults) {
+					if (q.sameCreation(_creation)) {
+						//Previous question found for same creation, get translated term
+						_correctTerm = q.getTranslatedTerm();
+						existingQuizResult = true;
 					}
+				}
+				
+				//If new question hasn't been asked before, get the translated term
+				if (!existingQuizResult) {
+					TranslatorBackgroundTask translationTask = new TranslatorBackgroundTask(_language.getCode(), _creation.getSearchTerm());
+					Thread translationThread = new Thread(translationTask);
+					translationThread.start();
 					
-					//Enable submit button
-					_submitButton.setDisable(false);
-				});
+					//Disable 'submit' button while getting translation
+					translationTask.setOnRunning(start -> {
+						_submitButton.setText("Translating");
+						_submitButton.setDisable(true);
+					});
+					
+					translationTask.setOnSucceeded(finish -> {
+						//Set correct guess term
+						if (translationTask.getValue()) {
+							//Get result of translation and convert html text codes
+							String translationResult = Jsoup.parse(translationTask.getMessage()).text().toLowerCase().trim();
+	
+							_correctTerm = translationResult;
+						} else {
+							_correctTerm = _creation.getSearchTerm().toLowerCase().trim();
+						}
+						
+						//Enable submit button
+						_submitButton.setText("Submit");
+						_submitButton.setDisable(false);
+					});	
+				}
 			} else {
 				//Language is english, use english search term
 				_correctTerm = _creation.getSearchTerm().toLowerCase().trim();
@@ -372,6 +390,10 @@ public class QuizController extends SceneChanger {
 			//Create new result object and add to list
 			currentResult = new QuizResult(_creation);
 			_quizResults.add(currentResult);
+			
+			if (_language != Language.ENGLISH) {
+				currentResult.setTranslatedTerm(_correctTerm);
+			}
 		}
 		
 		String guessTerm = _guessField.getText().toLowerCase().trim();
@@ -447,20 +469,38 @@ public class QuizController extends SceneChanger {
 	}
 
 	private void loadResults() {
-		//String list for results
-		ObservableList results = FXCollections.observableArrayList();
-
 		//Get results for all creations that were tested
 		for (QuizResult q: _quizResults) {
-			//Store result in results list
-			results.add(q.getResultString());
+			//Calculate change in learning %
+			q.calculateDeltaTestAcc();
 		}
+				
+				
+				
+				
+		//Set tableview data to list of creation objects
+		ObservableList<QuizResult> resultsData = FXCollections.observableList(_quizResults);
+		
+		resultsData = FXCollections.observableList(resultsData);
+		_resultsTable.setItems(resultsData);
+        
+        TableColumn<QuizResult, String> nameCol = new TableColumn<>("Creation");
+        nameCol.setCellValueFactory(new PropertyValueFactory<QuizResult, String>("creationName"));
+        TableColumn<QuizResult, String> termCol = new TableColumn<>("Term");
+        termCol.setCellValueFactory(new PropertyValueFactory<QuizResult, String>("searchTerm"));
+        TableColumn<QuizResult, String> scoreCol = new TableColumn<>("Score");
+        scoreCol.setCellValueFactory(new PropertyValueFactory<QuizResult, String>("resultString"));
+        TableColumn<QuizResult, String> learningCol = new TableColumn<>("Learning %");
+        learningCol.setCellValueFactory(new PropertyValueFactory<QuizResult, String>("learning"));
+        
+        _resultsTable.getColumns().setAll(nameCol, termCol, scoreCol, learningCol);
+//        _resultsTable.setPrefWidth(450);
+//        _resultsTable.setPrefHeight(300);
+        _resultsTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        _resultsTable.getSelectionModel().selectFirst();
+        
+		        
 
-		_resultsList.setStyle("-fx-font-size: 16px;");
-		
-		//Set list
-		_resultsList.setItems(results);
-		
 		//set mouse focus to the finish button
 		_finishButton.requestFocus();
 	}

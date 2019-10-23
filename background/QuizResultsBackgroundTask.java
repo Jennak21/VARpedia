@@ -38,8 +38,7 @@ public class QuizResultsBackgroundTask extends Task<Void> {
 				
 				if (creationIndex != -1) {
 					int oldTestAcc = Integer.parseInt(testAcc);
-					double quizTestAcc = _quizResults.get(creationIndex).getResultStat() * 100;
-					int newTestAcc = (int)((oldTestAcc + quizTestAcc)/2);
+					int newTestAcc = oldTestAcc + _quizResults.get(creationIndex).getDeltaTestAcc();
 															
 					newFileInformation = newFileInformation + filename + ";" + searchTerm + ";" + length + ";" + newTestAcc + "\n";
 					
