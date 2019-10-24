@@ -93,6 +93,8 @@ public class CreateAudioController extends SceneChanger {
 	private TextArea _helpText;
 	@FXML
 	private TextArea _promptText;
+	@FXML
+	private Label _wordCountLabel;
 	
 	private CreationProcess _process;
 	private PlayAudioBackgroundTask _preview;
@@ -320,6 +322,18 @@ public class CreateAudioController extends SceneChanger {
 	private void onTextClickHandle(MouseEvent event) {
 		//remove prompt text
 		_promptText.setVisible(false);
+		int numWords = getLengthOfString(_searchResult.getSelectedText());
+		_wordCountLabel.setText("Word Count: " + numWords);
+		
+	}
+	
+	public int getLengthOfString(String s) {
+		String trim = s.trim();
+		if (trim.isEmpty()) {
+		    return 0;
+		}    
+		return trim.split("\\s+").length; // separate string around spaces
+		
 	}
 	
 	

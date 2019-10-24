@@ -22,14 +22,14 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<GridPane fx:id="_gridPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.CreateAudioController">
+<GridPane fx:id="_gridPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.CreateAudioController">
   <columnConstraints>
     <ColumnConstraints hgrow="SOMETIMES" maxWidth="640.5" minWidth="10.0" prefWidth="534.6116333007812" />
     <ColumnConstraints hgrow="SOMETIMES" maxWidth="345.38836669921875" minWidth="10.0" prefWidth="345.38836669921875" />
   </columnConstraints>
   <rowConstraints>
-    <RowConstraints maxHeight="521.9168090820312" minHeight="10.0" prefHeight="521.9168090820312" vgrow="SOMETIMES" />
-    <RowConstraints maxHeight="195.0" minHeight="10.0" prefHeight="58.08319091796875" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="535.0" minHeight="10.0" prefHeight="535.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="195.0" minHeight="10.0" prefHeight="45.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
       <Button fx:id="_nextButton" maxWidth="112.0" minWidth="90.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#nextHandle" prefHeight="39.0" prefWidth="101.0" styleClass="purpleButton" textFill="WHITE" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
@@ -47,7 +47,7 @@
             </ImageView>
          </graphic>
       </Button>
-      <HBox alignment="BOTTOM_LEFT" prefHeight="96.0" prefWidth="641.0" spacing="20.0" GridPane.rowIndex="1">
+      <HBox alignment="BOTTOM_LEFT" prefHeight="36.0" prefWidth="534.0" spacing="320.0" GridPane.rowIndex="1">
          <children>
             <Button fx:id="_backButton" maxWidth="112.0" minWidth="100.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#backHandle" prefHeight="39.0" prefWidth="101.0" styleClass="blueButton" textFill="WHITE">
                <font>
@@ -107,7 +107,7 @@
                                     <Insets />
                                  </opaqueInsets>
                                  <GridPane.margin>
-                                    <Insets bottom="20.0" left="10.0" />
+                                    <Insets bottom="25.0" left="10.0" />
                                  </GridPane.margin>
                               </TextArea>
                               <Label text="Settings" textFill="#414582" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
@@ -141,6 +141,7 @@
                                     <Font size="15.0" />
                                  </font>
                               </Button>
+                              <Label fx:id="_wordCountLabel" textAlignment="RIGHT" textFill="#949497" GridPane.halignment="RIGHT" GridPane.rowIndex="3" GridPane.valignment="BOTTOM" />
                            </children>
                            <padding>
                               <Insets top="10.0" />
@@ -289,6 +290,9 @@
             </content>
           </Tab>
         </tabs>
+         <GridPane.margin>
+            <Insets />
+         </GridPane.margin>
       </TabPane>
       <StackPane fx:id="_helpPane" opacity="0.5" prefHeight="600.0" prefWidth="694.0" style="-fx-background-color: gray;" visible="false" GridPane.columnSpan="2" GridPane.rowSpan="2">
          <children>
