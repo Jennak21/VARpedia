@@ -124,7 +124,7 @@ public class QuizController extends SceneChanger {
 	private String _correctTerm;
 	
 	private enum Language {
-		ENGLISH("Engilsh", "en"),
+		ENGLISH("English", "en"),
 		AFRIKAANS("Afrikaans", "af"),
 		ARABIC("Arabic", "ar"),
 		BULGARIAN("Bulgarian", "bg"),
