@@ -5,31 +5,19 @@ import java.io.IOException;
 import application.Creation;
 import application.ErrorAlert;
 import application.Main;
-import javafx.application.Platform;
-import javafx.beans.InvalidationListener;
-import javafx.beans.Observable;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.Slider;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
-import javafx.scene.media.MediaPlayer.Status;
-import javafx.scene.media.MediaView;
-import javafx.stage.Stage;
-import javafx.util.Duration;
 
+/**
+ * Creation player - For combined full video + audio
+ * @author Max Gurr
+ * 
+ */
 public class MediaScreenController extends SceneChanger {
 	@FXML
 	private StackPane _mediaStackPane;
@@ -41,17 +29,19 @@ public class MediaScreenController extends SceneChanger {
 	private Button _backButton;
 	
 	private VideoPlayer _player;
-
-	
     		
 	@FXML
+	/**
+	 * Run when scene loads
+	 */
 	private void initialize() {
-		//Setup player and load video
+		//Get filepath to creation media
 		CreationStore process = CreationStore.getInstance();
 		Creation creation = process.getCreation();
 		String creationName = creation.getFilename();
 		String fullFilePath = Main._CREATIONPATH + "/" + creationName + Creation.EXTENTION;
 		
+		//Setup player and load video
 		_player = new VideoPlayer(_mediaStackPane, _controlsPane, _bottomControls);
 		_player.setMedia(fullFilePath);
 		_player.setAutoSize();
@@ -59,12 +49,16 @@ public class MediaScreenController extends SceneChanger {
 		_player.play();
 	}
 	
-	
 	@FXML
+	/**
+	 * Go back to main menu
+	 */
 	private void BackHandle(ActionEvent event) {
+		//Stop video and destroy creation process
 		_player.stopVideo();
 		CreationStore.destroy();
 		
+		//Load main menu
 		try {
 			changeScene((Node)event.getSource(), "/fxml/MainMenuPane.fxml");
 		} catch (IOException e) {

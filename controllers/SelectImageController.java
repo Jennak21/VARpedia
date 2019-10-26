@@ -20,7 +20,6 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
@@ -31,66 +30,54 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 
+/**
+ * Controller for image selection scene
+ * @author Max Gurr & Jenna Kumar
+ *
+ */
 public class SelectImageController extends SceneChanger implements Initializable{
 	private CreationProcess _creationProcess;
 	private String _allImagesFilePath = Main._FILEPATH +"/newCreation/allImages";
 	
 	@FXML
 	private ProgressIndicator _progressIndicator;
-
 	@FXML
 	private Text _imageText;
-
 	@FXML
 	private Text _musicText;
-
 	@FXML
 	private ChoiceBox<String> _musicChoiceBox;
-
 	@FXML
 	private Button _nextButton;
-
 	@FXML
 	private Button _backButton;
-
 	@FXML
 	private TableView<ImageTable> _imageTable;
-
 	@FXML 
 	private TableColumn<ImageTable, ImageView> _imageCol;
-
 	@FXML 
 	private TableColumn<ImageTable, CheckBox> _selectCol;
-	
 	@FXML
 	private Button _helpButton;	
 	@FXML
 	private StackPane _helpPane;
 	@FXML
 	private TextArea _helpText;
-	
 	@FXML
 	private Button _musicButton;
 	
 	private PlayAudioBackgroundTask _musicTask;
-	
-
 	private ObservableList<ImageTable> _imageList = FXCollections.observableArrayList();
-
 	private DownloadImageBackgroundTask _downloadImage;
-	
-
-
-
 
 	@Override
+	/**
+	 * Run when scene loads
+	 */
 	public void initialize(URL arg0, ResourceBundle arg1) {
-
-
 		//set help components as not visible
 		_helpPane.setVisible(false);
 		_helpText.setVisible(false);
@@ -143,6 +130,9 @@ public class SelectImageController extends SceneChanger implements Initializable
 	}
 
 	@FXML
+	/**
+	 * Help button method
+	 */
 	private void helpHandle(ActionEvent event) {
 		_helpPane.setVisible(true);
 		_helpText.setVisible(true);
@@ -151,6 +141,9 @@ public class SelectImageController extends SceneChanger implements Initializable
 	}
 
 	@FXML
+	/**
+	 * Exit help method
+	 */
 	private void exitHelpHandle(ActionEvent event) {
 		_helpPane.setVisible(false);
 		_helpText.setVisible(false);
@@ -158,17 +151,16 @@ public class SelectImageController extends SceneChanger implements Initializable
 
 	}
 
-
-
+	/**
+	 * Load images into table
+	 */
 	public void loadDataToTable () {
 		File dir = new File(_allImagesFilePath);
 
 		if (dir.isDirectory()) { // make sure it's a directory
 			for (final File file : dir.listFiles()){
-
 				CheckBox checkBox = new CheckBox();
 				checkBox.setPrefSize(150, 250);
-				
 				
 				//add event handler to checkbox where if the checkbox is selected, the next button is enabled
 				EventHandler<ActionEvent> checkedHandler = new EventHandler<ActionEvent>() {
@@ -212,12 +204,13 @@ public class SelectImageController extends SceneChanger implements Initializable
 		_imageCol.setCellValueFactory(new PropertyValueFactory<ImageTable, ImageView>("Image"));
 		_selectCol.setCellValueFactory(new PropertyValueFactory<ImageTable, CheckBox>("CheckBox"));
 		_imageTable.setItems(_imageList);
-
 		_imageTable.setSelectionModel(null);
 	}
 
-	
 	@FXML
+	/**
+	 * Play selected background music
+	 */
 	private void musicHandle() {
 		if (_musicTask != null && _musicTask.isAlive()) {
 			stopMusic();
@@ -232,15 +225,21 @@ public class SelectImageController extends SceneChanger implements Initializable
 		}
 	}
 	
+	/**
+	 * Stop background music
+	 */
 	private void stopMusic() {
 		if (_musicTask != null) {
 			_musicTask.stopProcess();
 		}
 	}
 	
-
 	@FXML
+	/**
+	 * Store images and go to filename scene
+	 */
 	public void onNextHandler(ActionEvent event) {
+		//Stop any background music
 		stopMusic();
 
 		ArrayList<String> imageList = new ArrayList<String>();
@@ -268,7 +267,11 @@ public class SelectImageController extends SceneChanger implements Initializable
 	}
 
 	@FXML
+	/**
+	 * Go back to audio scene
+	 */
 	public void onBackHandler(ActionEvent event) {
+		//Stop any background music
 		stopMusic();
 		
 		try {

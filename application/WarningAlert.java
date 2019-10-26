@@ -1,11 +1,13 @@
 package application;
 
-/**
- * Create and display warning alert box
- */
+
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
+/**
+ * Create and display warning alert box
+ * @author Max Gurr & Jenna Kumar
+ */
 public class WarningAlert {
 	
 	public WarningAlert(String message) {

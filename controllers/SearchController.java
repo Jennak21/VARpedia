@@ -3,30 +3,26 @@ package controllers;
 import java.io.IOException;
 
 import application.ErrorAlert;
-import application.InformationAlert;
-import application.WarningAlert;
 import background.WikitBackgroundTask;
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
-import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.text.Font;
 
+/**
+ * Controller for term searching scene
+ * @author Max Gurr & Jenna Kumar
+ *
+ */
 public class SearchController extends SceneChanger {
 	@FXML
 	private GridPane _gridPane;
@@ -38,12 +34,8 @@ public class SearchController extends SceneChanger {
 	private Button _searchButton;
 	@FXML
 	private Button _backButton;
-
-	private String _searchTerm;
-
 	@FXML
 	private ProgressBar _progressBar;
-
 	@FXML
 	private Button _helpButton;	
 	@FXML
@@ -51,11 +43,14 @@ public class SearchController extends SceneChanger {
 	@FXML
 	private TextArea _helpText;
 
+	private String _searchTerm;
+
 	@FXML
+	/**
+	 * Run when scene loads
+	 */
 	private void initialize() {
-
 		_progressBar.setVisible(false);
-
 		_searchButton.setDisable(true);
 
 		//set help components as not visible
@@ -64,16 +59,21 @@ public class SearchController extends SceneChanger {
 		
 		//make mouse focus on search text area
 		Platform.runLater(()->_searchField.requestFocus());
-
-
 	}
 
 	@FXML
+	/**
+	 * Go back to menu
+	 * @throws IOException
+	 */
 	private void backHandle(ActionEvent event) throws IOException {
 		quit();
 	}
 	
 	@FXML
+	/**
+	 * Help button method
+	 */
 	private void helpHandle(ActionEvent event) {
 		_helpPane.setVisible(true);
 		_helpText.setVisible(true);
@@ -82,6 +82,10 @@ public class SearchController extends SceneChanger {
 	}
 	
 	@FXML
+	/**
+	 * Exit help
+	 * @param event
+	 */
 	private void exitHelpHandle(ActionEvent event) {
 		_helpPane.setVisible(false);
 		_helpText.setVisible(false);
@@ -90,6 +94,9 @@ public class SearchController extends SceneChanger {
 	}
 
 	@FXML
+	/**
+	 * Run when user types
+	 */
 	private void onTypeHandler(KeyEvent event) {
 		//check if field properties are empty or not, set create button to  be disabled or not accordingly
 		_searchTerm = _searchField.getText().trim();
@@ -101,16 +108,19 @@ public class SearchController extends SceneChanger {
 		}
 	}
 
-
-
 	@FXML
+	/**
+	 * Search term on wikipedia
+	 */
 	private void searchHandle() {
 		search();
 	}
 
+	/**
+	 * Orchestrate search process
+	 */
 	public void search () {
 		_searchButton.setDisable(true);
-
 
 		//Run search on background thread
 		WikitBackgroundTask wikitBG = new WikitBackgroundTask(_searchTerm);
@@ -147,7 +157,7 @@ public class SearchController extends SceneChanger {
 				try {
 					changeScene(_gridPane, "/fxml/CreateAudioScene.fxml");
 				} catch (IOException e) {
-					e.printStackTrace();
+					new ErrorAlert("Couldn't change scene");
 				}
 
 			} else {
@@ -172,15 +182,16 @@ public class SearchController extends SceneChanger {
 
 	}
 
+	/**
+	 * Reset scene
+	 */
 	private void reset() {
-		
 		//set search field to visible and clear it
 		_searchField.setVisible(true);
 		_searchField.clear();
 		_searchButton.setDisable(true);
 		_progressBar.setVisible(false);
 		
-
 		_backButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
@@ -189,9 +200,14 @@ public class SearchController extends SceneChanger {
 		});
 	}
 
+	/**
+	 * Quit from scene
+	 */
 	private void quit() {
+		//Destroy creation process
 		CreationProcess.destroy();
 		
+		//Change back to main menu
 		try {
 			changeScene(_gridPane, "/fxml/MainMenuPane.fxml");
 		} catch (IOException e) {

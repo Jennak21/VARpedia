@@ -1,22 +1,13 @@
 package controllers;
 
-import java.io.File;
-
-import application.Main;
 import javafx.application.Platform;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.fxml.FXML;
-import javafx.geometry.Bounds;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -25,10 +16,14 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
-import javafx.scene.text.Font;
 import javafx.scene.media.MediaPlayer.Status;
 import javafx.util.Duration;
 
+/**
+ * Video player
+ * @author Max Gurr
+ *
+ */
 public class VideoPlayer {
 	private StackPane _stackPane;
 	private BorderPane _controlsPane;
@@ -49,6 +44,12 @@ public class VideoPlayer {
     private boolean _atEndOfMedia = false;
     private Duration _playbackTime;
     
+    /**
+     * Constructor - Add components
+     * @param stackPane - Pane to house player
+     * @param controlsPane - Pane for all controls
+     * @param bottomControls - HBox for media controls
+     */
     public VideoPlayer(StackPane stackPane, BorderPane controlsPane, HBox bottomControls) {
     	_stackPane = stackPane;
     	_controlsPane = controlsPane;
@@ -90,6 +91,9 @@ public class VideoPlayer {
 		});
     }
     
+    /**
+     * Setup video player
+     */
     private void setupPlayer() {
 		_player = new MediaPlayer(_media);
 		_view = new MediaView(_player);
@@ -203,6 +207,9 @@ public class VideoPlayer {
 		_view.setFitWidth(_viewWidth);
     }
     
+    /**
+     * Update playback time values
+     */
     private void updateValues() {
 		//Check for valid player setup
 		if (_playTime != null && _timeSlider != null && _volSlider != null) {
@@ -227,6 +234,12 @@ public class VideoPlayer {
 		}
 	}
 	
+    /**
+     * Get string representing playback time
+     * @param elapsed - Amount of time elapsed in video
+     * @param duration - Total duration of video
+     * @return String - Text representing playback
+     */
     private static String formatTime(Duration elapsed, Duration duration) {
 		//Get playback time components
 		int intElapsed = (int)Math.floor(elapsed.toSeconds());
@@ -268,6 +281,10 @@ public class VideoPlayer {
 		}
 	}
     
+    /**
+     * Set media for video player
+     * @param filepath - Video to play
+     */
     public void setMedia(String filepath) {
     	//Load new media into player
     	_media = new Media("file://" + filepath);
@@ -276,27 +293,41 @@ public class VideoPlayer {
 		setupPlayer();
     }
     
+    /**
+     * Play video
+     */
     public void play() {
     	_player.play();
     }
     
-    public void setAutoSize() {
-    	_view.fitWidthProperty().bind(_stackPane.widthProperty());
-//    	_view.fitHeightproperty().bind(_stackPane.heightProperty());
+    /**
+     * Stop video
+     */
+    public void stopVideo() {
+    	_player.stop();
     }
     
+    /**
+     * Enable auto resizing of player
+     */
+    public void setAutoSize() {
+    	_view.fitWidthProperty().bind(_stackPane.widthProperty());
+    }
+    
+    /**
+     * Remove volume controls from controls bar
+     */
     public void removeVolControls() {
     	_bottomControls.getChildren().remove(_volSlider);
     	_bottomControls.getChildren().remove(_volLabel);
     }
     
+    /**
+     * Remove time labels from controls bar
+     */
     public void removeTimeLabels() {
     	_bottomControls.getChildren().remove(_timeLabel);
     	_bottomControls.getChildren().remove(_playTime);
-    }
-    
-    public void stopVideo() {
-    	_player.stop();
     }
     
     public MediaView getView() {

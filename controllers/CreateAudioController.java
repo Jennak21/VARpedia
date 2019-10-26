@@ -1,14 +1,8 @@
 package controllers;
 
-import java.io.File;
 import java.io.IOException;
-import java.io.SequenceInputStream;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.sound.sampled.AudioFileFormat;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
 
 import application.AudioChunk;
 import application.BashCommandClass;
@@ -20,34 +14,25 @@ import application.WarningAlert;
 import background.AudioBackgroundTask;
 import background.PlayAudioBackgroundTask;
 import javafx.application.Platform;
-import javafx.beans.binding.Bindings;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.scene.input.ClipboardContent;
-import javafx.scene.input.DataFormat;
-import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.input.TransferMode;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.text.Text;
-import javafx.util.converter.DefaultStringConverter;
 
+/**
+ * Controller for audio scene
+ * @author Max Gurr & Jenna Kumar
+ *
+ */
 public class CreateAudioController extends SceneChanger {
 	@FXML
 	private GridPane _gridPane;
@@ -64,7 +49,7 @@ public class CreateAudioController extends SceneChanger {
 	@FXML
 	private Button _backButton;
 	@FXML
-	private ChoiceBox _voiceDropDown;
+	private ChoiceBox<String> _voiceDropDown;
 	@FXML
 	private Button _previewButton;
 	@FXML
@@ -99,17 +84,13 @@ public class CreateAudioController extends SceneChanger {
 	private String _selectedText;
 	private String _selectedVoice;
 	private AudioChunk _selectedChunk;
-	
-	
 	private List<AudioChunk> _chunkList;
-	private static final DataFormat SERIALIZED_MIME_TYPE = new DataFormat("application/x-java-serialized-object");
-	
-	/**
-	 * Run when scene is setup
-	 */
+
 	@FXML
+	/**
+	 * Run when scene loads
+	 */
 	public void initialize() {
-		
 		//make mouse focus on search saveButton
 		Platform.runLater(()-> _saveButton.requestFocus());
 		
@@ -158,6 +139,9 @@ public class CreateAudioController extends SceneChanger {
 		} catch (IOException | InterruptedException e) {}
 	}
 	
+	/**
+	 * Setup table for audio chunks, load any existing chunks
+	 */
 	private void loadChunkTable() {
 		//Set tableview data to list of AudioChunk objects
 		ObservableList<AudioChunk> data = FXCollections.observableList(_chunkList);
@@ -186,6 +170,7 @@ public class CreateAudioController extends SceneChanger {
 	 */
 	@FXML
 	private void updateSelected() {
+		//Get selected chunk from table
 		AudioChunk selection = (AudioChunk) _audioChunkTable.getSelectionModel().getSelectedItem();
 		_selectedChunk = selection;
 	}
@@ -212,11 +197,15 @@ public class CreateAudioController extends SceneChanger {
 				_listenChunkButton.setText("Listen");
 			});
 		} else {
+			//Stop playback
 			stopAudio();
 		}
 	}
 	
 	@FXML
+	/**
+	 * Delete chunk method
+	 */
 	private void deleteChunkHandle() {
 		if (_selectedChunk != null) {
 			//If there is a selected chunk, show confirm grid
@@ -225,6 +214,9 @@ public class CreateAudioController extends SceneChanger {
 	}
 	
 	@FXML
+	/**
+	 * Confirm delete
+	 */
 	private void yesDeleteHandle() {
 		//Get file num of selected chunk
 		int chunkNum = _selectedChunk.getNum();
@@ -256,51 +248,64 @@ public class CreateAudioController extends SceneChanger {
 	}
 	
 	@FXML
+	/**
+	 * Cancel delete
+	 */
 	private void noDeleteHandle() {
 		//Hide confirm grid
 		_confirmDeleteGrid.setVisible(false);
 	}
 	
+	@FXML
 	/**
 	 * Move selected chunk up in list
 	 */
-	@FXML
 	private void chunkUpHandle() {
 		if (_selectedChunk != null) {
+			//Get list of chunks
 			List<AudioChunk> audioChunks = _process.getAudioChunks();
 			int chunkIndex = audioChunks.indexOf(_selectedChunk);
 			
+			//If selected chunk is not first in list
 			if (chunkIndex != 0) {
+				//Swap chunk with above chunk
 				AudioChunk tempChunk = audioChunks.get(chunkIndex-1);
 				audioChunks.set(chunkIndex-1, _selectedChunk);
 				audioChunks.set(chunkIndex, tempChunk);
 				
+				//Refresh table
 				loadChunkTable();
 			}
 		}
 	}
 	
+	@FXML
 	/**
 	 * Move selected chunk down in list
 	 */
-	@FXML
 	private void chunkDownHandle() {
 		if (_selectedChunk != null) {
+			//Get list of chunks
 			List<AudioChunk> audioChunks = _process.getAudioChunks();
 			int chunkIndex = audioChunks.indexOf(_selectedChunk);
 			
+			//If chunk is not last in list
 			if (chunkIndex != audioChunks.size()-1) {
+				//Swap chunk with below chunk
 				AudioChunk tempChunk = audioChunks.get(chunkIndex+1);
 				audioChunks.set(chunkIndex+1, _selectedChunk);
 				audioChunks.set(chunkIndex, tempChunk);
 				
+				//Refresh table
 				loadChunkTable();
 			}
 		}
 	}
 	
-	
 	@FXML
+	/**
+	 * Help button method
+	 */
 	private void helpHandle(ActionEvent event) {
 		//Show help info
 		_helpPane.setVisible(true);
@@ -309,6 +314,9 @@ public class CreateAudioController extends SceneChanger {
 	}
 	
 	@FXML
+	/**
+	 * Exit help
+	 */
 	private void exitHelpHandle(ActionEvent event) {
 		//Hide help info
 		_helpPane.setVisible(false);
@@ -317,24 +325,26 @@ public class CreateAudioController extends SceneChanger {
 	}
 	
 	@FXML
+	/**
+	 * When user clicks on search result text
+	 */
 	private void onTextClickHandle(MouseEvent event) {
 		//remove prompt text
 		_promptText.setVisible(false);
 	}
 	
-	
+	@FXML
 	/**
 	 * Reset search text
 	 */
-	@FXML
 	private void resetHandle() {
 		_searchResult.setText(_process.getSearchText());
 	}
 	
-	/**
-	 * Run for preview text
-	 */
 	@FXML
+	/**
+	 * Setup audio preview
+	 */
 	private synchronized void previewHandle() {
 		//Action dependent on whether there is a preview running or not
 		if (_previewButton.getText().equals("Preview Audio")) {
@@ -361,10 +371,14 @@ public class CreateAudioController extends SceneChanger {
 				});
 			}
 		} else {
+			//Stop playback
 			stopAudio();
 		}
 	}
 	
+	/**
+	 * Run background task for audio preview
+	 */
 	private void previewAudio() {
 		//GUI changes for audio playing
 		_previewButton.setDisable(false);
@@ -390,6 +404,9 @@ public class CreateAudioController extends SceneChanger {
 	}
 	
 	@FXML
+	/**
+	 * Save selected text
+	 */
 	private void saveHandle() {		
 		if (_saveButton.getText().equals("Save Audio")) {
 			if (createTextFile() && createSettingsFile()) {
@@ -432,11 +449,18 @@ public class CreateAudioController extends SceneChanger {
 		}
 	}
 	
+	/**
+	 * Create settings file for audio
+	 * @return boolean - Success status of file creation
+	 */
 	private boolean createSettingsFile() {
+		//Get selected voice
 		_selectedVoice = (String)_voiceDropDown.getSelectionModel().getSelectedItem();
-
+		
+		//Check for valid voice
 		if (_selectedVoice != null && !_selectedVoice.isEmpty()) {
 			try {
+				//Create text file
 				String voiceSetting = "(voice_" + _selectedVoice + ")";
 				String settingsFile = "echo \"" + voiceSetting + "\" > " + Main._FILEPATH + "/newCreation/settings.scm";
 				BashCommandClass.runBashProcess(settingsFile);
@@ -450,22 +474,32 @@ public class CreateAudioController extends SceneChanger {
 		}
 	}
 	
+	/**
+	 * Create text file to read audio from
+	 * @return boolean - Success of file creation
+	 */
 	private boolean createTextFile() {
+		//Get selected text
 		_selectedText = _searchResult.getSelectedText();
 		
+		//Variable for valid text selected
 		boolean valid = true;
 		
+		//Check for non-empty selection
 		if (_selectedText == null || _selectedText.isEmpty()) {
 			valid = false;
 		}
-
+		
+		//Count number of words in selection
 		String[] words = _selectedText.split("\\s+");
 		int length = words.length;
 		
+		//Check for too long selection
 		if (length > 40) {
 			valid = false;
 		}
 		
+		//If valid selection, make text file
 		if (valid) {
 			try {
 				String textFile = "echo \"" + _selectedText + "\" > " + Main._FILEPATH + "/newCreation/text.txt";
@@ -482,14 +516,19 @@ public class CreateAudioController extends SceneChanger {
 	}	
 	
 	@FXML
+	/**
+	 * Go back to search scene
+	 */
 	private void backHandle() {		
 		try {
+			//Stop any audio playback
 			stopAudio();
 			
+			//Delete newCreation folder to reset files
 			String removeFolder = "rm -r " + Main._FILEPATH + "/newCreation";
 			BashCommandClass.runBashProcess(removeFolder);
 			
-			_process.destroy();
+			CreationProcess.destroy();
 			
 			changeScene(_gridPane, "/fxml/SearchScene.fxml");
 		} catch (IOException | InterruptedException e) {
@@ -498,6 +537,9 @@ public class CreateAudioController extends SceneChanger {
 	}
 	
 	@FXML
+	/**
+	 * Go to select images scene
+	 */
 	private void nextHandle() {
 		try {
 			String removeTempaudio = "rm -f " + Main._FILEPATH + "/newCreation/tempAudio" + Creation.AUDIO_EXTENTION;
@@ -512,6 +554,9 @@ public class CreateAudioController extends SceneChanger {
 		}
 	}
 	
+	/**
+	 * Stop audio playback
+	 */
 	private void stopAudio() {
 		if (_preview != null) {
 			_preview.stopProcess();

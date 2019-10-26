@@ -1,10 +1,6 @@
 package controllers;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.List;
 
 import application.Main;
@@ -16,24 +12,22 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
 
+/**
+ * Controller for main menu
+ * @author Max Gurr & Jenna Kumar
+ *
+ */
 public class MainMenuController extends SceneChanger {
-//	@FXML
-//	private GridPane _mainMenuGridPane;
 	@FXML
-	private TableView _creationTable;
+	private TableView<Creation> _creationTable;
 	@FXML
 	private Button _playButton;
 	@FXML
@@ -49,8 +43,10 @@ public class MainMenuController extends SceneChanger {
 	@FXML
 	private TextArea _helpText;
 	
-	
 	@FXML
+	/**
+	 * Run when scene loads
+	 */
 	private void initialize() {
 		cleanUp();
 		
@@ -61,8 +57,10 @@ public class MainMenuController extends SceneChanger {
 		_helpPane.setVisible(false);
 		_helpText.setVisible(false);
 		
+		//Get list of available creations
 		List<Creation> creationList = Main.getCreationList();
 		
+		//Check how many creations available, if none - disable relevant controls
 		if (creationList.size() < 1) {
 			_playButton.setDisable(true);
 			_deleteButton.setDisable(true);
@@ -76,6 +74,10 @@ public class MainMenuController extends SceneChanger {
 		setupTable(creationList);
 	}
 	
+	/**
+	 * Load data into creation table
+	 * @param creationList - List of available creations
+	 */
 	private void setupTable(List<Creation> creationList) {
 		//Set tableview data to list of creation objects
 		ObservableList<Creation> data = FXCollections.observableList(creationList);
@@ -98,48 +100,57 @@ public class MainMenuController extends SceneChanger {
 	}
 	
 	@FXML
+	/**
+	 * Go to mediaplay scene
+	 */
 	private void playHandle(ActionEvent event) {
-		_playButton.setText("Playing");
+		//Creation creation store
 		CreationStore process = CreationStore.getInstance();
-		
+		//Set creation
 		Creation selected = (Creation) _creationTable.getSelectionModel().getSelectedItem();
 		process.setCreation(selected);
 		
+		//Change to mediaplayer
 		try {
 			changeScene((Node)event.getSource(), "/fxml/MediaScreenPane.fxml");
 		} catch (IOException e) {
-			e.printStackTrace();
-//			new ErrorAlert("Couldn't change scenes");
+			new ErrorAlert("Couldn't load video");
 		}
 	}
 	
 	@FXML
+	/**
+	 * Go to delete scene
+	 */
 	private void deleteHandle(ActionEvent event) {
-		
+		//Get process instance
 		CreationStore process = CreationStore.getInstance();
-		
-		//store filename of file being deleted
-		
+		//Store filename of file being deleted
 		Creation selected = (Creation) _creationTable.getSelectionModel().getSelectedItem();
 		process.setCreation(selected);
 		
+		//Change to delete scene
 		try {
 			changeScene((Node)event.getSource(), "/fxml/DeleteScene.fxml");
 		} catch (IOException e) {
-			e.printStackTrace();
-//			new ErrorAlert("Couldn't change scenes");
+			new ErrorAlert("Couldn't change scenes");
 		}
 	}
 	
 	@FXML
+	/**
+	 * Help button method
+	 */
 	private void helpHandle(ActionEvent event) {
 		_helpPane.setVisible(true);
 		_helpText.setVisible(true);
 		_helpButton.setVisible(false);
-
 	}
 	
 	@FXML
+	/**
+	 * Exit help
+	 */
 	private void exitHelpHandle(ActionEvent event) {
 		_helpPane.setVisible(false);
 		_helpText.setVisible(false);
@@ -148,7 +159,11 @@ public class MainMenuController extends SceneChanger {
 	}
 	
 	@FXML
+	/**
+	 * Go to search scene
+	 */
 	private void createHandle(ActionEvent event) {
+		//Load searching scene
 		try {
 			changeScene((Node)event.getSource(), "/fxml/SearchScene.fxml");
 		} catch (IOException e) {
@@ -156,8 +171,11 @@ public class MainMenuController extends SceneChanger {
 		}
 	}
 	
-	
+	/**
+	 * Cleanup files for new creations
+	 */
 	private void cleanUp() {
+		//Delete 'newCreation' folder
 		try {
 			String removeCommand = "rm -r " + Main._FILEPATH + "/newCreation";
 			BashCommandClass.runBashProcess(removeCommand);
@@ -167,7 +185,11 @@ public class MainMenuController extends SceneChanger {
 	}
 	
 	@FXML
+	/**
+	 * Go to quiz scene
+	 */
 	private void quizHandle(ActionEvent event) {
+		//Load quiz scene
 		try {
 			changeScene((Node)event.getSource(), "/fxml/QuizScene.fxml");
 		} catch (IOException e) {

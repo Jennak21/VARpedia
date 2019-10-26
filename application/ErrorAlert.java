@@ -5,7 +5,7 @@ import javafx.scene.control.Alert.AlertType;
 
 /**
  * Create and display error alert dialogue box 
- * @author mgur707
+ * @author Max Gurr & Jenna Kumar
  *
  */
 public class ErrorAlert {

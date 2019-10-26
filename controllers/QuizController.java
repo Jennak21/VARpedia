@@ -7,7 +7,6 @@ import java.util.List;
 
 import org.jsoup.Jsoup;
 
-import application.BashCommandClass;
 import application.Creation;
 import application.ErrorAlert;
 import application.Main;
@@ -21,7 +20,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -33,10 +31,14 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
+/**
+ * Controller for quiz
+ * @author Max Gurr & Jenna Kumar
+ *
+ */
 public class QuizController extends SceneChanger {
 	@FXML
 	private GridPane _quizPane;
@@ -52,11 +54,13 @@ public class QuizController extends SceneChanger {
 	private Button _startButton;
 	@FXML
 	private Slider _questionsSlider;
-
 	@FXML
-	private StackPane _answerPane;
-
-
+	private ComboBox<Language> _languageChoicebox;
+	@FXML
+	private Label _connectingLabel;
+	@FXML
+	private Label _languageLabel;
+	
 	//Quiz pane
 	@FXML
 	private GridPane _quizGrid;
@@ -87,11 +91,13 @@ public class QuizController extends SceneChanger {
 
 	//Result pane
 	@FXML
+	private StackPane _answerPane;
+	@FXML
 	private GridPane _summaryGrid;
 	@FXML
 	private Label _resultsTotalLabel;
 	@FXML
-	private TableView _resultsTable;
+	private TableView<QuizResult> _resultsTable;
 	@FXML
 	private Button _helpButton;	
 	@FXML
@@ -101,7 +107,6 @@ public class QuizController extends SceneChanger {
 	@FXML
 	private Button _finishButton;
 
-
 	private VideoPlayer _videoPlayer;
 	private AudioPlayer _audioPlayer;
 	private int _numQuestions;
@@ -109,18 +114,14 @@ public class QuizController extends SceneChanger {
 	private int _numCorrect;
 	private Creation _creation;
 	private List<QuizResult> _quizResults;
-	
-	
-	@FXML
-	private ComboBox<Language> _languageChoicebox;
-	@FXML
-	private Label _connectingLabel;
-	@FXML
-	private Label _languageLabel;
-	
 	private Language _language;
 	private String _correctTerm;
 	
+	/**
+	 * Enum to represent translation languages
+	 * @author student
+	 *
+	 */
 	private enum Language {
 		ENGLISH("Engilsh", "en"),
 		AFRIKAANS("Afrikaans", "af"),
@@ -157,13 +158,14 @@ public class QuizController extends SceneChanger {
 		}
 	}
 	
-
 	@FXML
+	/**
+	 * Run when scene loads
+	 */
 	private void initialize() {
 		loadSettingsScene();
 
 		_quizResults = new ArrayList<QuizResult>();
-		
 		
 		//Load languages into choice box
 		ObservableList<Language> languageList = FXCollections.observableArrayList(Arrays.asList(Language.values()));
@@ -180,6 +182,9 @@ public class QuizController extends SceneChanger {
 		});
 	}
 	
+	/**
+	 * Loads all settings components and hides other components
+	 */
 	private void loadSettingsScene() {
 		//set help components as not visible
 		_helpPane.setVisible(false);
@@ -198,6 +203,9 @@ public class QuizController extends SceneChanger {
 	}
 
 	@FXML
+	/**
+	 * Start quiz - Get language and try connect to server
+	 */
 	private void startHandle() {
 		//Set selected language
 		_language = _languageChoicebox.getSelectionModel().getSelectedItem();
@@ -229,6 +237,9 @@ public class QuizController extends SceneChanger {
 		}
 	}
 	
+	/**
+	 * Start quiz - Initialise quiz values
+	 */
 	private void startQuiz() {
 		//Set language label to chosen language
 		_languageLabel.setText("Language: " + _language);
@@ -247,10 +258,7 @@ public class QuizController extends SceneChanger {
 		_quizGrid.setVisible(true);
 		//set rows showing guess and correct answers to not visible
 		_answerPane.setVisible(false);
-		//		_guessLabel.setVisible(false);
-		//		_guessLabelTop.setVisible(false);
-		//		_correctLabel.setVisible(false);
-		//		_correctLabelTop.setVisible(false);
+		
 		_guessField.setVisible(true);
 
 		_submitButton.setDisable(false);
@@ -267,14 +275,15 @@ public class QuizController extends SceneChanger {
 		_videoPlayer = new VideoPlayer(_videoStackPane, _videoControlsPane, _videoControlsBar);
 		_videoPlayer.removeVolControls();
 		_videoPlayer.removeTimeLabels();
-
 		_audioPlayer = new AudioPlayer(_audioStackPane, _audioControlsPane, _audioControlsBar);
-
 
 		//Get first question
 		loadQuestion();
 	}
 
+	/**
+	 * Load new question to quiz
+	 */
 	private void loadQuestion() {
 		_currentQuestion++;
 		//Reset guess field
@@ -303,7 +312,7 @@ public class QuizController extends SceneChanger {
 				//Find out whether question has been presented before (so translation already done)
 				boolean existingQuizResult = false;
 				for (QuizResult q: _quizResults) {
-					if (q.sameCreation(_creation)) {
+					if (q.sameFileCreation(_creation.getFilename())) {
 						//Previous question found for same creation, get translated term
 						_correctTerm = q.getTerm();
 						existingQuizResult = true;
@@ -347,6 +356,9 @@ public class QuizController extends SceneChanger {
 		_guessField.requestFocus();
 	}
 
+	/**
+	 * Get a random creation
+	 */
 	private void randomCreation() {
 		//Setup
 		int accuracySum = 0;
@@ -373,6 +385,9 @@ public class QuizController extends SceneChanger {
 	}
 
 	@FXML
+	/**
+	 * Run when user types
+	 */
 	private void onTypeHandler(KeyEvent event) {
 		//if key pressed is enter and submit button is enabled, submit answer
 		if (event.getCode() == KeyCode.ENTER && !_submitButton.isDisable()) {
@@ -380,6 +395,9 @@ public class QuizController extends SceneChanger {
 		}
 	}
 
+	/**
+	 * Process submitted answer
+	 */
 	private void submitAnswer() {
 		//Display result labels with relevant info
 		_guessField.setVisible(false);
@@ -388,7 +406,7 @@ public class QuizController extends SceneChanger {
 		//Find whether current creation has been tested before
 		QuizResult currentResult = null;
 		for (QuizResult q: _quizResults) {
-			if (q.sameCreation(_creation)) {
+			if (q.sameFileCreation(_creation.getFilename())) {
 				currentResult = q;
 			}
 		}
@@ -427,17 +445,17 @@ public class QuizController extends SceneChanger {
 	}
 
 	@FXML
+	/**
+	 * Submit button - Display correct answer / Load next question
+	 */
 	private void submitHandle() {
 		//Check whether user is coming from guessing pane or result pane
-		if (_submitButton.getText().equals("Submit")) {	//Coming from guessing pane
-
+		if (_submitButton.getText().equals("Submit")) {	
+			//Coming from guessing pane
 			submitAnswer();
-
-		} else {	//Coming from result pane
-			//			_guessLabelTop.setVisible(false);
-			//			_guessLabel.setVisible(false);
-			//			_correctLabelTop.setVisible(false);
-			//			_correctLabel.setVisible(false);
+		} 
+		else {	
+			//Coming from answer pane
 			_guessField.setVisible(true);
 			_submitButton.setText("Submit");
 			//Set answer pane to not visible
@@ -448,14 +466,24 @@ public class QuizController extends SceneChanger {
 	}
 
 	@FXML
+	/**
+	 * User wants to quiz, stop media and load quiz results
+	 */
 	private void quitHandle() {
+		//Stop media
 		if (_videoPlayer != null) {
 			_videoPlayer.stopVideo();
+		}
+		if (_audioPlayer != null) {
+			_audioPlayer.stopAudio();
 		}
 
 		finishQuiz();
 	}
 
+	/**
+	 * Finish questions - load result pane
+	 */
 	private void finishQuiz() {
 		//Load results pane - disable other components
 		_quitButton.setVisible(false);
@@ -473,6 +501,9 @@ public class QuizController extends SceneChanger {
 		saveResults();
 	}
 
+	/**
+	 * Load quiz results into table
+	 */
 	private void loadResults() {
 		//Get results for all creations that were tested
 		for (QuizResult q: _quizResults) {
@@ -500,8 +531,6 @@ public class QuizController extends SceneChanger {
         learningCol.setSortable(false);
         
         _resultsTable.getColumns().setAll(nameCol, termCol, scoreCol, learningCol);
-//        _resultsTable.setPrefWidth(450);
-//        _resultsTable.setPrefHeight(300);
         _resultsTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         _resultsTable.getSelectionModel().selectFirst();
         
@@ -509,7 +538,10 @@ public class QuizController extends SceneChanger {
 		//set mouse focus to the finish button
 		_finishButton.requestFocus();
 	}
-
+	
+	/**
+	 * Save quiz results to info file
+	 */
 	private void saveResults() {
 		QuizResultsBackgroundTask quizResultsTask = new QuizResultsBackgroundTask(_quizResults);
 		Thread resultsThread = new Thread(quizResultsTask);
@@ -517,6 +549,9 @@ public class QuizController extends SceneChanger {
 	}
 
 	@FXML
+	/**
+	 * Go back to main menu
+	 */
 	private void finishHandle() {
 		try {
 			changeScene(_quizPane, "/fxml/MainMenuPane.fxml");
@@ -526,6 +561,9 @@ public class QuizController extends SceneChanger {
 	}
 
 	@FXML
+	/**
+	 * Help button handle
+	 */
 	private void helpHandle(ActionEvent event) {
 		_helpPane.setVisible(true);
 		_helpText.setVisible(true);
@@ -534,6 +572,9 @@ public class QuizController extends SceneChanger {
 	}
 
 	@FXML
+	/**
+	 * Exit help
+	 */
 	private void exitHelpHandle(ActionEvent event) {
 		_helpPane.setVisible(false);
 		_helpText.setVisible(false);

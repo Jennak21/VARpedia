@@ -6,12 +6,10 @@ import javafx.beans.Observable;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
-import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
@@ -20,6 +18,11 @@ import javafx.scene.media.MediaView;
 import javafx.scene.media.MediaPlayer.Status;
 import javafx.util.Duration;
 
+/**
+ * Audio player
+ * @author Max Gurr
+ *
+ */
 public class AudioPlayer {
 	private StackPane _stackPane;
 	private BorderPane _controlsPane;
@@ -35,6 +38,12 @@ public class AudioPlayer {
 	private Button _playPauseButton;
 	private Slider _timeSlider;
 	
+	/**
+	 * Constructor - Create components
+	 * @param stackPane
+	 * @param controlsPane
+	 * @param controlsBar
+	 */
 	public AudioPlayer(StackPane stackPane, BorderPane controlsPane, VBox controlsBar) {
 		_stackPane = stackPane;
 		_controlsPane = controlsPane;
@@ -43,15 +52,16 @@ public class AudioPlayer {
 		//Add all controls
     	_playPauseButton = new Button(">");
     	_controlsBar.getChildren().addAll(_playPauseButton);
-    	
 		
 		_timeSlider = new Slider();
 		_controlsBar.getChildren().add(_timeSlider);
 		
-		
 		_controlsBar.setSpacing(20);
 	}
 	
+	/**
+	 * Setup - Initialise components and set functions
+	 */
 	private void setupPlayer() {
 		_player = new MediaPlayer(_media);
 		_view = new MediaView(_player);
@@ -148,6 +158,9 @@ public class AudioPlayer {
 		_view.setFitWidth(_viewWidth);
     }
 	
+	/**
+	 * Update playback time
+	 */
 	private void updateValues() {
 		//Check for valid player setup
 		if (_timeSlider != null) {
@@ -166,6 +179,10 @@ public class AudioPlayer {
 		}
 	}
 	
+	/**
+	 * Load media into player
+	 * @param filepath - Filepath of audio file
+	 */
 	public void setMedia(String filepath) {
     	//Load new media into player
     	_media = new Media("file://" + filepath);
@@ -176,5 +193,9 @@ public class AudioPlayer {
 	
 	public void play() {
 		_player.play();
+	}
+	
+	public void stopAudio() {
+		_player.stop();
 	}
 }

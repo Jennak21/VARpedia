@@ -1,19 +1,15 @@
 package controllers;
 
 import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
 
 import application.BashCommandClass;
 import application.Creation;
 import application.ErrorAlert;
 import application.Main;
-import application.WarningAlert;
 import background.DeleteCreationBackgroundTask;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -22,35 +18,35 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 
+/**
+ * Controller for filename scene
+ * @author Max Gurr & Jenna Kumar
+ *
+ */
 public class FileNameController extends SceneChanger {
-	
 	@FXML
 	private Button _noButton;
-	
 	@FXML
 	private GridPane _gridPane;
-
 	@FXML
 	private Button _yesButton;
-
 	@FXML
 	private Button _nextButton;
-
 	@FXML
 	private Button _backButton;
-	
 	@FXML
 	private Label _overwriteLabel;
-	
 	@FXML
 	private TextField _fileNameEntry;
 	
 	private CreationProcess _creationProcess;
-	
 	private String _fileName;
 	private String _filePath = Main._CREATIONPATH;
 
 	@FXML
+	/**
+	 * Run when scene loads
+	 */
 	private void initialize() {
 		//make buttons used for future prompts invisible
 		_yesButton.setVisible(false);
@@ -61,12 +57,13 @@ public class FileNameController extends SceneChanger {
 		//make mouse focus on search text area
 		Platform.runLater(()->_fileNameEntry.requestFocus());
 
-		
-		_creationProcess = CreationProcess.getInstance();
-		
+		_creationProcess = CreationProcess.getInstance();		
 	}
 	
 	@FXML
+	/**
+	 * Overwrite existing creation with same filename
+	 */
 	private void onYesButtonHandler(ActionEvent event) {
 		//if user wants to replace delete existing and store file name
 		DeleteCreationBackgroundTask deleteCreation = new DeleteCreationBackgroundTask(_fileName);
@@ -94,6 +91,9 @@ public class FileNameController extends SceneChanger {
 	}
 	
 	@FXML
+	/**
+	 * Don't overwrite existing creation
+	 */
 	private void onNoButtonHandler(ActionEvent event) {
 		//clear text input for filename
 		_fileNameEntry.clear();
@@ -106,10 +106,12 @@ public class FileNameController extends SceneChanger {
 		
 		_nextButton.setVisible(true);
 		_nextButton.setDisable(true);
-		
 	}
 	
 	@FXML
+	/**
+	 * Go back to image selection scene
+	 */
 	private void onBackButtonHandler(ActionEvent event) {
 		try {
 			changeScene((Node)event.getSource(), "/fxml/SelectImageScene.fxml") ;
@@ -120,8 +122,10 @@ public class FileNameController extends SceneChanger {
 	}
 	
 	@FXML
+	/**
+	 * When user types
+	 */
 	private void onTypeHandler(KeyEvent event) {
-		
 		//remove trailing white spaces and replace other white spaces with underscore
 		_fileName = _fileNameEntry.getText().trim().replaceAll(" ", "_");
 		
@@ -133,19 +137,22 @@ public class FileNameController extends SceneChanger {
 		if ((event.getCode() == KeyCode.ENTER) && !_fileName.isEmpty()) {
 	        saveFileName();
 	    }
-
 	}
 	
-	
-
 	@FXML
+	/**
+	 * Save and process filename
+	 */
 	private void onNextButtonHandler(ActionEvent event) {	
 		saveFileName();
 	}
 	
+	/**
+	 * Save entered filename
+	 */
 	public void saveFileName() {
 		//if file exists show the confirm overwrite label and buttons
-		if (fileExists(_fileName)) {
+		if (fileExists()) {
 			_fileNameEntry.setDisable(true);
 			_overwriteLabel.setVisible(true);
 			_yesButton.setVisible(true);
@@ -154,15 +161,17 @@ public class FileNameController extends SceneChanger {
 		} else {		
 			_creationProcess.setFileName(_fileName);
 			changeToCreateVideoScene();
-		}
-		
+		}	
 	}
 
-	
-	public boolean fileExists(String fileName) {
-
+	/**
+	 * Check whether entered filename already exists
+	 * @param fileName - File to check for
+	 * @return boolean - Whether or not filename exists
+	 */
+	public boolean fileExists() {
 		//run command to check if file name exists
-		String command = "test -f " + _filePath + "/\"" + fileName + "\"" + Creation.EXTENTION;
+		String command = "test -f " + _filePath + "/\"" + _fileName + "\"" + Creation.EXTENTION;
 		int num;
 		try {
 			num = BashCommandClass.runBashProcess(command);
@@ -177,9 +186,11 @@ public class FileNameController extends SceneChanger {
 		} else {
 			return false;
 		}
-
 	}
 	
+	/**
+	 * Go to final video creation process scene
+	 */
 	public void changeToCreateVideoScene () {
 		try {
 			changeScene(_gridPane, "/fxml/CreatingVideoScene.fxml") ;

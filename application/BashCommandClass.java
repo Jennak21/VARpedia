@@ -7,7 +7,11 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * Class to run bash commands
+ * @author Max Gurr & Jenna Kumar
+ *
+ */
 public class BashCommandClass {
 	/**
 	 * Run bash command

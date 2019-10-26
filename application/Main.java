@@ -6,12 +6,16 @@ import java.util.List;
 
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.css.Style;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 
+/**
+ * Main class - Sets up global variables, loads creation info, loads main menu scene
+ * @author Max Gurr & Jenna Kumar
+ *
+ */
 public class Main extends Application {
 	private static final String _USERDIR = System.getProperty("user.dir");
 	public static final String _FILEPATH =  _USERDIR + "/files";
@@ -48,11 +52,9 @@ public class Main extends Application {
 	}
 	
 	/**
-	 * Setup done at launch of application
+	 * Setup done at launch of application - create storage folders and info file
 	 */
-	private void setup() {			
-		//Set files folder directory path based on current working path
-		
+	private void setup() {					
 		//Create files folder if one doesn't exist
 		try {
 			String cmd = "mkdir -p " + _FILEPATH + "/creations " + _FILEPATH + "/videos " + _FILEPATH + "/audio";
@@ -70,6 +72,9 @@ public class Main extends Application {
 		}
 	}
 	
+	/**
+	 * Get info about creations from info file
+	 */
 	private void getCreationInfo() {
 		//Storage list
 		_creationList = new ArrayList<Creation>();
@@ -95,10 +100,16 @@ public class Main extends Application {
 		}
 	}
 	
+	/**
+	 * Getter for list of creations
+	 */
 	public static List<Creation> getCreationList() {
 		return _creationList;
 	}
 	
+	/**
+	 * Delete creation from list
+	 */
 	public static void deleteCreation(String filename) {
 		for (Creation c: _creationList) {
 			if (c.getFilename().equals(filename)) {

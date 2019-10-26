@@ -1,15 +1,7 @@
 package controllers;
 
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
-
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.UnsupportedAudioFileException;
 
 import application.BashCommandClass;
 import application.Creation;
@@ -23,16 +15,16 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.AnchorPane;
-import javafx.fxml.Initializable;
 
-
-public class CreatingVideoContoller extends SceneChanger implements Initializable { 
-
+/**
+ * Controller for video creation scene
+ * @author Max Gurr & Jenna Kumar
+ *
+ */
+public class CreatingVideoContoller extends SceneChanger { 
 	private CreationProcess _creationProcess;
 	private String _searchTerm;
-	private int _numImages;
 	private String _fileName;
-	
 	
 	@FXML
 	private ProgressIndicator _progressIndicator;
@@ -43,9 +35,11 @@ public class CreatingVideoContoller extends SceneChanger implements Initializabl
 	@FXML
 	private AnchorPane _anchorPane;
 
-
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
+	@FXML
+	/**
+	 * Run when scene loads
+	 */
+	public void initialize() {
 		_creationProcess = CreationProcess.getInstance();
 		_fileName = _creationProcess.getFileName();
 		_searchTerm = _creationProcess.getSearchTerm();
@@ -53,7 +47,9 @@ public class CreatingVideoContoller extends SceneChanger implements Initializabl
 		createVideo();
 	}
 
-
+	/**
+	 * Run background thread for video creation
+	 */
 	private void createVideo() { 
 		//create video on background thread
 		CreatingVidBackgroundTask createVidBG = new CreatingVidBackgroundTask();
@@ -117,6 +113,9 @@ public class CreatingVideoContoller extends SceneChanger implements Initializabl
 		});
 	}
 	
+	/**
+	 * Store info about new creation in info file
+	 */
 	private void storeInfo() {
 		try {
 			//Get duration of new creation
@@ -145,8 +144,11 @@ public class CreatingVideoContoller extends SceneChanger implements Initializabl
 		}
 	}
 	
+	/**
+	 * Cancel creation, remove files
+	 */
 	private void cancelCreation() {
-		// remove files that had been created
+		//Remove files that had been created
 		String audioFilePath = Main._AUDIOPATH + "/" + _fileName + Creation.AUDIO_EXTENTION;
 		String slidesFilePath= Main._VIDPATH + "/" + _fileName  + Creation.EXTENTION;
 		String creationFilePath = Main._CREATIONPATH + "/" + _fileName + Creation.EXTENTION;

@@ -3,8 +3,12 @@ package controllers;
 import javafx.scene.control.CheckBox;
 import javafx.scene.image.ImageView;
 
+/**
+ * Image table for selecting images
+ * @author Max Gurr & Jenna Kumar
+ *
+ */
 public class ImageTable {
-
 	ImageView _image;
 	CheckBox _checkBox;
 	String _filePath;

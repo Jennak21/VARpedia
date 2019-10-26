@@ -4,25 +4,29 @@ package background;
 import java.io.IOException;
 
 import application.BashCommandClass;
-import application.Creation;
 import application.ErrorAlert;
 import application.Main;
 import controllers.CreationProcess;
 import controllers.ImageDownloader;
 import javafx.concurrent.Task;
 
+/**
+ * Background task for fetching images from Flickr
+ * @author Max Gurr & Jenna Kumar
+ *
+ */
 public class DownloadImageBackgroundTask extends Task<Boolean> {
-
-
+	
 	@Override
+	/**
+	 * Execution of task
+	 * @return Boolean - Success status of task
+	 */
 	protected Boolean call() throws Exception {
-		
-		//file path for directory where images will be stored
+		//File path for directory where images will be stored
 		String imgDir = Main._FILEPATH + "/newCreation/allImages";
 		
-		
-	
-		//run command to check if directory with images exists
+		//Run command to check if directory with images exists
 		String command = "test -d " + imgDir;
 		int num;
 		try {
@@ -32,33 +36,28 @@ public class DownloadImageBackgroundTask extends Task<Boolean> {
 			return false;
 		}
 
-		//check exit code to determine if it exists, if so return
+		//Check exit code to determine if it exists, if so return
 		if (num == 0 ) {		
 			return true;
 		} 
 		
-		//make directory to store images
+		//Make directory to store images
 		String makeImageDirCommand = "mkdir " + Main._FILEPATH  + "/newCreation/allImages";
-	
-
 		try {
 			BashCommandClass.runBashProcess(makeImageDirCommand);
 		} catch (IOException | InterruptedException e1) {
 			return false;
 		}
-
-
+		
+		//Get images from Flickr
 		try {
 			ImageDownloader.getImages(CreationProcess.getInstance().getSearchTerm(), 10);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			return false;
 		}
 
 		return true;
 	}
-
-
 }
 
 
