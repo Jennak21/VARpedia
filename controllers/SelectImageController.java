@@ -9,10 +9,12 @@ import java.util.ResourceBundle;
 
 import application.BashCommandClass;
 import application.Creation;
-import application.ErrorAlert;
+import application.CreationProcess;
 import application.Main;
 import background.DownloadImageBackgroundTask;
 import background.PlayAudioBackgroundTask;
+import customUI.ErrorAlert;
+import customUI.ImageTable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;

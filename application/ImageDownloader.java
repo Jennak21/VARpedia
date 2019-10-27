@@ -1,4 +1,4 @@
-package controllers;
+package application;
 
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;

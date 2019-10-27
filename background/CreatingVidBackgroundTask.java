@@ -13,8 +13,8 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 import application.AudioChunk;
 import application.BashCommandClass;
 import application.Creation;
+import application.CreationProcess;
 import application.Main;
-import controllers.CreationProcess;
 import javafx.concurrent.Task;
 
 /**

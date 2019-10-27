@@ -5,9 +5,10 @@ import java.io.IOException;
 
 import application.BashCommandClass;
 import application.Creation;
-import application.ErrorAlert;
+import application.CreationProcess;
 import application.Main;
 import background.CreatingVidBackgroundTask;
+import customUI.ErrorAlert;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;

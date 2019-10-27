@@ -2,8 +2,9 @@ package controllers;
 
 import java.io.IOException;
 
-import application.ErrorAlert;
+import application.CreationProcess;
 import background.WikitBackgroundTask;
+import customUI.ErrorAlert;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;

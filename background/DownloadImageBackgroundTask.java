@@ -4,10 +4,10 @@ package background;
 import java.io.IOException;
 
 import application.BashCommandClass;
-import application.ErrorAlert;
+import application.CreationProcess;
+import application.ImageDownloader;
 import application.Main;
-import controllers.CreationProcess;
-import controllers.ImageDownloader;
+import customUI.ErrorAlert;
 import javafx.concurrent.Task;
 
 /**

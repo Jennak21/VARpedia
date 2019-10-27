@@ -1,13 +1,12 @@
 package background;
 
-import controllers.QuizResult;
-
 import java.io.IOException;
 import java.util.List;
 
 import application.BashCommandClass;
-import application.ErrorAlert;
 import application.Main;
+import application.QuizResult;
+import customUI.ErrorAlert;
 import javafx.concurrent.Task;
 
 /**

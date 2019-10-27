@@ -1,4 +1,4 @@
-package controllers;
+package customUI;
 
 import javafx.application.Platform;
 import javafx.beans.InvalidationListener;

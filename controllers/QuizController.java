@@ -8,10 +8,13 @@ import java.util.List;
 import org.jsoup.Jsoup;
 
 import application.Creation;
-import application.ErrorAlert;
 import application.Main;
+import application.QuizResult;
 import background.QuizResultsBackgroundTask;
 import background.TranslatorBackgroundTask;
+import customUI.AudioPlayer;
+import customUI.ErrorAlert;
+import customUI.VideoPlayer;
 import javafx.animation.FadeTransition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

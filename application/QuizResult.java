@@ -1,6 +1,4 @@
-package controllers;
-
-import application.Creation;
+package application;
 
 /**
  * Quiz info for creation

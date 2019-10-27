@@ -1,6 +1,4 @@
-package controllers;
-
-import application.Creation;
+package application;
 
 /**
  * Singleton clas - Store a creation for use in a different scene

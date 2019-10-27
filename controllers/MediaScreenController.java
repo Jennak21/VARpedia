@@ -3,8 +3,10 @@ package controllers;
 import java.io.IOException;
 
 import application.Creation;
-import application.ErrorAlert;
+import application.CreationStore;
 import application.Main;
+import customUI.ErrorAlert;
+import customUI.VideoPlayer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;

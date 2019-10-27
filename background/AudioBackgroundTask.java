@@ -4,9 +4,9 @@ import java.io.IOException;
 
 import application.BashCommandClass;
 import application.Creation;
-import application.ErrorAlert;
-import application.InformationAlert;
 import application.Main;
+import customUI.ErrorAlert;
+import customUI.InformationAlert;
 import javafx.concurrent.Task;
 
 /**

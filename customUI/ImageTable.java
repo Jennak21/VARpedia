@@ -1,4 +1,4 @@
-package controllers;
+package customUI;
 
 import javafx.scene.control.CheckBox;
 import javafx.scene.image.ImageView;
