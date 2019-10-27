@@ -20,6 +20,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
@@ -78,6 +79,8 @@ public class CreateAudioController extends SceneChanger {
 	private TextArea _helpText;
 	@FXML
 	private TextArea _promptText;
+	@FXML
+	private Label _wordCountLabel;
 	
 	private CreationProcess _process;
 	private PlayAudioBackgroundTask _preview;
@@ -91,10 +94,10 @@ public class CreateAudioController extends SceneChanger {
 	 * Run when scene loads
 	 */
 	public void initialize() {
-		//make mouse focus on search saveButton
+		//Set focus on saveButton
 		Platform.runLater(()-> _saveButton.requestFocus());
 		
-		//set help components as not visible
+		//Set help components as not visible
 		_helpPane.setVisible(false);
 		_helpText.setVisible(false);
 		_confirmDeleteGrid.setVisible(false);
@@ -131,12 +134,14 @@ public class CreateAudioController extends SceneChanger {
 			_deleteChunkButton.setDisable(true);
 		}
 		
-		
 		//Make folder for audio chunks
 		try {
 			String audioFolder = "mkdir -p " + Main._FILEPATH + "/newCreation/audioChunks";
 			BashCommandClass.runBashProcess(audioFolder);
 		} catch (IOException | InterruptedException e) {}
+		
+		_previewButton.setDisable(true);
+		_saveButton.setDisable(true);
 	}
 	
 	/**
@@ -326,11 +331,47 @@ public class CreateAudioController extends SceneChanger {
 	
 	@FXML
 	/**
-	 * When user clicks on search result text
+	 * When user clicks in search text box
 	 */
 	private void onTextClickHandle(MouseEvent event) {
-		//remove prompt text
+		//Make sure prompt text isn't visible
 		_promptText.setVisible(false);
+		
+		//Get number of selected words
+		int numWords = getLengthOfString(_searchResult.getSelectedText());
+		
+		//Display selected word count
+		_wordCountLabel.setText("Word Count: " + numWords);
+		
+		//Check for valid length of selection
+		if (numWords < 1 || numWords > 40) {
+			//Too few/too many words selected, disable buttons
+			_previewButton.setDisable(true);
+			_saveButton.setDisable(true);
+		} else {
+			//Valid selection, enable buttons
+			_previewButton.setDisable(false);
+			_saveButton.setDisable(false);
+		}
+		
+	}
+	
+	/**
+	 * Get num of words in a string
+	 * @param s - String to get word count for
+	 * @return int - Num of words
+	 */
+	private int getLengthOfString(String s) {
+		//Trim any leading or trailing whitespace
+		String trim = s.trim();
+		
+		//Check for empty
+		if (trim.isEmpty()) {
+		    return 0;
+		}    
+		
+		//Separate string around spaces
+		return trim.split("\\s+").length;
 	}
 	
 	@FXML
@@ -542,9 +583,11 @@ public class CreateAudioController extends SceneChanger {
 	 */
 	private void nextHandle() {
 		try {
+			//Remove any temp audio created for previews
 			String removeTempaudio = "rm -f " + Main._FILEPATH + "/newCreation/tempAudio" + Creation.AUDIO_EXTENTION;
 			BashCommandClass.runBashProcess(removeTempaudio);
 			
+			//Stop any running audio
 			stopAudio();
 			
 			changeScene(_gridPane, "/fxml/SelectImageScene.fxml");

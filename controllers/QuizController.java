@@ -12,6 +12,7 @@ import application.ErrorAlert;
 import application.Main;
 import background.QuizResultsBackgroundTask;
 import background.TranslatorBackgroundTask;
+import javafx.animation.FadeTransition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -33,6 +34,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.util.Duration;
 
 /**
  * Controller for quiz
@@ -123,7 +125,7 @@ public class QuizController extends SceneChanger {
 	 *
 	 */
 	private enum Language {
-		ENGLISH("Engilsh", "en"),
+		ENGLISH("English", "en"),
 		AFRIKAANS("Afrikaans", "af"),
 		ARABIC("Arabic", "ar"),
 		BULGARIAN("Bulgarian", "bg"),
@@ -402,6 +404,12 @@ public class QuizController extends SceneChanger {
 		//Display result labels with relevant info
 		_guessField.setVisible(false);
 		_answerPane.setVisible(true);
+	
+		FadeTransition ft = new FadeTransition(Duration.millis(2000), _answerPane);
+		ft.setFromValue(0.0);
+		ft.setToValue(1.0);
+		ft.play();
+		//Scene scene = new Scene(page);
 
 		//Find whether current creation has been tested before
 		QuizResult currentResult = null;
