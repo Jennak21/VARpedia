@@ -408,11 +408,11 @@ public class QuizController extends SceneChanger {
 		_guessField.setVisible(false);
 		_answerPane.setVisible(true);
 	
-		FadeTransition ft = new FadeTransition(Duration.millis(2000), _answerPane);
+		//Funky for answer labels
+		FadeTransition ft = new FadeTransition(Duration.millis(1000), _answerPane);
 		ft.setFromValue(0.0);
 		ft.setToValue(1.0);
 		ft.play();
-		//Scene scene = new Scene(page);
 
 		//Find whether current creation has been tested before
 		QuizResult currentResult = null;
