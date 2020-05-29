@@ -8,6 +8,7 @@ NOTE: VARpedia is dependent on an ffmpeg version greater than 4 and festival nee
 
 # Running the Jar
 Ensure the flickr-api-keys.txt contains the flickr API key
+
 Run the varpedia.sh script file using ./varpedia.sh from the terminal
 
 # Credits
